@@ -7,11 +7,11 @@
 
 ###"Sketches"
 
-![Screenshot 1](https://github.com/Tristanhx/Chessproject/blob/master/doc/Chessmenuproposal.png?raw=true)
+![Sketch 1](https://github.com/Tristanhx/ARealChessGame/blob/master/doc/Chessmenuproposal.png?raw=true)
 
-![](https://github.com/Tristanhx/Chessproject/blob/master/doc/Chessboardproposal.png?raw=true)
+![Sketch 2](https://github.com/Tristanhx/ARealChessGame/blob/master/doc/Chessboardproposal.png?raw=true)
 
-![](https://github.com/Tristanhx/Chessproject/blob/master/doc/Chessscoreproposal.png?raw=true)
+![Sketch 3](https://github.com/Tristanhx/ARealChessGame/blob/master/doc/Chessscoreproposal.png?raw=true)
 
 ###DataSets and DataSources
 
