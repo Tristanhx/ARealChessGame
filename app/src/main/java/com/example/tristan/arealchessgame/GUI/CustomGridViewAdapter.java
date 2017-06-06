@@ -1,4 +1,4 @@
-package com.example.tristan.chess_project.GUI;
+package com.example.tristan.arealchessgame.GUI;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
-import com.example.tristan.chess_project.ChessEngine.pieces.Pieces;
-import com.example.tristan.chess_project.R;
+import com.example.tristan.arealchessgame.ChessEngine.pieces.Piece;
+import com.example.tristan.arealchessgame.R;
 
 import java.util.ArrayList;
 
@@ -17,12 +17,12 @@ import java.util.ArrayList;
  * Created by Tristan on 04/06/2017.
  */
 
-public class CustomGridViewAdapter extends ArrayAdapter<Pieces>{
+public class CustomGridViewAdapter extends ArrayAdapter<Piece>{
     Context context;
     int layoutResourceId;
-    ArrayList<Pieces> pieces = new ArrayList<>();
+    ArrayList<Piece> pieces = new ArrayList<>();
 
-    public CustomGridViewAdapter(Context context, int layoutResourceId, ArrayList<Pieces> pieces){
+    public CustomGridViewAdapter(Context context, int layoutResourceId, ArrayList<Piece> pieces){
         super(context, layoutResourceId, pieces);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
@@ -46,7 +46,7 @@ public class CustomGridViewAdapter extends ArrayAdapter<Pieces>{
             holder = (RecordHolder) row.getTag();
         }
 
-        Pieces piece = pieces.get(position);
+        Piece piece = pieces.get(position);
         //holder.imageItem.setImageBitmap(piece.getImage());
         return row;
     }

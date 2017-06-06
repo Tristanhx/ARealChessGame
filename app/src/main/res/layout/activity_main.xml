@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/menu_background_chess_game"
-    tools:context="com.example.tristan.chess_project.MainActivity">
+    tools:context="com.example.tristan.arealchessgame.MainActivity">
 
     <TextView
         android:id="@+id/title"

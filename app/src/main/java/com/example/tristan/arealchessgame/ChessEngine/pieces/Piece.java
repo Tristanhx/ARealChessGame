@@ -1,8 +1,8 @@
-package com.example.tristan.chess_project.ChessEngine.pieces;
+package com.example.tristan.arealchessgame.ChessEngine.pieces;
 
-import com.example.tristan.chess_project.Alliance;
-import com.example.tristan.chess_project.ChessEngine.board.Board;
-import com.example.tristan.chess_project.ChessEngine.board.Move;
+import com.example.tristan.arealchessgame.Alliance;
+import com.example.tristan.arealchessgame.ChessEngine.board.Board;
+import com.example.tristan.arealchessgame.ChessEngine.board.Move;
 
 import java.util.List;
 
@@ -10,12 +10,12 @@ import java.util.List;
  * Created by Tristan on 04/06/2017.
  */
 
-public abstract class Pieces {
-//    protected final int xCor, yCor;
+public abstract class Piece {
+    //    protected final int xCor, yCor;
     protected final int position;
     protected final Alliance alliance;
 
-    Pieces(final int position, final Alliance alliance){
+    Piece(final int position, final Alliance alliance){
 //        this.xCor = xCor;
 //        this.yCor =yCor;
         this.alliance = alliance;
@@ -28,3 +28,4 @@ public abstract class Pieces {
 
 
 }
+

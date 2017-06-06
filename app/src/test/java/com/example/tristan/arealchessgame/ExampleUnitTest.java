@@ -1,4 +1,4 @@
-package com.example.tristan.chess_project;
+package com.example.tristan.arealchessgame;
 
 import org.junit.Test;
 

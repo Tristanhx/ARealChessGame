@@ -1,4 +1,4 @@
-package com.example.tristan.chess_project.GUI;
+package com.example.tristan.arealchessgame.GUI;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.GridView;
 import android.widget.Toast;
 
-import com.example.tristan.chess_project.GameActivity;
+import com.example.tristan.arealchessgame.GameActivity;
 
 /**
  * Created by Tristan on 04/06/2017.
@@ -156,3 +156,4 @@ public class BoardGridView extends View {
     }
 
 }
+

@@ -1,10 +1,10 @@
-package com.example.tristan.chess_project;
+package com.example.tristan.arealchessgame;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.tristan.chess_project.GUI.BoardGridView;
+import com.example.tristan.arealchessgame.GUI.BoardGridView;
 
 public class GameActivity extends AppCompatActivity {
 

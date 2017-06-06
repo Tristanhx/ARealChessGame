@@ -1,4 +1,4 @@
-package com.example.tristan.chess_project;
+package com.example.tristan.arealchessgame;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,3 +12,4 @@ public class ScoreActivity extends AppCompatActivity {
         setContentView(R.layout.activity_score);
     }
 }
+
