@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="board_dimensions">8</integer>
+    <integer name="rotate_180">180</integer>
+
+</resources>
