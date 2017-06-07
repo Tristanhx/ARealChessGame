@@ -17,7 +17,7 @@ import com.example.tristan.arealchessgame.GameActivity;
  * Created by Tristan on 04/06/2017.
  */
 
-public class BoardGridView extends View {
+public class BoardGridView extends GridView {
     private int columns = 8, rows = 8, tileDim;
     private Paint blackPaint = new Paint();
     private boolean[][] tileBlack;

@@ -17,12 +17,12 @@ import java.util.ArrayList;
  * Created by Tristan on 04/06/2017.
  */
 
-public class CustomGridViewAdapter extends ArrayAdapter<Piece>{
+public class CustomGridViewAdapter extends ArrayAdapter<String>{
     Context context;
     int layoutResourceId;
-    ArrayList<Piece> pieces = new ArrayList<>();
+    ArrayList<String> pieces = new ArrayList<>();
 
-    public CustomGridViewAdapter(Context context, int layoutResourceId, ArrayList<Piece> pieces){
+    public CustomGridViewAdapter(Context context, int layoutResourceId, ArrayList<String> pieces){
         super(context, layoutResourceId, pieces);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
@@ -46,7 +46,7 @@ public class CustomGridViewAdapter extends ArrayAdapter<Piece>{
             holder = (RecordHolder) row.getTag();
         }
 
-        Piece piece = pieces.get(position);
+//        Piece piece = pieces.get(position);
         //holder.imageItem.setImageBitmap(piece.getImage());
         return row;
     }
