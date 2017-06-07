@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Knight extends Piece{
 
-    Knight(final int position, final Alliance alliance) {
+    public Knight(final int position, final Alliance alliance) {
         super(position, alliance);
     }
 

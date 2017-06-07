@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.example.tristan.arealchessgame.Alliance;
+import com.example.tristan.arealchessgame.ChessEngine.pieces.Knight;
 import com.example.tristan.arealchessgame.GameActivity;
 
 /**
@@ -22,6 +24,8 @@ public class BoardGridView extends GridView {
     private Paint blackPaint = new Paint();
     private boolean[][] tileBlack;
     Context context;
+
+    Knight knight = new Knight(1, Alliance.WHITE);
 
     public BoardGridView(Context context){
         this(context, null);
@@ -111,6 +115,14 @@ public class BoardGridView extends GridView {
         for(int i = 1; i <=rows; i++){
             canvas.drawLine(0, i* tileDim, boardDim, i* tileDim, blackPaint);
         }
+        for (int i = 0 ; i < columns ; i++){
+            for (int j = 0; j < rows; j++){
+
+            }
+        }
+        int dx = 0;
+        int dy = 0;
+        canvas.translate(dx, dy);
     }
 
     // Force gridView to be square on every screenSize.

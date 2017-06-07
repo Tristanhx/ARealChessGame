@@ -1,0 +1,5 @@
+# day 1
+Since I thought that making a prototype was going to be tough, I already started on the board in the weekend. This days deadline was for a proposal however so I began to write that. Now with it finished, I am going to focus on the prototype again.
+# day 2
+The visual representation of the board is finished, but I am having a hard time actually placing pieces on it. It might be better to have actual individual tiles placed in a gridlayout that handle their own colour and occupation rather than having a custom gridview with tiles drawn on it which nevertheless returns proper coordinates.
+What I really want to do is retain my custom gridview and have an imageview of a piece inflate into it. It is a challenge, because I haven't started on the engine yet and that will be where piece coordinates come from. I have created a position converter in case I want to implement a one-dimensional board on engine level and a two-dimensional board on GUI level. I have created a Piece class and a Knight class that extends Piece. After all I want to place some pieces on the board. I do think that the current state of the prototype is sufficient. 
