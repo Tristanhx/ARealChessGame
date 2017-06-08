@@ -15,6 +15,16 @@
         android:layout_margin="20dp"
         />
 
+    <!--<GridLayout-->
+        <!--android:id="@+id/boardLayout"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:rowCount="@integer/board_dimensions"-->
+        <!--android:columnCount="@integer/board_dimensions"-->
+        <!--android:layout_centerVertical="true">-->
+
+    <!--</GridLayout>-->
+
     <!--Castle Buttons-->
     <Button
         android:id="@+id/castle_button_p1"
