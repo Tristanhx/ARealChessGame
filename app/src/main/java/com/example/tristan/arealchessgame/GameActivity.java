@@ -25,11 +25,11 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
 //        boardLayout = (GridLayout) findViewById(R.id.boardLayout);
-        for (int i = 0 ; i < 64 ; i++){
-            final TileView tileView = new TileView(getApplicationContext(), i);
-            tileViews.add(tileView);
-            boardLayout.addView(tileView);
-        }
+//        for (int i = 0 ; i < 64 ; i++){
+//            final TileView tileView = new TileView(getApplicationContext(), i);
+//            tileViews.add(tileView);
+//            boardLayout.addView(tileView);
+//        }
 
         setUpWhite();
 
