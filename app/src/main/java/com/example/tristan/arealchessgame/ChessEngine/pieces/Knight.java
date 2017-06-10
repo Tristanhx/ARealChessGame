@@ -4,7 +4,9 @@ import com.example.tristan.arealchessgame.Alliance;
 import com.example.tristan.arealchessgame.ChessEngine.CorPair;
 import com.example.tristan.arealchessgame.ChessEngine.board.Board;
 import com.example.tristan.arealchessgame.ChessEngine.board.Move;
+import com.example.tristan.arealchessgame.ChessEngine.board.Tile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,6 +35,33 @@ public class Knight extends Piece{
 
     @Override
     public List<Move> legalMoves(Board board) {
-        return null;
+        final List<Move> legalMoves = new ArrayList<>();
+        int xCoorDest = 0, yCoorDest = 0;
+
+        for (final int[] currentPM : POSSIBLE_MOVES){
+            xCoorDest = this.xPosition + currentPM[0];
+            yCoorDest = this.yPosition + currentPM[1];
+        }
+
+        if (true /* isValid */){
+            final Tile destinationTile = board.getTile(xCoorDest, yCoorDest);
+
+            if(!destinationTile.tileIsOccupied()){
+                legalMoves.add(new Move());
+            }
+            else{
+                final Piece pieceAtDest = destinationTile.getPiece();
+                final Alliance destPieceAlliance =  pieceAtDest.getAlliance();
+
+                // if the piece at destination tile has a different alliance it is enemy piece, attack!
+                if (this.alliance != destPieceAlliance){
+                    legalMoves.add(new /*Attack */Move());
+                }
+                else{
+
+                }
+            }
+        }
+        return legalMoves;
     }
 }

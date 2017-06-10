@@ -29,6 +29,8 @@ public abstract class Piece {
     public abstract List<Move> legalMoves(final Board board);
 
 
-
+    public Alliance getAlliance() {
+        return this.alliance;
+    }
 }
 
