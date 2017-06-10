@@ -12,6 +12,7 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.example.tristan.arealchessgame.Alliance;
+import com.example.tristan.arealchessgame.ChessEngine.Tools;
 import com.example.tristan.arealchessgame.ChessEngine.pieces.Knight;
 import com.example.tristan.arealchessgame.GameActivity;
 
@@ -20,12 +21,10 @@ import com.example.tristan.arealchessgame.GameActivity;
  */
 
 public class BoardGridView extends GridView {
-    private int columns = 8, rows = 8, tileDim;
+    private int columns = Tools.BOARD_DIM, rows = Tools.BOARD_DIM, tileDim;
     private Paint blackPaint = new Paint();
     private boolean[][] tileBlack;
     Context context;
-
-    Knight knight = new Knight(1, Alliance.WHITE);
 
     public BoardGridView(Context context){
         this(context, null);

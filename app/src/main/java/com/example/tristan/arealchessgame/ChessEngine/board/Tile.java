@@ -1,6 +1,7 @@
 package com.example.tristan.arealchessgame.ChessEngine.board;
 
 import com.example.tristan.arealchessgame.ChessEngine.PositionConverter;
+import com.example.tristan.arealchessgame.ChessEngine.Tools;
 import com.example.tristan.arealchessgame.ChessEngine.pieces.Piece;
 
 import java.util.HashMap;
@@ -21,8 +22,8 @@ public abstract class Tile {
     private static Map<Integer,TileEmpty> createAllEmptyTiles() {
         Map<Integer, TileEmpty> emptyTileMap = new HashMap<>();
 
-        for (int i = 0 ; i < 8 ; i++){
-            for (int j = 0 ; j < 8 ; j++){
+        for (int i = 0; i < Tools.BOARD_DIM ; i++){
+            for (int j = 0 ; j < Tools.BOARD_DIM ; j++){
                 emptyTileMap.put(i*j, new TileEmpty(i, j));
             }
         }
