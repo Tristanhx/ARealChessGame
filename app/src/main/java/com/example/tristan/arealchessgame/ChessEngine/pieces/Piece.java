@@ -5,6 +5,7 @@ import com.example.tristan.arealchessgame.ChessEngine.PositionConverter;
 import com.example.tristan.arealchessgame.ChessEngine.board.Board;
 import com.example.tristan.arealchessgame.ChessEngine.board.Move;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ public abstract class Piece {
         this.position = posCon.convertPosition(xPosition, yPosition);
     }
 
-    public abstract List<Move> legalMoves(final Board board);
+    public abstract Collection<Move> legalMoves(final Board board);
 
 
     public Alliance getAlliance() {

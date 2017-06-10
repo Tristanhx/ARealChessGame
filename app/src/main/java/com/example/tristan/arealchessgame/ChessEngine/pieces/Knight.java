@@ -1,12 +1,13 @@
 package com.example.tristan.arealchessgame.ChessEngine.pieces;
 
 import com.example.tristan.arealchessgame.Alliance;
-import com.example.tristan.arealchessgame.ChessEngine.CorPair;
 import com.example.tristan.arealchessgame.ChessEngine.board.Board;
+import com.example.tristan.arealchessgame.ChessEngine.Tools;
 import com.example.tristan.arealchessgame.ChessEngine.board.Move;
 import com.example.tristan.arealchessgame.ChessEngine.board.Tile;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -34,7 +35,7 @@ public class Knight extends Piece{
     }
 
     @Override
-    public List<Move> legalMoves(Board board) {
+    public Collection<Move> legalMoves(Board board) {
         final List<Move> legalMoves = new ArrayList<>();
         int xCoorDest = 0, yCoorDest = 0;
 
@@ -43,7 +44,7 @@ public class Knight extends Piece{
             yCoorDest = this.yPosition + currentPM[1];
         }
 
-        if (true /* isValid */){
+        if (Tools.isValid(xCoorDest, yCoorDest)){
             final Tile destinationTile = board.getTile(xCoorDest, yCoorDest);
 
             if(!destinationTile.tileIsOccupied()){
@@ -64,4 +65,5 @@ public class Knight extends Piece{
         }
         return legalMoves;
     }
+
 }
