@@ -1,8 +1,8 @@
 package com.example.tristan.arealchessgame.ChessEngine.pieces;
 
 import com.example.tristan.arealchessgame.Alliance;
-import com.example.tristan.arealchessgame.ChessEngine.board.Board;
 import com.example.tristan.arealchessgame.ChessEngine.Tools;
+import com.example.tristan.arealchessgame.ChessEngine.board.Board;
 import com.example.tristan.arealchessgame.ChessEngine.board.Move;
 import com.example.tristan.arealchessgame.ChessEngine.board.MoveAttack;
 import com.example.tristan.arealchessgame.ChessEngine.board.MoveNormal;
@@ -13,27 +13,15 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Created by Tristan on 05/06/2017.
+ * Created by Tristan on 11/06/2017.
  */
 
-public class Knight extends Piece{
-
-//    private static final CorPair<Integer> firstMove = new CorPair<>(-1, -2);
-//    private static final CorPair<Integer> secondMove = new CorPair<>(1, -2);
-//    private static final CorPair<Integer> thirdMove = new CorPair<>(-2, -1);
-//    private static final CorPair<Integer> fourthMove = new CorPair<>(2, -1);
-//    private static final CorPair<Integer> fifthMove = new CorPair<>(-1, 2);
-//    private static final CorPair<Integer> sixthMove = new CorPair<>(1, 2);
-//    private static final CorPair<Integer> seventhMove = new CorPair<>(-1, -2);
-//    private static final CorPair<Integer> eightMove = new CorPair<>(-1, -2);
-//    private final static CorPair<Integer>[] POSSIBLE_MOVES = (firstMove, secondMove, thirdMove,
-//    fourthMove, fifthMove, sixthMove, seventhMove, eightMove);
+public class King extends Piece {
 
     private static final int[][] POSSIBLE_MOVES =
-            {{-1, -2}, {1, -2}, {2, -1}, {2, 1}, {1, 2}, {-1, 2}, {-2, 1}, {-2, -1}};
+            {{-1, -1}, {1, -1}, {-1, 1}, {1, 1}, {0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
-
-    public Knight(final int xPosition, int yPosition, final Alliance alliance) {
+    King(int xPosition, int yPosition, Alliance alliance) {
         super(xPosition, yPosition, alliance);
     }
 
@@ -66,7 +54,7 @@ public class Knight extends Piece{
                 }
             }
         }
-        return legalMoves;
-    }
 
+        return null;
+    }
 }

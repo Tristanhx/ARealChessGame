@@ -8,7 +8,7 @@ import com.example.tristan.arealchessgame.ChessEngine.pieces.Piece;
 
 public class MoveNormal extends Move {
 
-    MoveNormal(Board board, Piece piece, int destination) {
-        super(board, piece, destination);
+    public MoveNormal(Board board, Piece piece, int xDestination, int yDestination) {
+        super(board, piece, xDestination, yDestination);
     }
 }

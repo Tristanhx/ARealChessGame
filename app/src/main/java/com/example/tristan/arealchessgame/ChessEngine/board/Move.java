@@ -10,11 +10,13 @@ public abstract class Move {
 
     final Board board;
     final Piece piece;
-    final int destination;
+    final int xDestination;
+    final int yDestination;
 
-    Move(final Board board, final Piece piece, final int destination){
+    Move(final Board board, final Piece piece, final int xDestination, final int yDestination){
         this.board = board;
         this.piece = piece;
-        this.destination = destination;
+        this.xDestination = xDestination;
+        this.yDestination = yDestination;
     }
 }
