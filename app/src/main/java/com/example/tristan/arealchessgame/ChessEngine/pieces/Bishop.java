@@ -63,6 +63,6 @@ public class Bishop extends Piece {
             }
         }
 
-        return null;
+        return legalMoves;
     }
 }

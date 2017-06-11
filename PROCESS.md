@@ -6,3 +6,9 @@ What I really want to do is retain my custom gridview and have an imageview of a
 # day 3
 Tried to build a board made of individual tiles today. Not a success. Yet. The board doesn't display. Should be at this point all be black tiles, but is empty gridlayout.
 I think that I am going to focus on the engine from now on, no point in making a GUI for a facade. It might be best to give pieces two-dimensional coordinates.
+# day 4
+Started work on the engine. Started by building pieces and movetypes. So far I have started work on the knight, the easiest piece, since it can jump over other pieces. This means no checking for pieces in its path. I took a very literal approach. By this I mean that I visualized a game of chess in my head and on the whiteboard, worked out some coordinate-offsets and put them in an two-dimensional array called POSSIBLE_MOVES.
+![](doc/KnightMoves.jpeg)
+Add the offset to the piecePosition and check if there is another piece. At this point I needed two different moves: A 'Normal' move, and an 'Attack' move.
+# day 6
+Today I started the Move classes and the rest of the Pieces. The Bishop needed a three-dimensional array because of its four directions and its two coordinates. For the rest it is similar to the knight. The Rook is just a copy of the Bishop, though with a different moveset and the Queen is probably best described as the culmination of the Bishop and the Rook (moveset wise). The Pawn though, has a very unique moveset as it can jump two squares in its first move and attacks diagonally. It would also be able to take pieces en passant, so it needs to check at its sides too. Opposing Pawns also move in different directions. So I think the Knight, Bishop, Rook, and Queen are finished, but the Pawn needs some work and the King too. 

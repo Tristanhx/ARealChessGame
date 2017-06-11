@@ -71,6 +71,6 @@ public class Queen extends Piece {
             }
         }
 
-        return null;
+        return legalMoves;
     }
 }
