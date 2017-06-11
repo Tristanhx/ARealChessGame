@@ -19,9 +19,13 @@ import java.util.List;
 public class Rook extends Piece {
 
     private static final int[][][] POSSIBLE_MOVES =
+            /* Up */
             {{{0, -1}, {0, -2}, {0, -3}, {0, -4}, {0, -5}, {0, -6}, {0, -7}},
+                    /* Down */
             {{0, 1}, {0, 2}, {0, 3}, {0, 4}, {0, 5}, {0, 6}, {0, 7}},
-            {{1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}},
+                    /* Left */
+            {{-1, 0}, {-2, 0}, {-3, 0}, {-4, 0}, {-5, 0}, {-6, 0}, {-7, 0}},
+                    /* Right */
             {{1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}}};
 
     Rook(int xPosition, int yPosition, Alliance alliance) {
@@ -51,7 +55,7 @@ public class Rook extends Piece {
 
                         // if the piece at destination tile has a different alliance it is enemy piece, attack!
                         if (this.alliance != destPieceAlliance) {
-                            legalMoves.add(new MoveAttack(board, this, xCoorDest, yCoorDest));
+                            legalMoves.add(new MoveAttack(board, this, pieceAtDest, xCoorDest, yCoorDest));
                         } else {
                             break; // No use in looking further in this direction
                         }

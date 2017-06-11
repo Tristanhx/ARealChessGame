@@ -5,6 +5,18 @@ package com.example.tristan.arealchessgame;
  */
 
 public enum Alliance {
-    WHITE,
-    BLACK
+    WHITE {
+        @Override
+        public int getDir() {
+            return -1;
+        }
+    },
+    BLACK {
+        @Override
+        public int getDir() {
+            return 1;
+        }
+    };
+
+    public abstract int getDir();
 }

@@ -8,7 +8,10 @@ import com.example.tristan.arealchessgame.ChessEngine.pieces.Piece;
 
 public class MoveAttack extends Move {
 
-    public MoveAttack(Board board, Piece piece, int xDestination, int yDestination) {
+    Piece attackedPiece;
+
+    public MoveAttack(Board board, Piece piece, Piece attackedPiece, int xDestination, int yDestination) {
         super(board, piece, xDestination, yDestination);
+        this.attackedPiece = attackedPiece;
     }
 }

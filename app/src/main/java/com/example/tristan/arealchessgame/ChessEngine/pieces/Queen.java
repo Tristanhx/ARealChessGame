@@ -19,13 +19,21 @@ import java.util.List;
 public class Queen extends Piece {
 
     private static final int[][][] POSSIBLE_MOVES =
+            /* Up */
             {{{0, -1}, {0, -2}, {0, -3}, {0, -4}, {0, -5}, {0, -6}, {0, -7}},
+                    /* Down */
                     {{0, 1}, {0, 2}, {0, 3}, {0, 4}, {0, 5}, {0, 6}, {0, 7}},
+                    /* Left */
+                    {{-1, 0}, {-2, 0}, {-3, 0}, {-4, 0}, {-5, 0}, {-6, 0}, {-7, 0}},
+                    /* Right */
                     {{1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}},
-                    {{1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}},
+                    /* LeftUP */
                     {{-1, -1}, {-2, -2}, {-3, -3}, {-4, -4}, {-5, -5}, {-6, -6}, {-7, -7}},
+                    /* LeftDown */
                     {{-1, 1}, {-2, 2}, {-3, 3}, {-4, 4}, {-5, 5}, {-6, 6}, {-7, 7}},
+                     /* RightUp */
                     {{1, -1}, {2, -2}, {3, -3}, {4, -4}, {5, -5}, {6, -6}, {7, -7},
+                           /* RightDown */
                             {1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}, {6, 6}, {7, 7}}};
 
     Queen(int xPosition, int yPosition, Alliance alliance) {
@@ -54,7 +62,7 @@ public class Queen extends Piece {
 
                         // if the piece at destination tile has a different alliance it is enemy piece, attack!
                         if (this.alliance != destPieceAlliance) {
-                            legalMoves.add(new MoveAttack(board, this, xCoorDest, yCoorDest));
+                            legalMoves.add(new MoveAttack(board, this, pieceAtDest, xCoorDest, yCoorDest));
                         } else {
                             break; // No use in looking further in this direction
                         }

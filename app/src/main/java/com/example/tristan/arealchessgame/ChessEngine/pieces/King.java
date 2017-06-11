@@ -46,7 +46,7 @@ public class King extends Piece {
 
                     // if the piece at destination tile has a different alliance it is enemy piece, attack!
                     if (this.alliance != destPieceAlliance){
-                        legalMoves.add(new MoveAttack(board, this, xCoorDest, yCoorDest));
+                        legalMoves.add(new MoveAttack(board, this, pieceAtDest, xCoorDest, yCoorDest));
                     }
                     else{
 
