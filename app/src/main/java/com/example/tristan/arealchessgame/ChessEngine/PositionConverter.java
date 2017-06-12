@@ -25,5 +25,10 @@ public class PositionConverter {
         }
         return position;
     }
+
+//    public int convertPosition(int xCoordinate, int yCoordinate){
+//        int position = Tools.BOARD_DIM * yCoordinate + xCoordinate;
+//        return position;
+//    }
 }
 

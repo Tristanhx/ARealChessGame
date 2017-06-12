@@ -16,15 +16,17 @@ public abstract class Tile {
     // Every Tile has an x and y Coordinate
     int xCoordinate;
     int yCoordinate;
+
+
     
     private static final Map<Integer, TileEmpty> EMPTY_TILES = createAllEmptyTiles();
 
     private static Map<Integer,TileEmpty> createAllEmptyTiles() {
         Map<Integer, TileEmpty> emptyTileMap = new HashMap<>();
 
-        for (int i = 0; i < Tools.BOARD_DIM ; i++){
-            for (int j = 0 ; j < Tools.BOARD_DIM ; j++){
-                emptyTileMap.put(i*j, new TileEmpty(i, j));
+        for (int yRow = 0; yRow < Tools.BOARD_DIM ; yRow++){
+            for (int xColumn = 0 ; xColumn < Tools.BOARD_DIM ; xColumn++){
+                emptyTileMap.put(/*posCon.convertPosition(xColumn, yRow)*/(Tools.BOARD_DIM * yRow + xColumn), new TileEmpty(xColumn, yRow));
             }
         }
         return emptyTileMap;

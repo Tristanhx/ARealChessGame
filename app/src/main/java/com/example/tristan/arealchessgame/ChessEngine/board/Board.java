@@ -66,9 +66,9 @@ public class Board {
     @Override
     public String toString(){
         final StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0 ; i < Tools.BOARD_DIM ; i++){
-            for (int j = 0 ; j < Tools.BOARD_DIM ; j++){
-                int conv = posCon.convertPosition(i, j);
+        for (int yRow = 0 ; yRow < Tools.BOARD_DIM ; yRow++){
+            for (int xColumn = 0 ; xColumn < Tools.BOARD_DIM ; xColumn++){
+                int conv = posCon.convertPosition(xColumn, yRow);
                 final String sign = this.mBoard.get(conv).toString();
                 stringBuilder.append(String.format("%3s", sign));
                 if ((conv + 1) % Tools.BOARD_DIM == 0){
@@ -81,9 +81,10 @@ public class Board {
 
     private List<Tile> createNewBoard(final Builder builder) {
         final List<Tile> tileList = new ArrayList<>();
-        for(int i = 0 ; i < Tools.BOARD_DIM ; i++){
-            for (int j = 0 ; j < Tools.BOARD_DIM ; j++){
-                Tile tmp = Tile.createTile(i, j, builder.boardLayout.get(posCon.convertPosition(i, j)));
+        for(int yRow = 0 ; yRow < Tools.BOARD_DIM ; yRow++){
+            for (int xColumn = 0 ; xColumn < Tools.BOARD_DIM ; xColumn++){
+
+                Tile tmp = Tile.createTile(xColumn, yRow, builder.boardLayout.get(posCon.convertPosition(xColumn, yRow)));
                 tileList.add(tmp);
             }
         }
