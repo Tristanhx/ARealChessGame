@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.GridLayout;
 
+import com.example.tristan.arealchessgame.ChessEngine.board.Board;
 import com.example.tristan.arealchessgame.GUI.BoardGridView;
 import com.example.tristan.arealchessgame.GUI.CustomGridViewAdapter;
 import com.example.tristan.arealchessgame.GUI.TileView;
@@ -23,6 +24,10 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        Board board = Board.createDefaultBoard();
+
+        Log.d("boardstring", board.toString());
 
 //        boardLayout = (GridLayout) findViewById(R.id.boardLayout);
 //        for (int i = 0 ; i < 64 ; i++){

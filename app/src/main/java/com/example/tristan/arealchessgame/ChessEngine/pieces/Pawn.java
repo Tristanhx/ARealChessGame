@@ -7,6 +7,7 @@ import com.example.tristan.arealchessgame.ChessEngine.board.Move;
 import com.example.tristan.arealchessgame.ChessEngine.board.MoveAttack;
 import com.example.tristan.arealchessgame.ChessEngine.board.MoveNormal;
 import com.example.tristan.arealchessgame.ChessEngine.board.Tile;
+import com.example.tristan.arealchessgame.PieceType;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,6 +23,11 @@ public class Pawn extends Piece {
 
     public Pawn(int xPosition, int yPosition, Alliance alliance) {
         super(xPosition, yPosition, alliance);
+    }
+
+    @Override
+    public String toString(){
+        return PieceType.PAWN.toString();
     }
 
     @Override

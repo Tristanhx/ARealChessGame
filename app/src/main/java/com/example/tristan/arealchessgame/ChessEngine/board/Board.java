@@ -25,6 +25,8 @@ public class Board {
     private static PositionConverter posCon = new PositionConverter();
     private final Collection<Piece> whitePieces;
     private final Collection<Piece> blackPieces;
+    private final Collection<Move> whiteMoves;
+    private final Collection<Move> blackMoves;
 
     private final List<Tile> mBoard;
 
@@ -32,6 +34,17 @@ public class Board {
         this.mBoard = createNewBoard(builder);
         this.whitePieces = trackPieces(this.mBoard, Alliance.WHITE);
         this.blackPieces = trackPieces(this.mBoard, Alliance.BLACK);
+        this.whiteMoves = trackMoves(this.whitePieces);
+        this.blackMoves = trackMoves(this.blackPieces);
+    }
+
+    private Collection<Move> trackMoves(Collection<Piece> pieces) {
+
+        final List<Move> legalMoves = new ArrayList<>();
+        for (final Piece piece : pieces){
+            legalMoves.addAll(piece.legalMoves(this));
+        }
+        return legalMoves;
     }
 
     private Collection<Piece> trackPieces(List<Tile> mBoard, Alliance alliance) {
@@ -45,6 +58,27 @@ public class Board {
                 }
             }
         }
+        return piecesList;
+    }
+
+    @Override
+    public String toString(){
+        final StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0 ; i < Tools.BOARD_DIM ; i++){
+            for (int j = 0 ; j < Tools.BOARD_DIM ; j++){
+                int conv = posCon.convertPosition(i, j);
+                final String sign = this.mBoard.get(conv).toString();
+                stringBuilder.append(String.format("%3s", sign));
+                if ((conv + 1) % Tools.BOARD_DIM == 0){
+                    stringBuilder.append("\n");
+                }
+            }
+        }
+        return stringBuilder.toString();
+    }
+
+    private String prettyPrint(final Tile tile) {
+        return tile.toString();
     }
 
     private List<Tile> createNewBoard(final Builder builder) {

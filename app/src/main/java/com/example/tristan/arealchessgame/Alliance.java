@@ -10,13 +10,25 @@ public enum Alliance {
         public int getDir() {
             return -1;
         }
+
+        @Override
+        public boolean isBlack() {
+            return false;
+        }
     },
     BLACK {
         @Override
         public int getDir() {
             return 1;
         }
+
+        @Override
+        public boolean isBlack() {
+            return true;
+        }
     };
 
     public abstract int getDir();
+
+    public abstract boolean isBlack();
 }

@@ -16,6 +16,12 @@ public class TileOcc extends Tile{
     }
 
     @Override
+    public String toString(){
+        return getPiece().getAlliance().isBlack() ? getPiece().toString().toLowerCase()
+                : getPiece().toString();
+    }
+
+    @Override
     public boolean tileIsOccupied() {
         return true;
     }

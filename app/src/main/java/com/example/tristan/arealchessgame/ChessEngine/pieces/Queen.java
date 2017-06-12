@@ -7,6 +7,7 @@ import com.example.tristan.arealchessgame.ChessEngine.board.Move;
 import com.example.tristan.arealchessgame.ChessEngine.board.MoveAttack;
 import com.example.tristan.arealchessgame.ChessEngine.board.MoveNormal;
 import com.example.tristan.arealchessgame.ChessEngine.board.Tile;
+import com.example.tristan.arealchessgame.PieceType;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,6 +39,11 @@ public class Queen extends Piece {
 
     public Queen(int xPosition, int yPosition, Alliance alliance) {
         super(xPosition, yPosition, alliance);
+    }
+
+    @Override
+    public String toString(){
+        return PieceType.QUEEN.toString();
     }
 
     @Override
