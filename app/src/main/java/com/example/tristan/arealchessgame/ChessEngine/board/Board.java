@@ -1,10 +1,116 @@
 package com.example.tristan.arealchessgame.ChessEngine.board;
 
+import com.example.tristan.arealchessgame.Alliance;
+import com.example.tristan.arealchessgame.ChessEngine.PositionConverter;
+import com.example.tristan.arealchessgame.ChessEngine.Tools;
+import com.example.tristan.arealchessgame.ChessEngine.pieces.Bishop;
+import com.example.tristan.arealchessgame.ChessEngine.pieces.King;
+import com.example.tristan.arealchessgame.ChessEngine.pieces.Knight;
+import com.example.tristan.arealchessgame.ChessEngine.pieces.Pawn;
+import com.example.tristan.arealchessgame.ChessEngine.pieces.Piece;
+import com.example.tristan.arealchessgame.ChessEngine.pieces.Queen;
+import com.example.tristan.arealchessgame.ChessEngine.pieces.Rook;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by Tristan on 06/06/2017.
  */
 
 public class Board {
+
+    private static PositionConverter posCon = new PositionConverter();
+    private final Collection<Piece> whitePieces;
+    private final Collection<Piece> blackPieces;
+
+    private final List<Tile> mBoard;
+
+    private Board(Builder builder){
+        this.mBoard = createNewBoard(builder);
+        this.whitePieces = trackPieces(this.mBoard, Alliance.WHITE);
+        this.blackPieces = trackPieces(this.mBoard, Alliance.BLACK);
+    }
+
+    private Collection<Piece> trackPieces(List<Tile> mBoard, Alliance alliance) {
+
+        List<Piece> piecesList = new ArrayList<>();
+        for (final Tile tile : mBoard){
+            if (tile.tileIsOccupied()){
+                final Piece piece = tile.getPiece();
+                if (piece.getAlliance() == alliance){
+                    piecesList.add(piece);
+                }
+            }
+        }
+    }
+
+    private List<Tile> createNewBoard(final Builder builder) {
+        final Tile[][] tiles = new Tile[Tools.BOARD_DIM][Tools.BOARD_DIM];
+        final List<Tile> tileList = new ArrayList<>();
+        for(int i = 0 ; i < Tools.BOARD_DIM ; i++){
+            for (int j = 0 ; j < Tools.BOARD_DIM ; j++){
+                tiles[i][j] = Tile.createTile(i, j, builder.boardLayout.get(posCon.convertPosition(i, j)));
+                tileList.add(tiles[i][j]);
+            }
+        }
+        return tileList;
+    }
+
+    public static Board createDefaultBoard(){
+        final Builder builder = new Builder();
+        // Black
+        builder.setPiece(new Rook(0, 0, Alliance.BLACK));
+        builder.setPiece(new Knight(1, 0, Alliance.BLACK));
+        builder.setPiece(new Bishop(2, 0, Alliance.BLACK));
+        builder.setPiece(new Queen(3, 0, Alliance.BLACK));
+        builder.setPiece(new King(4, 0, Alliance.BLACK));
+        builder.setPiece(new Bishop(5, 0, Alliance.BLACK));
+        builder.setPiece(new Knight(6, 0, Alliance.BLACK));
+        builder.setPiece(new Rook(7, 0, Alliance.BLACK));
+
+        // White
+        builder.setPiece(new Rook(0, 7, Alliance.WHITE));
+        builder.setPiece(new Knight(1, 7, Alliance.WHITE));
+        builder.setPiece(new Bishop(2, 7, Alliance.WHITE));
+        builder.setPiece(new Queen(3, 7, Alliance.WHITE));
+        builder.setPiece(new King(4, 7, Alliance.WHITE));
+        builder.setPiece(new Bishop(5, 7, Alliance.WHITE));
+        builder.setPiece(new Knight(6, 7, Alliance.WHITE));
+        builder.setPiece(new Rook(7, 7, Alliance.WHITE));
+
+        // Pawns for Black and White
+        for(int i = 0 ; i < Tools.BOARD_DIM ; i++){
+            builder.setPiece(new Pawn(i, 0, Alliance.BLACK));
+            builder.setPiece(new Pawn(i, 6, Alliance.WHITE));
+        }
+        return builder.build();
+    }
+
+    public static class Builder{
+        Map<Integer, Piece> boardLayout;
+        Alliance nextPlayer;
+
+        public Builder(){
+
+        }
+
+        public Builder setPiece(final Piece piece){
+            this.boardLayout.put(posCon.convertPosition(piece.getXPos(), piece.getYPOS()), piece);
+            return this;
+        }
+
+        public Builder setPlayer(final Alliance nextPlayer){
+            this.nextPlayer = nextPlayer;
+            return this;
+        }
+
+        public Board build(){
+            return new Board(this);
+        }
+    }
 
     public Tile getTile(int xCoor, int yCoor){
         return null;

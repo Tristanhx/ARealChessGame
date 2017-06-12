@@ -28,7 +28,7 @@ public class Bishop extends Piece {
                     /* RightDown */
                     {{1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}, {6, 6}, {7, 7}}};
 
-    Bishop(int xPosition, int yPosition, Alliance alliance) {
+    public Bishop(int xPosition, int yPosition, Alliance alliance) {
         super(xPosition, yPosition, alliance);
     }
 

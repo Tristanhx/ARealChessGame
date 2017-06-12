@@ -33,5 +33,13 @@ public abstract class Piece {
     public Alliance getAlliance() {
         return this.alliance;
     }
+
+    public int getXPos() {
+        return xPosition;
+    }
+
+    public int getYPOS() {
+        return yPosition;
+    }
 }
 

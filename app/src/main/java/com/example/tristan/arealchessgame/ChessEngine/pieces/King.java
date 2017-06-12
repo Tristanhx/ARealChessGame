@@ -21,7 +21,7 @@ public class King extends Piece {
     private static final int[][] POSSIBLE_MOVES =
             {{-1, -1}, {1, -1}, {-1, 1}, {1, 1}, {0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
-    King(int xPosition, int yPosition, Alliance alliance) {
+    public King(int xPosition, int yPosition, Alliance alliance) {
         super(xPosition, yPosition, alliance);
     }
 

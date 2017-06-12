@@ -28,7 +28,7 @@ public class Rook extends Piece {
                     /* Right */
             {{1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}}};
 
-    Rook(int xPosition, int yPosition, Alliance alliance) {
+    public Rook(int xPosition, int yPosition, Alliance alliance) {
         super(xPosition, yPosition, alliance);
     }
 
