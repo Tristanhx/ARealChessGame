@@ -13,6 +13,7 @@ import com.example.tristan.arealchessgame.ChessEngine.pieces.Rook;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,6 +52,7 @@ public class Board {
 
         List<Piece> piecesList = new ArrayList<>();
         for (final Tile tile : mBoard){
+            
             if (tile.tileIsOccupied()){
                 final Piece piece = tile.getPiece();
                 if (piece.getAlliance() == alliance){
@@ -77,17 +79,12 @@ public class Board {
         return stringBuilder.toString();
     }
 
-    private String prettyPrint(final Tile tile) {
-        return tile.toString();
-    }
-
     private List<Tile> createNewBoard(final Builder builder) {
-        final Tile[][] tiles = new Tile[Tools.BOARD_DIM][Tools.BOARD_DIM];
         final List<Tile> tileList = new ArrayList<>();
         for(int i = 0 ; i < Tools.BOARD_DIM ; i++){
             for (int j = 0 ; j < Tools.BOARD_DIM ; j++){
-                tiles[i][j] = Tile.createTile(i, j, builder.boardLayout.get(posCon.convertPosition(i, j)));
-                tileList.add(tiles[i][j]);
+                Tile tmp = Tile.createTile(i, j, builder.boardLayout.get(posCon.convertPosition(i, j)));
+                tileList.add(tmp);
             }
         }
         return tileList;
@@ -124,7 +121,7 @@ public class Board {
     }
 
     public static class Builder{
-        Map<Integer, Piece> boardLayout;
+        Map<Integer, Piece> boardLayout = new HashMap<>();
         Alliance nextPlayer;
 
         public Builder(){
@@ -132,7 +129,7 @@ public class Board {
         }
 
         public Builder setPiece(final Piece piece){
-            this.boardLayout.put(posCon.convertPosition(piece.getXPos(), piece.getYPOS()), piece);
+            this.boardLayout.put(posCon.convertPosition(piece.getXPos(), piece.getYPos()), piece);
             return this;
         }
 

@@ -38,7 +38,7 @@ public abstract class Piece {
         return xPosition;
     }
 
-    public int getYPOS() {
+    public int getYPos() {
         return yPosition;
     }
 }
