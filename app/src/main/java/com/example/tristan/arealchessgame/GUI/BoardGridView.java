@@ -35,9 +35,7 @@ import static android.support.constraint.R.id.parent;
 public class BoardGridView extends GridView {
     private int columns = Tools.BOARD_DIM, rows = Tools.BOARD_DIM, tileDim;
     private Paint blackPaint = new Paint();
-    private Paint piecePaint = new Paint();
     private boolean[][] tileBlack;
-    Context context;
     final Map<String, Integer> resourceMap;
 
     public Map<String, Integer> resourceMapMaker(){
@@ -128,13 +126,15 @@ public class BoardGridView extends GridView {
         }
 
         // draw rectangles and make black or white depending on a mismatch between col/row modulus.
+        // create a bitmap of a piece and place it in the right square.
         for (int yRows = 0; yRows < rows; yRows++) {
             for (int xColumns = 0; xColumns < columns; xColumns++) {
-//                setPiecePaint(j, i);
+
                 Bitmap pieceIcon = createBitmap(xColumns, yRows);
+
                 if (yRows%2 == 1 ^ xColumns%2 == 0){
                     if(pieceIcon != null){
-                        canvas.drawBitmap(pieceIcon, yRows * tileDim, xColumns * tileDim, null);
+                        canvas.drawBitmap(pieceIcon, xColumns * tileDim, yRows * tileDim, null);
                     }
                     continue;
                 }
@@ -142,12 +142,11 @@ public class BoardGridView extends GridView {
                     tileBlack[yRows][xColumns] = true;
                 }
                 if (tileBlack[yRows][xColumns]) {
-                    canvas.drawRect(yRows * tileDim, xColumns * tileDim, (yRows + 1) * tileDim, (xColumns + 1) * tileDim,
-                            blackPaint);
+                    canvas.drawRect(yRows * tileDim, xColumns * tileDim, (yRows + 1) * tileDim,
+                            (xColumns + 1) * tileDim, blackPaint);
                 }
-//                canvas.drawRect(i * tileDim, j * tileDim, (i + 1) * tileDim, (j + 1) * tileDim, piecePaint);
                 if(pieceIcon != null){
-                    canvas.drawBitmap(pieceIcon, yRows * tileDim, xColumns * tileDim, null);
+                    canvas.drawBitmap(pieceIcon, xColumns * tileDim, yRows * tileDim, null);
                 }
             }
         }
@@ -162,9 +161,6 @@ public class BoardGridView extends GridView {
 
             }
         }
-//        int dx = 0;
-//        int dy = 0;
-//        canvas.translate(dx, dy);
     }
 
     private Bitmap createBitmap(int xCoordinate, int yCoordinate) {
@@ -177,15 +173,6 @@ public class BoardGridView extends GridView {
             return null;
         }
     }
-
-//    protected void setPiecePaint(int xCoordinate, int yCoordinate){
-//        String pathString = Board.getInstance().getTile(xCoordinate, yCoordinate).getPiece()
-//                .toString().toLowerCase() + Board.getInstance().getTile(xCoordinate, yCoordinate).getPiece()
-//                .getAlliance().toString().toLowerCase();
-//        int resId = this.getResources().getIdentifier(pathString, "drawable", "com.example.tristan.arealchessgame");
-//        Bitmap pieceIcon = BitmapFactory.decodeResource(this.getResources(), resId);
-//        piecePaint.setShader(new BitmapShader(pieceIcon, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
-//    }
 
     // Force gridView to be square on every screenSize.
     @Override
