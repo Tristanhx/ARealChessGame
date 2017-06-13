@@ -84,7 +84,8 @@ public class Board {
         for(int yRow = 0 ; yRow < Tools.BOARD_DIM ; yRow++){
             for (int xColumn = 0 ; xColumn < Tools.BOARD_DIM ; xColumn++){
 
-                Tile tmp = Tile.createTile(xColumn, yRow, builder.boardLayout.get(posCon.convertPosition(xColumn, yRow)));
+                Tile tmp = Tile.createTile(xColumn, yRow, builder.boardLayout.get(/*posCon.convertPosition
+                (xColumn, yRow)*/Tools.BOARD_DIM * yRow + xColumn));
                 tileList.add(tmp);
             }
         }

@@ -10,7 +10,7 @@ public enum PieceType {
     KING("K"),
     KNIGHT("N"),
     PAWN("P"),
-    QUEEN("W"),
+    QUEEN("Q"),
     ROOK("R");
 
 

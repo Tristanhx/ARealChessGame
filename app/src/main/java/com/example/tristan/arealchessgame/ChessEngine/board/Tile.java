@@ -26,7 +26,8 @@ public abstract class Tile {
 
         for (int yRow = 0; yRow < Tools.BOARD_DIM ; yRow++){
             for (int xColumn = 0 ; xColumn < Tools.BOARD_DIM ; xColumn++){
-                emptyTileMap.put(/*posCon.convertPosition(xColumn, yRow)*/(Tools.BOARD_DIM * yRow + xColumn), new TileEmpty(xColumn, yRow));
+                emptyTileMap.put(/*posCon.convertPosition(xColumn, yRow)*/(Tools.BOARD_DIM * yRow +
+                        xColumn), new TileEmpty(xColumn, yRow));
             }
         }
         return emptyTileMap;
@@ -36,7 +37,7 @@ public abstract class Tile {
 
     public static Tile createTile(final int xCoordinate, final int yCoordinate, final Piece piece){
         return piece != null ? new TileOcc(xCoordinate, yCoordinate, piece) :
-                EMPTY_TILES.get(posCon.convertPosition(xCoordinate, yCoordinate));
+                EMPTY_TILES.get(/*posCon.convertPosition(xCoordinate, yCoordinate*/ Tools.BOARD_DIM * yCoordinate + xCoordinate);
     }
 
     Tile (int xCoordinate, int yCoordinate){
