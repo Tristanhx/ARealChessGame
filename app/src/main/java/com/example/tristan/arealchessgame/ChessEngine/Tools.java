@@ -10,4 +10,7 @@ public class Tools {
     public static boolean isValid(int xCoorDest, int yCoorDest) {
         return xCoorDest >= 0 && xCoorDest < BOARD_DIM && yCoorDest >= 0 && yCoorDest < BOARD_DIM;
     }
+    public static int convertPosition(int xCoordinate, int yCoordinate){
+        return BOARD_DIM * yCoordinate + xCoordinate;
+    }
 }

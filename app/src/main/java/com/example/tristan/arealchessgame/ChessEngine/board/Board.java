@@ -26,7 +26,6 @@ public class Board {
 
 
     private final List<Tile> mBoard;
-    private static PositionConverter posCon = new PositionConverter();
     private final Collection<Piece> whitePieces;
     private final Collection<Piece> blackPieces;
 //    private final Collection<Move> whiteMoves;
@@ -69,7 +68,7 @@ public class Board {
         final StringBuilder stringBuilder = new StringBuilder();
         for (int yRow = 0 ; yRow < Tools.BOARD_DIM ; yRow++){
             for (int xColumn = 0 ; xColumn < Tools.BOARD_DIM ; xColumn++){
-                int conv = posCon.convertPosition(xColumn, yRow);
+                int conv = Tools.convertPosition(xColumn, yRow);
                 final String sign = this.mBoard.get(conv).toString();
                 stringBuilder.append(String.format("%3s", sign));
                 if ((conv + 1) % Tools.BOARD_DIM == 0){
@@ -85,8 +84,8 @@ public class Board {
         for(int yRow = 0 ; yRow < Tools.BOARD_DIM ; yRow++){
             for (int xColumn = 0 ; xColumn < Tools.BOARD_DIM ; xColumn++){
 
-                Tile tmp = Tile.createTile(xColumn, yRow, builder.boardLayout.get(posCon.convertPosition
-                (xColumn, yRow)/*Tools.BOARD_DIM * yRow + xColumn*/));
+                Tile tmp = Tile.createTile(xColumn, yRow, builder.boardLayout.get(Tools.convertPosition
+                (xColumn, yRow)));
                 tileList.add(tmp);
             }
         }
@@ -132,7 +131,7 @@ public class Board {
         }
 
         public Builder setPiece(final Piece piece){
-            this.boardLayout.put(posCon.convertPosition(piece.getXPos(), piece.getYPos()), piece);
+            this.boardLayout.put(Tools.convertPosition(piece.getXPos(), piece.getYPos()), piece);
             return this;
         }
 

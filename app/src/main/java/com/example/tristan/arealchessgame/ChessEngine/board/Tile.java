@@ -16,8 +16,6 @@ public abstract class Tile {
     // Every Tile has an x and y Coordinate
     int xCoordinate;
     int yCoordinate;
-
-
     
     private static final Map<Integer, TileEmpty> EMPTY_TILES = createAllEmptyTiles();
 
@@ -26,18 +24,17 @@ public abstract class Tile {
 
         for (int yRow = 0; yRow < Tools.BOARD_DIM ; yRow++){
             for (int xColumn = 0 ; xColumn < Tools.BOARD_DIM ; xColumn++){
-                emptyTileMap.put(/*posCon.convertPosition(xColumn, yRow)*/(Tools.BOARD_DIM * yRow +
-                        xColumn), new TileEmpty(xColumn, yRow));
+                emptyTileMap.put(Tools.convertPosition(xColumn, yRow), new TileEmpty(xColumn, yRow));
             }
         }
         return emptyTileMap;
     }
 
-    private static PositionConverter posCon = new PositionConverter();
+
 
     public static Tile createTile(final int xCoordinate, final int yCoordinate, final Piece piece){
         return piece != null ? new TileOcc(xCoordinate, yCoordinate, piece) :
-                EMPTY_TILES.get(/*posCon.convertPosition(xCoordinate, yCoordinate*/ Tools.BOARD_DIM * yCoordinate + xCoordinate);
+                EMPTY_TILES.get(Tools.convertPosition(xCoordinate, yCoordinate));
     }
 
     Tile (int xCoordinate, int yCoordinate){
