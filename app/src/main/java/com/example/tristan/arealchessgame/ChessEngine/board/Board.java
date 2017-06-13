@@ -84,8 +84,8 @@ public class Board {
         for(int yRow = 0 ; yRow < Tools.BOARD_DIM ; yRow++){
             for (int xColumn = 0 ; xColumn < Tools.BOARD_DIM ; xColumn++){
 
-                Tile tmp = Tile.createTile(xColumn, yRow, builder.boardLayout.get(/*posCon.convertPosition
-                (xColumn, yRow)*/Tools.BOARD_DIM * yRow + xColumn));
+                Tile tmp = Tile.createTile(xColumn, yRow, builder.boardLayout.get(posCon.convertPosition
+                (xColumn, yRow)/*Tools.BOARD_DIM * yRow + xColumn*/));
                 tileList.add(tmp);
             }
         }
@@ -116,7 +116,7 @@ public class Board {
 
         // Pawns for Black and White
         for(int i = 0 ; i < Tools.BOARD_DIM ; i++){
-            builder.setPiece(new Pawn(i, 0, Alliance.BLACK));
+            builder.setPiece(new Pawn(i, 1, Alliance.BLACK));
             builder.setPiece(new Pawn(i, 6, Alliance.WHITE));
         }
         return builder.build();
