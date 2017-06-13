@@ -15,6 +15,11 @@ public enum Alliance {
         public boolean isBlack() {
             return false;
         }
+
+        @Override
+        public String toString(){
+            return "W";
+        }
     },
     BLACK {
         @Override
@@ -25,6 +30,11 @@ public enum Alliance {
         @Override
         public boolean isBlack() {
             return true;
+        }
+
+        @Override
+        public String toString(){
+            return "B";
         }
     };
 

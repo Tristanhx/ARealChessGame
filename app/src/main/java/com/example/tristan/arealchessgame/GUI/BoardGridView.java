@@ -1,9 +1,13 @@
 package com.example.tristan.arealchessgame.GUI;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -13,8 +17,16 @@ import android.widget.Toast;
 
 import com.example.tristan.arealchessgame.Alliance;
 import com.example.tristan.arealchessgame.ChessEngine.Tools;
+import com.example.tristan.arealchessgame.ChessEngine.board.Board;
 import com.example.tristan.arealchessgame.ChessEngine.pieces.Knight;
+import com.example.tristan.arealchessgame.ChessEngine.pieces.Piece;
 import com.example.tristan.arealchessgame.GameActivity;
+import com.example.tristan.arealchessgame.R;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static android.support.constraint.R.id.parent;
 
 /**
  * Created by Tristan on 04/06/2017.
@@ -23,8 +35,29 @@ import com.example.tristan.arealchessgame.GameActivity;
 public class BoardGridView extends GridView {
     private int columns = Tools.BOARD_DIM, rows = Tools.BOARD_DIM, tileDim;
     private Paint blackPaint = new Paint();
+    private Paint piecePaint = new Paint();
     private boolean[][] tileBlack;
     Context context;
+    final Map<String, Integer> resourceMap;
+
+    public Map<String, Integer> resourceMapMaker(){
+        Map<String, Integer> tmpresourceMap = new HashMap<>();
+        tmpresourceMap.put("bb", R.drawable.bb);
+        tmpresourceMap.put("bw", R.drawable.bw);
+        tmpresourceMap.put("kb", R.drawable.kb);
+        tmpresourceMap.put("kw", R.drawable.kw);
+        tmpresourceMap.put("nb", R.drawable.nb);
+        tmpresourceMap.put("nw", R.drawable.nw);
+        tmpresourceMap.put("pb", R.drawable.pb);
+        tmpresourceMap.put("pw", R.drawable.pw);
+        tmpresourceMap.put("qb", R.drawable.qb);
+        tmpresourceMap.put("qw", R.drawable.qw);
+        tmpresourceMap.put("rb", R.drawable.rb);
+        tmpresourceMap.put("rw", R.drawable.rw);
+
+
+        return tmpresourceMap;
+    }
 
     public BoardGridView(Context context){
         this(context, null);
@@ -32,6 +65,7 @@ public class BoardGridView extends GridView {
 
     public BoardGridView(Context context, AttributeSet attributeSet){
         super(context, attributeSet);
+        this.resourceMap = resourceMapMaker();
         blackPaint.setStyle(Paint.Style.FILL_AND_STROKE);
     }
 
@@ -94,35 +128,64 @@ public class BoardGridView extends GridView {
         }
 
         // draw rectangles and make black or white depending on a mismatch between col/row modulus.
-        for (int i = 0; i < columns; i++) {
-            for (int j = 0; j < rows; j++) {
-                if (i%2 == 1 ^ j%2 == 0){
+        for (int yRows = 0; yRows < rows; yRows++) {
+            for (int xColumns = 0; xColumns < columns; xColumns++) {
+//                setPiecePaint(j, i);
+                Bitmap pieceIcon = createBitmap(xColumns, yRows);
+                if (yRows%2 == 1 ^ xColumns%2 == 0){
+                    if(pieceIcon != null){
+                        canvas.drawBitmap(pieceIcon, yRows * tileDim, xColumns * tileDim, null);
+                    }
                     continue;
                 }
                 else{
-                    tileBlack[i][j] = true;
+                    tileBlack[yRows][xColumns] = true;
                 }
-                if (tileBlack[i][j]) {
-                    canvas.drawRect(i * tileDim, j * tileDim, (i + 1) * tileDim, (j + 1) * tileDim,
+                if (tileBlack[yRows][xColumns]) {
+                    canvas.drawRect(yRows * tileDim, xColumns * tileDim, (yRows + 1) * tileDim, (xColumns + 1) * tileDim,
                             blackPaint);
+                }
+//                canvas.drawRect(i * tileDim, j * tileDim, (i + 1) * tileDim, (j + 1) * tileDim, piecePaint);
+                if(pieceIcon != null){
+                    canvas.drawBitmap(pieceIcon, yRows * tileDim, xColumns * tileDim, null);
                 }
             }
         }
-        for (int i = 1; i < columns; i++){
-            canvas.drawLine(i* tileDim, 0, i* tileDim, boardDim, blackPaint);
+        for (int yRows = 1; yRows < columns; yRows++){
+            canvas.drawLine(yRows* tileDim, 0, yRows* tileDim, boardDim, blackPaint);
         }
-        for(int i = 1; i <=rows; i++){
-            canvas.drawLine(0, i* tileDim, boardDim, i* tileDim, blackPaint);
+        for(int xColumns = 1; xColumns <=rows; xColumns++){
+            canvas.drawLine(0, xColumns* tileDim, boardDim, xColumns* tileDim, blackPaint);
         }
         for (int i = 0 ; i < columns ; i++){
             for (int j = 0; j < rows; j++){
 
             }
         }
-        int dx = 0;
-        int dy = 0;
-        canvas.translate(dx, dy);
+//        int dx = 0;
+//        int dy = 0;
+//        canvas.translate(dx, dy);
     }
+
+    private Bitmap createBitmap(int xCoordinate, int yCoordinate) {
+        Piece piece = Board.getInstance().getTile(xCoordinate, yCoordinate).getPiece();
+        if (piece != null) {
+            String pathString = piece.toString().toLowerCase() + piece.getAlliance().toString().toLowerCase();
+            return BitmapFactory.decodeResource(getResources(), resourceMap.get(pathString));
+        }
+        else{
+            return null;
+        }
+    }
+
+//    protected void setPiecePaint(int xCoordinate, int yCoordinate){
+//        String pathString = Board.getInstance().getTile(xCoordinate, yCoordinate).getPiece()
+//                .toString().toLowerCase() + Board.getInstance().getTile(xCoordinate, yCoordinate).getPiece()
+//                .getAlliance().toString().toLowerCase();
+//        int resId = this.getResources().getIdentifier(pathString, "drawable", "com.example.tristan.arealchessgame");
+//        Bitmap pieceIcon = BitmapFactory.decodeResource(this.getResources(), resId);
+//        piecePaint.setShader(new BitmapShader(pieceIcon, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
+//    }
 
     // Force gridView to be square on every screenSize.
     @Override

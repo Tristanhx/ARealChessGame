@@ -1,5 +1,7 @@
 package com.example.tristan.arealchessgame.ChessEngine.board;
 
+import android.content.Context;
+
 import com.example.tristan.arealchessgame.Alliance;
 import com.example.tristan.arealchessgame.ChessEngine.PositionConverter;
 import com.example.tristan.arealchessgame.ChessEngine.Tools;
@@ -25,11 +27,19 @@ public class Board {
 
 
 
+    private static Board instance;
     private final List<Tile> mBoard;
     private final Collection<Piece> whitePieces;
     private final Collection<Piece> blackPieces;
     private final Collection<Move> whiteMoves;
     private final Collection<Move> blackMoves;
+
+    public static synchronized Board getInstance(){
+        if (instance == null){
+            instance = createDefaultBoard();
+        }
+        return instance;
+    }
 
     private Board(Builder builder){
         this.mBoard = createNewBoard(builder);

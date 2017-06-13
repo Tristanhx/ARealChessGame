@@ -11,9 +11,10 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
 
-        Board board = Board.createDefaultBoard();
+        Board board = Board.getInstance();
+
+        setContentView(R.layout.activity_game);
 
         Log.d("boardstring", board.toString());
     }
