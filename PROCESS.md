@@ -16,17 +16,19 @@ Today I started the Move classes and the rest of the Pieces. The Bishop needed a
 Today I created the board in engine, which is just a set of lists of tiles and pieces. However it is now still riddled with bugs and invoked virtual methods on null object references. As I am not that good at debugging, I'm going to need some 'expert' help on this. The only thing it should do is Map tiles of different coordinates to a Tilenumber. Do the same for the pieces and their movesets. I'll look into it tomorrow.
 # day 8
 Today I started bug-fixing. Using the debugging console, I found that my board was drawing black pawns on the first row, while this is where the higher pieces should be. It also drew an additional line of empty tiles. It took me way longer than I would like to admit to realize that when creating the pawns I set the yCoordinate for the black pawns to 0 instead of 1, and thus overlaying the higher pieces. Now using the debugger I ventured to find out why the app was crashing. It turns out that when I try to make a list of all the possible moves (which I need later to verify with the board that the selected move is legal) there seems to be a problem with the legalMove method in Piece. This leads to no Moves being added and so the trackMoves method in Board doesn't get any Move objects.
-I commented the making of this list out for the moment. The app ran fine and I was able to make an ASCII representation of the board. 
+I commented the making of this list out for the moment. The app ran fine and I was able to make an ASCII representation of the board. This was achieved by overriding the toString methods of all pieces and empty tiles.
 ![ASCII representation](doc/ASCII_representation_board.png)
-<span style="color: #000; font: monaco; font-size: 2em;">r	n	b	q	k	b	n	r  
-p	p	p	p	p	p	p	p  
-/-	-	-	-	-	-	-	-  
-/-	-	-	-	-	-	-	-  
-/-	-	-	-	-	-	-	-  
-/-	-	-	-	-	-	-	-  
-P	P	P	P	P	P	P	P  
-R	N	B	Q	K	B	N	R</span>
+<span style="color: #000; font: monaco; font-size: 2em;">
+(r	n	b	q	k	b	n	r)  
+(p	p	p	p	p	p	p	p)  
+(-	-	-	-	-	-	-	-)  
+(-	-	-	-	-	-	-	-)  
+(-	-	-	-	-	-	-	-)  
+(-	-	-	-	-	-	-	-)  
+(P	P	P	P	P	P	P	P)  
+(R	N	B	Q	K	B	N	R)
+</span>
 
-
+This evening though, I found the culprit. My legalMoves methods inside the pieces was using a getTile method from Board, that I had return null... had it return a tile and now everything is fine. The next step is maybe connect this to the GUI and finish the alpha build.
 
   
