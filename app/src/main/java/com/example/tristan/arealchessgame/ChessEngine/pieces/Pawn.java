@@ -36,28 +36,16 @@ public class Pawn extends Piece {
             final List<Move> legalMoves = new ArrayList<>();
             int xCoorDest, yCoorDest;
 
-            for (final int[] currentPM : POSSIBLE_MOVES){
+            for (final int[] currentPM : POSSIBLE_MOVES) {
                 xCoorDest = this.xPosition + currentPM[0];
-                yCoorDest = this.yPosition + (alliance.getDir()*currentPM[1]);
+                yCoorDest = this.yPosition + (alliance.getDir() * currentPM[1]);
 
-                if (Tools.isValid(xCoorDest, yCoorDest)){
-                    final Tile destinationTile = board.getTile(xCoorDest, yCoorDest);
-
-                    if(!destinationTile.tileIsOccupied()){
-                        legalMoves.add(new MoveNormal(board, this, xCoorDest, yCoorDest));
-                    }
-                    else{
-                        final Piece pieceAtDest = destinationTile.getPiece();
-                        final Alliance destPieceAlliance =  pieceAtDest.getAlliance();
-
-                        // if the piece at destination tile has a different alliance it is enemy piece, attack!
-                        if (this.alliance != destPieceAlliance){
-                            legalMoves.add(new MoveAttack(board, this, pieceAtDest, xCoorDest, yCoorDest));
-                        }
-                        else{
-
-                        }
-                    }
+                if (!Tools.isValid(xCoorDest, yCoorDest)) {
+                    continue;
+                }
+                final Tile destinationTile = board.getTile(xCoorDest, yCoorDest);
+                if (currentPM == POSSIBLE_MOVES[0] && !destinationTile.tileIsOccupied()) {
+                    legalMoves.add(new MoveNormal(board, this, xCoorDest, yCoorDest));
                 }
             }
         return legalMoves;

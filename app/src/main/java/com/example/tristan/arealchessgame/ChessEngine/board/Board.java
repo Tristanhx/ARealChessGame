@@ -23,20 +23,21 @@ import java.util.Map;
 
 public class Board {
 
+
+
+    private final List<Tile> mBoard;
     private static PositionConverter posCon = new PositionConverter();
     private final Collection<Piece> whitePieces;
     private final Collection<Piece> blackPieces;
-    private final Collection<Move> whiteMoves;
-    private final Collection<Move> blackMoves;
-
-    private final List<Tile> mBoard;
+//    private final Collection<Move> whiteMoves;
+//    private final Collection<Move> blackMoves;
 
     private Board(Builder builder){
         this.mBoard = createNewBoard(builder);
         this.whitePieces = trackPieces(this.mBoard, Alliance.WHITE);
         this.blackPieces = trackPieces(this.mBoard, Alliance.BLACK);
-        this.whiteMoves = trackMoves(this.whitePieces);
-        this.blackMoves = trackMoves(this.blackPieces);
+//        this.whiteMoves = trackMoves(this.whitePieces);
+//        this.blackMoves = trackMoves(this.blackPieces);
     }
 
     private Collection<Move> trackMoves(Collection<Piece> pieces) {
