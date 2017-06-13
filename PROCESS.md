@@ -31,4 +31,6 @@ I commented the making of this list out for the moment. The app ran fine and I w
 
 This evening though, I found the culprit. My legalMoves methods inside the pieces was using a getTile method from Board, that I had return null... had it return a tile and now everything is fine. The next step is maybe connect this to the GUI and finish the alpha build.
 
-  
+In the BoardGridView, I have implemented a method that returns a string key to a resourceID in a List. This resourceID is for each individual piece. The method takes coordinates from the nested for-loops in the onDraw method and recovers the belonging piece. The resulting resource is made into a Bitmap and if it isn't null, it is drawn in the onDraw method (if on black, after black is drawn). I switched the x and y coordinates by accident though and even though the pieces were in the wrong spot, all pieces were drawn. So I switched the x and y values and now some pieces are missing (but what pieces there are, are in the right place). I don't know why. Guess I'll find out tomorrow.
+![1](doc/all_pieces_wrong_place.jpeg)
+![2](doc/all_butsome_pieces_right_place.jpeg)
