@@ -48,5 +48,29 @@ public abstract class Piece {
     public PieceType getPieceType() {
         return pieceType;
     }
+
+    public abstract Piece movePiece(Move move);
+
+    @Override
+    public boolean equals(final Object other){
+        if (this == other){
+            return true;
+        }
+        if (!(other instanceof Piece)){
+            return false;
+        }
+        final Piece otherPiece = (Piece) other;
+        return xPosition == otherPiece.getXPos() && yPosition == otherPiece.getYPos() &&
+                pieceType == otherPiece.getPieceType() && alliance == otherPiece.getAlliance();
+    }
+
+    @Override
+    public int hashCode(){
+        int result = pieceType.hashCode();
+        result = 31 * result + alliance.hashCode();
+        result = 31 * result + xPosition;
+        result = 31 * result + yPosition;
+        return result;
+    }
 }
 

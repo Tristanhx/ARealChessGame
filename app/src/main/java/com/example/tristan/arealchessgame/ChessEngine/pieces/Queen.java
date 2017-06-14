@@ -79,4 +79,9 @@ public class Queen extends Piece {
 
         return legalMoves;
     }
+
+    @Override
+    public Piece movePiece(Move move) {
+        return new Queen(move.getxDestination(), move.getyDestination(), move.getPiece().getAlliance());
+    }
 }

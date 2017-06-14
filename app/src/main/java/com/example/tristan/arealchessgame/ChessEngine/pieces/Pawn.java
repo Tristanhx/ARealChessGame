@@ -50,4 +50,9 @@ public class Pawn extends Piece {
             }
         return legalMoves;
     }
+
+    @Override
+    public Piece movePiece(Move move) {
+        return new Pawn(move.getxDestination(), move.getyDestination(), move.getPiece().getAlliance());
+    }
 }

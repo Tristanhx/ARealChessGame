@@ -64,4 +64,9 @@ public class Knight extends Piece{
         return legalMoves;
     }
 
+    @Override
+    public Piece movePiece(Move move) {
+        return new Knight(move.getxDestination(), move.getyDestination(), move.getPiece().getAlliance());
+    }
+
 }

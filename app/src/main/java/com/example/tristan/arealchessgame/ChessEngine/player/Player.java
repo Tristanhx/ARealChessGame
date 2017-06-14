@@ -17,10 +17,12 @@ public abstract class Player {
     protected final Board board;
     protected final King playerKing;
     protected final Collection<Move> legalMoves;
+    protected final Collection<Move> enemyMoves;
 
     Player(final Board board, final Collection<Move> legalMoves, final Collection<Move> enemyMoves){
         this.board = board;
         this.legalMoves = legalMoves;
+        this.enemyMoves = enemyMoves;
         this.playerKing = whoIsMyKing();
     }
 
@@ -37,9 +39,22 @@ public abstract class Player {
 
     public abstract Alliance getAlliance();
 
-    public PlayerMove makeMove(final Move move){
-        return null;
+    public abstract Player getOpponent();
+
+    public boolean isLegalMove(final Move move){
+        return this.legalMoves.contains(move);
     }
+
+    public AlternateBoard makeMove(final Move move){
+        if (!isLegalMove(move)){
+            return new AlternateBoard(this.board, move, MoveWas.ILLEGAL);
+        }
+
+        final Board newBoard = move.execute();
+        return new AlternateBoard(newBoard, move, MoveWas.LEGAL);
+    }
+
+
 
 
 }

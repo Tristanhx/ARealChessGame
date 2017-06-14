@@ -45,3 +45,11 @@ The below images have titles, hover to get a sense of their dimensions.
 
 The chesspieces are inside the tiles from 720x1280 and up and resolutions lower than 320x480 are unplayable (buttons fall off the screen). I don't think this is necessary to fix, since the app targets API 24 and no phone that runs this has a resolution lower than that.  
 The next step would of course be to make the pieces movable. Since we don't want to be able to move the pieces of the opponent, I think it best to start with making a player class that keeps track of who's turn it is. I have an onTouchEvent in BoardGridView. This should send coordinates to some class (Probably Move or Board) and get a piece on that tile (may be null). Then when we tab again we should move this piece to the new tile. This will involve making a new board that has the piece moved. Then I will call invalidate() in the onTouch() method and the View should redraw itself based on the new board.
+
+So it makes sense to have the players make the moves... so that is the plan now. We probably want to know who is next, so we ask the current player who he is playing against. This means two classes that are nearly identical (the two players), so I'm going to make an abstract player class that has a makeMove function. I recently made a singleton out of the board... so I am probably undoing that. If I am going to make a new board, then board can't be a singleton right? 
+
+But Move holds the move! So I should get the move that corresponds to the coordinates of the onTouch method, validate the move and then execute the move. This should be done inside the Move class?
+![](doc/Execute_move.jpg)
+Since this photo was taken the PlayerMove Object has been refactored to AlternateBoard.
+
+The player is making the moves, but the moving will be done by the move itself. The player can validate a move and return the same board if the move is illegal (meaning it isn't in the legalMoves list). Otherwise a new board with the piece moved should be returned. 

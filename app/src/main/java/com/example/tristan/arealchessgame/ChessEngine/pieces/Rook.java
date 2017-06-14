@@ -71,4 +71,9 @@ public class Rook extends Piece {
         }
         return legalMoves;
     }
+
+    @Override
+    public Piece movePiece(Move move) {
+        return new Rook(move.getxDestination(), move.getyDestination(), move.getPiece().getAlliance());
+    }
 }

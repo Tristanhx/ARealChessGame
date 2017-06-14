@@ -25,9 +25,7 @@ import java.util.Map;
 
 public class Board {
 
-
-
-    private static Board instance;
+    public static Board instance;
     private final List<Tile> mBoard;
     private final Collection<Piece> whitePieces;
     private final Collection<Piece> blackPieces;
@@ -36,6 +34,8 @@ public class Board {
 
     private final PlayerWhite whitePlayer;
     private final PlayerBlack blackPlayer;
+    private final Player currentPlayer;
+    private Move[] allLegalMoves;
 
     public static synchronized Board getInstance(){
         if (instance == null){
@@ -53,6 +53,7 @@ public class Board {
 
         this.whitePlayer = new PlayerWhite(this, whiteMoves, blackMoves);
         this.blackPlayer = new PlayerBlack(this, whiteMoves, blackMoves);
+        this.currentPlayer = builder.nextPlayer.chooseNextPlayer(this.whitePlayer, this.blackPlayer);
     }
 
     private Collection<Move> trackMoves(Collection<Piece> pieces) {
@@ -77,6 +78,10 @@ public class Board {
             }
         }
         return piecesList;
+    }
+
+    public Player getCurrentPlayer(){
+        return this.currentPlayer;
     }
 
     @Override
@@ -152,6 +157,10 @@ public class Board {
 
     public PlayerWhite getWhitePlayer() {
         return whitePlayer;
+    }
+
+    public Move[] getAllLegalMoves() {
+        return allLegalMoves;
     }
 
     public static class Builder{

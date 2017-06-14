@@ -71,4 +71,9 @@ public class Bishop extends Piece {
 
         return legalMoves;
     }
+
+    @Override
+    public Piece movePiece(Move move) {
+        return new Bishop(move.getxDestination(), move.getyDestination(), move.getPiece().getAlliance());
+    }
 }

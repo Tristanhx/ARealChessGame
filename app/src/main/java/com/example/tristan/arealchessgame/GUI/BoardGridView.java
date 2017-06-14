@@ -19,8 +19,12 @@ import android.widget.Toast;
 import com.example.tristan.arealchessgame.Alliance;
 import com.example.tristan.arealchessgame.ChessEngine.Tools;
 import com.example.tristan.arealchessgame.ChessEngine.board.Board;
+import com.example.tristan.arealchessgame.ChessEngine.board.Move;
+import com.example.tristan.arealchessgame.ChessEngine.board.MoveMaker;
+import com.example.tristan.arealchessgame.ChessEngine.board.Tile;
 import com.example.tristan.arealchessgame.ChessEngine.pieces.Knight;
 import com.example.tristan.arealchessgame.ChessEngine.pieces.Piece;
+import com.example.tristan.arealchessgame.ChessEngine.player.AlternateBoard;
 import com.example.tristan.arealchessgame.GameActivity;
 import com.example.tristan.arealchessgame.R;
 
@@ -38,6 +42,10 @@ public class BoardGridView extends GridView {
     private Paint blackPaint = new Paint();
     private boolean[][] tileBlack;
     final Map<String, Integer> resourceMap;
+
+    private Tile startTile;
+    private Tile destinationTile;
+    private Piece selectedPiece;
 
     public Map<String, Integer> resourceMapMaker(){
         Map<String, Integer> tmpresourceMap = new HashMap<>();
@@ -187,6 +195,7 @@ public class BoardGridView extends GridView {
     // TouchEvent, because we are obviously going to need that.
     @Override
     public boolean onTouchEvent(MotionEvent event){
+        Board oldBoard = Board.getInstance();
         if (event.getAction() == MotionEvent.ACTION_DOWN){
             try {
                 int xColumn = (int) (event.getX() / tileDim);
@@ -194,7 +203,23 @@ public class BoardGridView extends GridView {
                 String message = Integer.toString(xColumn) +", " + Integer.toString(yRow);
                 Log.d("aroutbound", message);
 //                TODO: send coordinates to Move/Board class to select piece
-                Piece selectedPiece = Board.getInstance().getTile(xColumn, yRow).getPiece();
+                if (startTile == null) {
+                    startTile = oldBoard.getTile(xColumn, yRow);
+                    selectedPiece = startTile.getPiece();
+                    if (selectedPiece == null) {
+                        startTile = null;
+                    }
+                } else{
+                    destinationTile = oldBoard.getTile(xColumn, yRow);
+                    final Move move = MoveMaker.createMove(Board.getInstance(),
+                            startTile.getxCoordinate(), startTile.getyCoordinate(),
+                            destinationTile.getxCoordinate(),
+                            destinationTile.getyCoordinate());
+                    final AlternateBoard newBoard =  oldBoard.getCurrentPlayer().makeMove(move);
+                    if (newBoard.getMoveWas().isExecuted()){
+                        Board.instance = newBoard.getBoard();
+                    }
+                }
 //                TODO: send coordinates and piece to Move/Board class, make new board with moved piece
                 invalidate();
             }catch (ArrayIndexOutOfBoundsException ar){

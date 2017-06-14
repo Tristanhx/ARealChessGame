@@ -48,4 +48,12 @@ public abstract class Tile {
 
     // Returns an occupying piece
     public abstract Piece getPiece();
+
+    public int getxCoordinate(){
+        return xCoordinate;
+    }
+
+    public int getyCoordinate(){
+        return yCoordinate;
+    }
 }

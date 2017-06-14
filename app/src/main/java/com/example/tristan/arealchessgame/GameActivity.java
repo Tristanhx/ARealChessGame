@@ -12,7 +12,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Board board = Board.getInstance();
+        Board board = Board.createDefaultBoard();
 
         setContentView(R.layout.activity_game);
 

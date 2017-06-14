@@ -63,4 +63,9 @@ public class King extends Piece {
 
         return legalMoves;
     }
+
+    @Override
+    public Piece movePiece(Move move) {
+        return new King(move.getxDestination(), move.getyDestination(), move.getPiece().getAlliance());
+    }
 }
