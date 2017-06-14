@@ -34,8 +34,8 @@ In the BoardGridView, I have implemented a method that returns a string key to a
 <img src="doc/all_pieces_wrong_place.jpeg" width="200"/>
 <img src="doc/all_butsome_pieces_right_place.jpeg" width="200"/>
 # day 9
-So I noticed a little speck on my screen. When I dragged the emulator it moved with it. It was right on the border with the black King's tile. It must be part of the queen that was drawn outside her tile! I realized that for some tiles the black tile was being drawn over the pieces. I split the drawing of the tiles and the pieces into two nested for-loops to make sure the tiles were drawn first and this fixed it. It also made me think that the bitmaps of the pieces were not scaling. Which is true.   
-The below images have titles, hover to get a sense of their dimensions.
+So I noticed a little speck on my screen. When I dragged the emulator it moved with it. It was right on the border with the black King's tile. It must be part of the queen that was drawn outside her tile! I realized that for some tiles the black tile was being drawn over the pieces. I split the drawing of the tiles and the pieces into two nested for-loops to make sure the tiles were drawn first and this fixed it. It also made me think that the bitmaps of the pieces were not scaling. Which is true.  
+The below images have titles, hover to get a sense of their dimensions.  
 <img src="doc/1_2.7_240x320.png" width="200" title="2.7, 240x320"/>
 <img src="doc/2_3.2_320x480.png" width="200" title="3.2, 320x480"/>
 <img src="doc/3_3.7_480x800.png" width="200" title="3.7, 480x800"/>
