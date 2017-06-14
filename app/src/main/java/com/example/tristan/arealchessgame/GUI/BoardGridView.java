@@ -40,18 +40,18 @@ public class BoardGridView extends GridView {
 
     public Map<String, Integer> resourceMapMaker(){
         Map<String, Integer> tmpresourceMap = new HashMap<>();
-        tmpresourceMap.put("bb", R.drawable.bb);
-        tmpresourceMap.put("bw", R.drawable.bw);
-        tmpresourceMap.put("kb", R.drawable.kb);
-        tmpresourceMap.put("kw", R.drawable.kw);
-        tmpresourceMap.put("nb", R.drawable.nb);
-        tmpresourceMap.put("nw", R.drawable.nw);
-        tmpresourceMap.put("pb", R.drawable.pb);
-        tmpresourceMap.put("pw", R.drawable.pw);
-        tmpresourceMap.put("qb", R.drawable.qb);
-        tmpresourceMap.put("qw", R.drawable.qw);
-        tmpresourceMap.put("rb", R.drawable.rb);
-        tmpresourceMap.put("rw", R.drawable.rw);
+        tmpresourceMap.put("BB", R.drawable.bb);
+        tmpresourceMap.put("BW", R.drawable.bw);
+        tmpresourceMap.put("KB", R.drawable.kb);
+        tmpresourceMap.put("KW", R.drawable.kw);
+        tmpresourceMap.put("NB", R.drawable.nb);
+        tmpresourceMap.put("NW", R.drawable.nw);
+        tmpresourceMap.put("PB", R.drawable.pb);
+        tmpresourceMap.put("PW", R.drawable.pw);
+        tmpresourceMap.put("QB", R.drawable.qb);
+        tmpresourceMap.put("QW", R.drawable.qw);
+        tmpresourceMap.put("RB", R.drawable.rb);
+        tmpresourceMap.put("RW", R.drawable.rw);
 
 
         return tmpresourceMap;
@@ -126,27 +126,14 @@ public class BoardGridView extends GridView {
         }
 
         // draw rectangles and make black or white depending on a mismatch between col/row modulus.
-        // create a bitmap of a piece and place it in the right square.
         for (int yRows = 0; yRows < rows; yRows++) {
             for (int xColumns = 0; xColumns < columns; xColumns++) {
-
-                Bitmap pieceIcon = createBitmap(xColumns, yRows);
-
                 if (yRows%2 == 1 ^ xColumns%2 == 0){
-                    if(pieceIcon != null){
-                        canvas.drawBitmap(pieceIcon, xColumns * tileDim, yRows * tileDim, null);
-                    }
                     continue;
                 }
                 else{
-                    tileBlack[yRows][xColumns] = true;
-                }
-                if (tileBlack[yRows][xColumns]) {
                     canvas.drawRect(yRows * tileDim, xColumns * tileDim, (yRows + 1) * tileDim,
                             (xColumns + 1) * tileDim, blackPaint);
-                }
-                if(pieceIcon != null){
-                    canvas.drawBitmap(pieceIcon, xColumns * tileDim, yRows * tileDim, null);
                 }
             }
         }
@@ -156,9 +143,14 @@ public class BoardGridView extends GridView {
         for(int xColumns = 1; xColumns <=rows; xColumns++){
             canvas.drawLine(0, xColumns* tileDim, boardDim, xColumns* tileDim, blackPaint);
         }
-        for (int i = 0 ; i < columns ; i++){
-            for (int j = 0; j < rows; j++){
 
+        // create a bitmap of a piece and place it in the right square.
+        for (int yRows = 0 ; yRows < columns ; yRows++){
+            for (int xColumns = 0; xColumns < rows; xColumns++){
+                Bitmap pieceIcon = createBitmap(xColumns, yRows);
+                if(pieceIcon != null){
+                    canvas.drawBitmap(pieceIcon, xColumns * tileDim, yRows * tileDim, null);
+                }
             }
         }
     }
@@ -166,7 +158,7 @@ public class BoardGridView extends GridView {
     private Bitmap createBitmap(int xCoordinate, int yCoordinate) {
         Piece piece = Board.getInstance().getTile(xCoordinate, yCoordinate).getPiece();
         if (piece != null) {
-            String pathString = piece.toString().toLowerCase() + piece.getAlliance().toString().toLowerCase();
+            String pathString = piece.toString() + piece.getAlliance().toString();
             return BitmapFactory.decodeResource(getResources(), resourceMap.get(pathString));
         }
         else{
@@ -195,20 +187,14 @@ public class BoardGridView extends GridView {
     public boolean onTouchEvent(MotionEvent event){
         if (event.getAction() == MotionEvent.ACTION_DOWN){
             try {
-                int columnInt = (int) (event.getX() / tileDim);
-                int rowInt = (int) (event.getY() / tileDim);
-                String message = Integer.toString(columnInt) +", " + Integer.toString(rowInt);
+                int xColumn = (int) (event.getX() / tileDim);
+                int yRow = (int) (event.getY() / tileDim);
+                String message = Integer.toString(xColumn) +", " + Integer.toString(yRow);
                 Log.d("aroutbound", message);
-
-//                this.context = context.getApplicationContext();
-//                try {
-//                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-//                }catch(NullPointerException nullPoint){
-//                    Log.d("aroutbound", "context not found: " + context.toString());
-//                }
-
-//                tileBlack[columnInt][rowInt] = !tileBlack[columnInt][rowInt];
-//                invalidate();
+//                TODO: send coordinates to Move/Board class to select piece
+                Piece selectedPiece = Board.getInstance().getTile(xColumn, yRow).getPiece();
+//                TODO: send coordinates and piece to Move/Board class, make new board with moved piece
+                invalidate();
             }catch (ArrayIndexOutOfBoundsException ar){
                 Log.d("aroutbound", "That was out of bounds, solve later?");
             }

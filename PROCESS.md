@@ -18,19 +18,30 @@ Today I created the board in engine, which is just a set of lists of tiles and p
 Today I started bug-fixing. Using the debugging console, I found that my board was drawing black pawns on the first row, while this is where the higher pieces should be. It also drew an additional line of empty tiles. It took me way longer than I would like to admit to realize that when creating the pawns I set the yCoordinate for the black pawns to 0 instead of 1, and thus overlaying the higher pieces. Now using the debugger I ventured to find out why the app was crashing. It turns out that when I try to make a list of all the possible moves (which I need later to verify with the board that the selected move is legal) there seems to be a problem with the legalMove method in Piece. This leads to no Moves being added and so the trackMoves method in Board doesn't get any Move objects.
 I commented the making of this list out for the moment. The app ran fine and I was able to make an ASCII representation of the board. This was achieved by overriding the toString methods of all pieces and empty tiles.
 ![ASCII representation](doc/ASCII_representation_board.png)
-<span style="color: #000; font: monaco; font-size: 2em;">
-(r	n	b	q	k	b	n	r)  
-(p	p	p	p	p	p	p	p)  
-(-	-	-	-	-	-	-	-)  
-(-	-	-	-	-	-	-	-)  
-(-	-	-	-	-	-	-	-)  
-(-	-	-	-	-	-	-	-)  
-(P	P	P	P	P	P	P	P)  
-(R	N	B	Q	K	B	N	R)
-</span>
+
+``r n b q k b n r``  
+``p p p p p p p p``  
+``0 0 0 0 0 0 0 0``  
+``0 0 0 0 0 0 0 0``  
+``0 0 0 0 0 0 0 0``  
+``0 0 0 0 0 0 0 0``  
+``P P P P P P P P``  
+``R N B Q K B N R``
 
 This evening though, I found the culprit. My legalMoves methods inside the pieces was using a getTile method from Board, that I had return null... had it return a tile and now everything is fine. The next step is maybe connect this to the GUI and finish the alpha build.
 
 In the BoardGridView, I have implemented a method that returns a string key to a resourceID in a List. This resourceID is for each individual piece. The method takes coordinates from the nested for-loops in the onDraw method and recovers the belonging piece. The resulting resource is made into a Bitmap and if it isn't null, it is drawn in the onDraw method (if on black, after black is drawn). I switched the x and y coordinates by accident though and even though the pieces were in the wrong spot, all pieces were drawn. So I switched the x and y values and now some pieces are missing (but what pieces there are, are in the right place). I don't know why. Guess I'll find out tomorrow.
-![1](doc/all_pieces_wrong_place.jpeg)
-![2](doc/all_butsome_pieces_right_place.jpeg)
+<img src="doc/all_pieces_wrong_place.jpeg" width="200"/>
+<img src="doc/all_butsome_pieces_right_place.jpeg" width="200"/>
+# day 9
+So I noticed a little speck on my screen. When I dragged the emulator it moved with it. It was right on the border with the black King's tile. It must be part of the queen that was drawn outside her tile! I realized that for some tiles the black tile was being drawn over the pieces. I split the drawing of the tiles and the pieces into two nested for-loops to make sure the tiles were drawn first and this fixed it. It also made me think that the bitmaps of the pieces were not scaling. Which is true.  
+The below images have titles, hover to get a sense of their dimensions.
+<img src="doc/1_2.7_240x320.png" width="200" title="2.7, 240x320"/>
+<img src="doc/2_3.2_320x480.png" width="200" title="3.2, 320x480"/>
+<img src="doc/3_3.7_480x800.png" width="200" title="3.7, 480x800"/>
+<img src="doc/4_4.65_720x1280.png" width="200" title="4.65, 720x1280"/>
+<img src="doc/5_5.5_1080x1920.png" width="200" title="5.5, 1080x1920"/>
+<img src="doc/6_5.5_1440x2560.png" width="200"title="5.5, 1440x2560"/>
+
+The chesspieces are inside the tiles from 720x1280 and up and resolutions lower than 320x480 are unplayable (buttons fall off the screen). I don't think this is necessary to fix, since the app targets API 24 and no phone that runs this has a resolution lower than that.  
+The next step would of course be to make the pieces movable. Since we don't want to be able to move the pieces of the opponent, I think it best to start with making a player class that keeps track of who's turn it is. I have an onTouchEvent in BoardGridView. This should send coordinates to some class (Probably Move or Board) and get a piece on that tile (may be null). Then when we tab again we should move this piece to the new tile. This will involve making a new board that has the piece moved. Then I will call invalidate() in the onTouch() method and the View should redraw itself based on the new board.
