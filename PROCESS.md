@@ -41,7 +41,7 @@ The below images have titles, hover to get a sense of their dimensions.
 <img src="doc/3_3.7_480x800.png" width="200" title="3.7, 480x800"/>
 <img src="doc/4_4.65_720x1280.png" width="200" title="4.65, 720x1280"/>
 <img src="doc/5_5.5_1080x1920.png" width="200" title="5.5, 1080x1920"/>
-<img src="doc/6_5.5_1440x2560.png" width="200"title="5.5, 1440x2560"/>
+<img src="doc/6_5.5_1440x2560.png" width="200" title="5.5, 1440x2560"/>
 
 The chesspieces are inside the tiles from 720x1280 and up and resolutions lower than 320x480 are unplayable (buttons fall off the screen). I don't think this is necessary to fix, since the app targets API 24 and no phone that runs this has a resolution lower than that.  
 The next step would of course be to make the pieces movable. Since we don't want to be able to move the pieces of the opponent, I think it best to start with making a player class that keeps track of who's turn it is. I have an onTouchEvent in BoardGridView. This should send coordinates to some class (Probably Move or Board) and get a piece on that tile (may be null). Then when we tab again we should move this piece to the new tile. This will involve making a new board that has the piece moved. Then I will call invalidate() in the onTouch() method and the View should redraw itself based on the new board.
