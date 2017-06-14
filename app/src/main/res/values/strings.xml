@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Chessproject</string>
+    <string name="app_name">ChessGame</string>
     <string name="chess_title">ChessGame</string>
     <string name="play_button">Play</string>
     <string name="score_button">Score</string>

@@ -22,7 +22,7 @@ public class Pawn extends Piece {
     private final static int[][] POSSIBLE_MOVES = {{0, 1}, {0, 2}, {-1, 1}, {1, 1}};
 
     public Pawn(int xPosition, int yPosition, Alliance alliance) {
-        super(xPosition, yPosition, alliance);
+        super(PieceType.PAWN, xPosition, yPosition, alliance);
     }
 
     @Override

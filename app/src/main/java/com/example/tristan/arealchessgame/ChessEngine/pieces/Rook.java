@@ -30,7 +30,7 @@ public class Rook extends Piece {
             {{1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}}};
 
     public Rook(int xPosition, int yPosition, Alliance alliance) {
-        super(xPosition, yPosition, alliance);
+        super(PieceType.ROOK, xPosition, yPosition, alliance);
     }
 
     @Override

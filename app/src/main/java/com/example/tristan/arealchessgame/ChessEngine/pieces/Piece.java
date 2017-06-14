@@ -4,6 +4,7 @@ import com.example.tristan.arealchessgame.Alliance;
 import com.example.tristan.arealchessgame.ChessEngine.PositionConverter;
 import com.example.tristan.arealchessgame.ChessEngine.board.Board;
 import com.example.tristan.arealchessgame.ChessEngine.board.Move;
+import com.example.tristan.arealchessgame.PieceType;
 
 import java.util.Collection;
 import java.util.List;
@@ -18,10 +19,12 @@ public abstract class Piece {
     protected final int yPosition;
     protected final int position;
     protected final Alliance alliance;
+    protected final PieceType pieceType;
     PositionConverter posCon = new PositionConverter();
 
-    Piece(final int xPosition, final int yPosition, final Alliance alliance){
+    Piece(final PieceType pieceType, final int xPosition, final int yPosition, final Alliance alliance){
         this.alliance = alliance;
+        this.pieceType = pieceType;
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.position = posCon.convertPosition(xPosition, yPosition);
@@ -40,6 +43,10 @@ public abstract class Piece {
 
     public int getYPos() {
         return yPosition;
+    }
+
+    public PieceType getPieceType() {
+        return pieceType;
     }
 }
 

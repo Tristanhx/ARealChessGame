@@ -1,9 +1,9 @@
 package com.example.tristan.arealchessgame.ChessEngine.board;
 
-import android.content.Context;
-
 import com.example.tristan.arealchessgame.Alliance;
-import com.example.tristan.arealchessgame.ChessEngine.PositionConverter;
+import com.example.tristan.arealchessgame.ChessEngine.player.Player;
+import com.example.tristan.arealchessgame.ChessEngine.player.PlayerBlack;
+import com.example.tristan.arealchessgame.ChessEngine.player.PlayerWhite;
 import com.example.tristan.arealchessgame.ChessEngine.Tools;
 import com.example.tristan.arealchessgame.ChessEngine.pieces.Bishop;
 import com.example.tristan.arealchessgame.ChessEngine.pieces.King;
@@ -34,6 +34,9 @@ public class Board {
     private final Collection<Move> whiteMoves;
     private final Collection<Move> blackMoves;
 
+    private final PlayerWhite whitePlayer;
+    private final PlayerBlack blackPlayer;
+
     public static synchronized Board getInstance(){
         if (instance == null){
             instance = createDefaultBoard();
@@ -47,6 +50,9 @@ public class Board {
         this.blackPieces = trackPieces(this.mBoard, Alliance.BLACK);
         this.whiteMoves = trackMoves(this.whitePieces);
         this.blackMoves = trackMoves(this.blackPieces);
+
+        this.whitePlayer = new PlayerWhite(this, whiteMoves, blackMoves);
+        this.blackPlayer = new PlayerBlack(this, whiteMoves, blackMoves);
     }
 
     private Collection<Move> trackMoves(Collection<Piece> pieces) {
@@ -130,6 +136,22 @@ public class Board {
             builder.setPiece(new Pawn(i, 6, Alliance.WHITE));
         }
         return builder.build();
+    }
+
+    public Collection<Piece> getBlackPieces() {
+        return this.blackPieces;
+    }
+
+    public Collection<Piece> getWhitePieces() {
+        return this.whitePieces;
+    }
+
+    public PlayerBlack getBlackPlayer() {
+        return blackPlayer;
+    }
+
+    public PlayerWhite getWhitePlayer() {
+        return whitePlayer;
     }
 
     public static class Builder{

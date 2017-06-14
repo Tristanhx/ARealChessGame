@@ -6,12 +6,42 @@ package com.example.tristan.arealchessgame;
 
 public enum PieceType {
 
-    BISHOP("B"),
-    KING("K"),
-    KNIGHT("N"),
-    PAWN("P"),
-    QUEEN("Q"),
-    ROOK("R");
+    BISHOP("B") {
+        @Override
+        public boolean isKing() {
+            return false;
+        }
+    },
+    KING("K") {
+        @Override
+        public boolean isKing() {
+            return true;
+        }
+    },
+    KNIGHT("N") {
+        @Override
+        public boolean isKing() {
+            return false;
+        }
+    },
+    PAWN("P") {
+        @Override
+        public boolean isKing() {
+            return false;
+        }
+    },
+    QUEEN("Q") {
+        @Override
+        public boolean isKing() {
+            return false;
+        }
+    },
+    ROOK("R") {
+        @Override
+        public boolean isKing() {
+            return false;
+        }
+    };
 
 
     private String pieceName;
@@ -24,4 +54,6 @@ public enum PieceType {
     public String toString(){
         return this.pieceName;
     }
+
+    public abstract boolean isKing();
 }

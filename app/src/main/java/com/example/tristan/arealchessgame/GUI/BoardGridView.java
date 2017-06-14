@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Shader;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -107,6 +108,7 @@ public class BoardGridView extends GridView {
     protected void onDraw(Canvas canvas){
         // Create a canvas for our board
         canvas.drawColor(Color.WHITE);
+        blackPaint.setColor(ContextCompat.getColor(this.getContext(), R.color.darkTileColor));
 
         // Check if col/row isn't 0, now redundant since size is now hardcoded.
         if(columns == 0 || rows == 0){

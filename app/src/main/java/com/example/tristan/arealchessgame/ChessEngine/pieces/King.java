@@ -23,7 +23,7 @@ public class King extends Piece {
             {{-1, -1}, {1, -1}, {-1, 1}, {1, 1}, {0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
     public King(int xPosition, int yPosition, Alliance alliance) {
-        super(xPosition, yPosition, alliance);
+        super(PieceType.KING, xPosition, yPosition, alliance);
     }
 
     @Override
