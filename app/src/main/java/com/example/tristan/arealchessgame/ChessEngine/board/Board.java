@@ -140,6 +140,8 @@ public class Board {
             builder.setPiece(new Pawn(i, 1, Alliance.BLACK));
             builder.setPiece(new Pawn(i, 6, Alliance.WHITE));
         }
+
+        builder.setPlayer(Alliance.WHITE);
         return builder.build();
     }
 

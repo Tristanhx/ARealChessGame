@@ -8,5 +8,6 @@
     <color name="pressed">#AA2020</color>
     <color name="selected">#602020</color>
     <color name="darkTileColor2">#722712</color>
+    <color name="darkTileColor3">#5a0403</color>
     <color name="darkTileColor">#954535</color>
 </resources>
