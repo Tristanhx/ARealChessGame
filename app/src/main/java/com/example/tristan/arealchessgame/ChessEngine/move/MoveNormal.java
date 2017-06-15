@@ -1,5 +1,6 @@
-package com.example.tristan.arealchessgame.ChessEngine.board;
+package com.example.tristan.arealchessgame.ChessEngine.move;
 
+import com.example.tristan.arealchessgame.ChessEngine.board.Board;
 import com.example.tristan.arealchessgame.ChessEngine.pieces.Piece;
 
 /**
@@ -32,6 +33,7 @@ public class MoveNormal extends Move {
         }
 
         builder.setPlayer(this.board.getCurrentPlayer().getOpponent().getAlliance());
+        builder.setChosenMove(this);
         return builder.build();
     }
 }

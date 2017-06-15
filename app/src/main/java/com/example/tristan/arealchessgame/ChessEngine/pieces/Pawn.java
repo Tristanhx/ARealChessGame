@@ -3,9 +3,8 @@ package com.example.tristan.arealchessgame.ChessEngine.pieces;
 import com.example.tristan.arealchessgame.Alliance;
 import com.example.tristan.arealchessgame.ChessEngine.Tools;
 import com.example.tristan.arealchessgame.ChessEngine.board.Board;
-import com.example.tristan.arealchessgame.ChessEngine.board.Move;
-import com.example.tristan.arealchessgame.ChessEngine.board.MoveAttack;
-import com.example.tristan.arealchessgame.ChessEngine.board.MoveNormal;
+import com.example.tristan.arealchessgame.ChessEngine.move.Move;
+import com.example.tristan.arealchessgame.ChessEngine.move.MoveNormal;
 import com.example.tristan.arealchessgame.ChessEngine.board.Tile;
 import com.example.tristan.arealchessgame.PieceType;
 

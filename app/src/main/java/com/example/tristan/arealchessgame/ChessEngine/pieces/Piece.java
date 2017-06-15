@@ -3,11 +3,10 @@ package com.example.tristan.arealchessgame.ChessEngine.pieces;
 import com.example.tristan.arealchessgame.Alliance;
 import com.example.tristan.arealchessgame.ChessEngine.PositionConverter;
 import com.example.tristan.arealchessgame.ChessEngine.board.Board;
-import com.example.tristan.arealchessgame.ChessEngine.board.Move;
+import com.example.tristan.arealchessgame.ChessEngine.move.Move;
 import com.example.tristan.arealchessgame.PieceType;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by Tristan on 04/06/2017.

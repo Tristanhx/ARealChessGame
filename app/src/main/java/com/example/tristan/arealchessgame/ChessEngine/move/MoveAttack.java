@@ -1,5 +1,6 @@
-package com.example.tristan.arealchessgame.ChessEngine.board;
+package com.example.tristan.arealchessgame.ChessEngine.move;
 
+import com.example.tristan.arealchessgame.ChessEngine.board.Board;
 import com.example.tristan.arealchessgame.ChessEngine.pieces.Piece;
 
 /**

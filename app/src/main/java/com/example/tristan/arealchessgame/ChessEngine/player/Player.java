@@ -1,8 +1,10 @@
 package com.example.tristan.arealchessgame.ChessEngine.player;
 
+import android.util.Log;
+
 import com.example.tristan.arealchessgame.Alliance;
 import com.example.tristan.arealchessgame.ChessEngine.board.Board;
-import com.example.tristan.arealchessgame.ChessEngine.board.Move;
+import com.example.tristan.arealchessgame.ChessEngine.move.Move;
 import com.example.tristan.arealchessgame.ChessEngine.pieces.King;
 import com.example.tristan.arealchessgame.ChessEngine.pieces.Piece;
 
@@ -18,12 +20,14 @@ public abstract class Player {
     protected final King playerKing;
     protected final Collection<Move> legalMoves;
     protected final Collection<Move> enemyMoves;
+    protected final Collection<Move> allMoves;
 
-    Player(final Board board, final Collection<Move> legalMoves, final Collection<Move> enemyMoves){
+    Player(final Board board, final Collection<Move> legalMoves, final Collection<Move> enemyMoves, final Collection<Move> allMoves){
         this.board = board;
         this.legalMoves = legalMoves;
         this.enemyMoves = enemyMoves;
         this.playerKing = whoIsMyKing();
+        this.allMoves = allMoves;
     }
 
     private King whoIsMyKing() {
@@ -41,12 +45,14 @@ public abstract class Player {
 
     public abstract Player getOpponent();
 
-    public boolean isLegalMove(final Move move){
-        return this.legalMoves.contains(move);
+    //should look into legalMoves, but the move isn't in there for some reason
+    private boolean isLegalMove(final Move move){
+        return this.allMoves.contains(move);
     }
 
     public AlternateBoard makeMove(final Move move){
         if (!isLegalMove(move)){
+            Log.d("LegalMoves", "ILLEGAL");
             return new AlternateBoard(this.board, move, MoveWas.ILLEGAL);
         }
 

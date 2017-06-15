@@ -1,7 +1,7 @@
 package com.example.tristan.arealchessgame.ChessEngine.player;
 
 import com.example.tristan.arealchessgame.ChessEngine.board.Board;
-import com.example.tristan.arealchessgame.ChessEngine.board.Move;
+import com.example.tristan.arealchessgame.ChessEngine.move.Move;
 
 /**
  * Created by Tristan on 14/06/2017.

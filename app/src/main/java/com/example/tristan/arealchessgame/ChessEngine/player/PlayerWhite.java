@@ -2,7 +2,7 @@ package com.example.tristan.arealchessgame.ChessEngine.player;
 
 import com.example.tristan.arealchessgame.Alliance;
 import com.example.tristan.arealchessgame.ChessEngine.board.Board;
-import com.example.tristan.arealchessgame.ChessEngine.board.Move;
+import com.example.tristan.arealchessgame.ChessEngine.move.Move;
 import com.example.tristan.arealchessgame.ChessEngine.pieces.Piece;
 
 import java.util.Collection;
@@ -12,8 +12,8 @@ import java.util.Collection;
  */
 
 public class PlayerWhite extends Player{
-    public PlayerWhite(Board board, Collection<Move> whiteMoves, Collection<Move> blackMoves) {
-        super(board, whiteMoves, blackMoves);
+    public PlayerWhite(Board board, Collection<Move> whiteMoves, Collection<Move> blackMoves, Collection<Move> allMoves) {
+        super(board, whiteMoves, blackMoves, allMoves);
 
     }
 

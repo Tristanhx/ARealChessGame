@@ -1,6 +1,11 @@
 package com.example.tristan.arealchessgame.ChessEngine.board;
 
+import android.util.Log;
+
 import com.example.tristan.arealchessgame.Alliance;
+import com.example.tristan.arealchessgame.ChessEngine.move.Move;
+import com.example.tristan.arealchessgame.ChessEngine.move.MoveMaker;
+import com.example.tristan.arealchessgame.ChessEngine.move.MoveNormal;
 import com.example.tristan.arealchessgame.ChessEngine.player.Player;
 import com.example.tristan.arealchessgame.ChessEngine.player.PlayerBlack;
 import com.example.tristan.arealchessgame.ChessEngine.player.PlayerWhite;
@@ -29,13 +34,16 @@ public class Board {
     private final List<Tile> mBoard;
     private final Collection<Piece> whitePieces;
     private final Collection<Piece> blackPieces;
+    private final Collection<Piece> allPieces;
     private final Collection<Move> whiteMoves;
     private final Collection<Move> blackMoves;
+    private final Collection<Move> allMoves;
 
     private final PlayerWhite whitePlayer;
     private final PlayerBlack blackPlayer;
     private final Player currentPlayer;
-    private Move[] allLegalMoves;
+
+    private final Move chosenMove;
 
     public static synchronized Board getInstance(){
         if (instance == null){
@@ -48,12 +56,31 @@ public class Board {
         this.mBoard = createNewBoard(builder);
         this.whitePieces = trackPieces(this.mBoard, Alliance.WHITE);
         this.blackPieces = trackPieces(this.mBoard, Alliance.BLACK);
+        this.allPieces = getAllPieces(this.mBoard);
         this.whiteMoves = trackMoves(this.whitePieces);
         this.blackMoves = trackMoves(this.blackPieces);
-
-        this.whitePlayer = new PlayerWhite(this, whiteMoves, blackMoves);
-        this.blackPlayer = new PlayerBlack(this, whiteMoves, blackMoves);
+        this.allMoves = trackMoves(this.allPieces);
+        this.whitePlayer = new PlayerWhite(this, whiteMoves, blackMoves, allMoves);
+        this.blackPlayer = new PlayerBlack(this, whiteMoves, blackMoves, allMoves);
         this.currentPlayer = builder.nextPlayer.chooseNextPlayer(this.whitePlayer, this.blackPlayer);
+        this.chosenMove = builder.chosenMove != null ? builder.chosenMove : MoveMaker.getNoMove();
+    }
+
+
+    public Collection<Move> getAllLegalMoves(){
+        return this.allMoves;
+    }
+
+    private Collection<Piece> getAllPieces(List<Tile> mBoard) {
+
+        List<Piece> piecesList = new ArrayList<>();
+        for (final Tile tile : mBoard){
+            if (tile.tileIsOccupied()){
+                final Piece piece = tile.getPiece();
+                piecesList.add(piece);
+            }
+        }
+        return piecesList;
     }
 
     private Collection<Move> trackMoves(Collection<Piece> pieces) {
@@ -62,6 +89,7 @@ public class Board {
         for (final Piece piece : pieces){
             legalMoves.addAll(piece.legalMoves(this));
         }
+        Log.d("LegalMoves TrackMoves", legalMoves.toString());
         return legalMoves;
     }
 
@@ -161,13 +189,12 @@ public class Board {
         return whitePlayer;
     }
 
-    public Move[] getAllLegalMoves() {
-        return allLegalMoves;
-    }
-
     public static class Builder{
         Map<Integer, Piece> boardLayout = new HashMap<>();
         Alliance nextPlayer;
+
+        Move chosenMove;
+
 
         public Builder(){
 
@@ -185,6 +212,11 @@ public class Board {
 
         public Board build(){
             return new Board(this);
+        }
+
+        public Builder setChosenMove(MoveNormal alternateBoard) {
+            this.chosenMove = alternateBoard;
+            return this;
         }
     }
 

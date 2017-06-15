@@ -1,4 +1,6 @@
-package com.example.tristan.arealchessgame.ChessEngine.board;
+package com.example.tristan.arealchessgame.ChessEngine.move;
+
+import com.example.tristan.arealchessgame.ChessEngine.board.Board;
 
 /**
  * Created by Tristan on 15/06/2017.
@@ -18,6 +20,10 @@ public class MoveMaker {
                 return move;
             }
         }
+        return Move.NO_MOVE;
+    }
+
+    public static Move getNoMove() {
         return Move.NO_MOVE;
     }
 }
