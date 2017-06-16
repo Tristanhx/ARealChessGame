@@ -16,6 +16,29 @@ public class MoveAttack extends Move {
         this.attackedPiece = attackedPiece;
     }
 
+    //we want a unique hashcode for this attack
+    @Override
+    public int hashCode(){
+        return attackedPiece.hashCode() + super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other){
+        if (this == other){
+            return true;
+        }
+        if (!(other instanceof MoveAttack)){
+            return false;
+        }
+        final MoveAttack attackMove = (MoveAttack) other;
+        return super.equals(attackMove) && getAttackedPiece().equals(attackMove.getAttackedPiece());
+    }
+
+    @Override
+    public boolean isAttackMove() {
+        return true;
+    }
+
     @Override
     public Board execute() {
         return null;

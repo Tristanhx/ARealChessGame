@@ -1,15 +1,16 @@
-package com.example.tristan.arealchessgame.ChessEngine.move;
+package com.example.tristan.arealchessgame.ChessEngine.move.pawn;
 
 import com.example.tristan.arealchessgame.ChessEngine.board.Board;
+import com.example.tristan.arealchessgame.ChessEngine.move.Move;
 import com.example.tristan.arealchessgame.ChessEngine.pieces.Piece;
 
 /**
- * Created by Tristan on 10/06/2017.
+ * Created by Tristan on 16/06/2017.
  */
 
-public class MoveNormal extends Move {
+public class MovePawn extends Move {
 
-    public MoveNormal(Board board, Piece piece, int xDestination, int yDestination) {
+    public MovePawn(Board board, Piece piece, int xDestination, int yDestination) {
         super(board, piece, xDestination, yDestination);
     }
 
@@ -17,5 +18,4 @@ public class MoveNormal extends Move {
     public boolean isAttackMove() {
         return false;
     }
-
 }

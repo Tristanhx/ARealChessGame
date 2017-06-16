@@ -6,6 +6,7 @@ import com.example.tristan.arealchessgame.ChessEngine.board.Board;
 import com.example.tristan.arealchessgame.ChessEngine.move.Move;
 import com.example.tristan.arealchessgame.ChessEngine.move.MoveNormal;
 import com.example.tristan.arealchessgame.ChessEngine.board.Tile;
+import com.example.tristan.arealchessgame.ChessEngine.move.pawn.MovePawn;
 import com.example.tristan.arealchessgame.PieceType;
 
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ import java.util.List;
  */
 
 public class Pawn extends Piece {
+
+    boolean isFirstMove;
 
     private final static int[][] POSSIBLE_MOVES = {{0, 1}, {0, 2}, {-1, 1}, {1, 1}};
 
@@ -44,7 +47,7 @@ public class Pawn extends Piece {
                 }
                 final Tile destinationTile = board.getTile(xCoorDest, yCoorDest);
                 if (currentPM == POSSIBLE_MOVES[0] && !destinationTile.tileIsOccupied()) {
-                    legalMoves.add(new MoveNormal(board, this, xCoorDest, yCoorDest));
+                    legalMoves.add(new MovePawn(board, this, xCoorDest, yCoorDest));
                 }
             }
         return legalMoves;
