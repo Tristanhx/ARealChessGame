@@ -19,6 +19,9 @@ public class MoveAttack extends Move {
     //we want a unique hashcode for this attack
     @Override
     public int hashCode(){
+        if (attackedPiece == null){
+            return super.hashCode();
+        }
         return attackedPiece.hashCode() + super.hashCode();
     }
 

@@ -12,6 +12,11 @@ public class NoMove extends Move {
     }
 
     @Override
+    public boolean isAttackMove() {
+        return false;
+    }
+
+    @Override
     public Board execute() {
         throw new RuntimeException("NO MOVE");
     }

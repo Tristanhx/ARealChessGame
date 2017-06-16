@@ -7,6 +7,8 @@ import com.example.tristan.arealchessgame.ChessEngine.move.Move;
 import com.example.tristan.arealchessgame.ChessEngine.move.MoveNormal;
 import com.example.tristan.arealchessgame.ChessEngine.board.Tile;
 import com.example.tristan.arealchessgame.ChessEngine.move.pawn.MovePawn;
+import com.example.tristan.arealchessgame.ChessEngine.move.pawn.MovePawnAttack;
+import com.example.tristan.arealchessgame.ChessEngine.move.pawn.MovePawnLeap;
 import com.example.tristan.arealchessgame.PieceType;
 
 import java.util.ArrayList;
@@ -46,8 +48,27 @@ public class Pawn extends Piece {
                     continue;
                 }
                 final Tile destinationTile = board.getTile(xCoorDest, yCoorDest);
+                //normal move
                 if (currentPM == POSSIBLE_MOVES[0] && !destinationTile.tileIsOccupied()) {
                     legalMoves.add(new MovePawn(board, this, xCoorDest, yCoorDest));
+                }
+                //pawn leap
+                else if (currentPM == POSSIBLE_MOVES[1] && this.isFirstMove){
+                    //both the next and the destinationtile must be unoccupied
+                    final int inBetweenTileX = this.xPosition;
+                    final int inBetweenTileY = this.xPosition + (this.alliance.getDir());
+                    if (!board.getTile(inBetweenTileX, inBetweenTileY).tileIsOccupied() && !board.getTile(xCoorDest, yCoorDest).tileIsOccupied()){
+                        legalMoves.add(new MovePawnLeap(board, this, xCoorDest, yCoorDest));
+                    }
+                }
+                //attack move
+                else if (currentPM == POSSIBLE_MOVES[2] || currentPM ==POSSIBLE_MOVES[3]){
+                    if (board.getTile(xCoorDest, yCoorDest).tileIsOccupied()){
+                        final Piece attackedPiece = board.getTile(xCoorDest, yCoorDest).getPiece();
+                        if (this.alliance != attackedPiece.getAlliance()){
+                            legalMoves.add(new MovePawnAttack(board, this, attackedPiece, xCoorDest, yCoorDest));
+                        }
+                    }
                 }
             }
         return legalMoves;
