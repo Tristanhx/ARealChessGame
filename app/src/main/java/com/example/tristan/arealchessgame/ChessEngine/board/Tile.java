@@ -30,6 +30,19 @@ public abstract class Tile {
         return emptyTileMap;
     }
 
+    @Override
+    public boolean equals(Object other){
+        if (this == other){
+            return true;
+        }
+        if (!(other instanceof Tile)){
+            return false;
+        }
+        final Tile otherTile = (Tile) other;
+        return getxCoordinate() == otherTile.getxCoordinate() && getyCoordinate() ==
+                otherTile.getyCoordinate() && getPiece() == otherTile.getPiece();
+    }
+
 
 
     public static Tile createTile(final int xCoordinate, final int yCoordinate, final Piece piece){

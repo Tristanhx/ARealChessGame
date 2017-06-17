@@ -47,9 +47,7 @@ public abstract class Move {
 
     public abstract boolean isAttackMove();
 
-    public Piece getAttackedPiece(){
-        return null;
-    }
+    public abstract Piece getAttackedPiece();
 
     public Piece getPiece(){
         return this.piece;

@@ -9,7 +9,7 @@ import com.example.tristan.arealchessgame.ChessEngine.pieces.Piece;
 
 public class MoveAttack extends Move {
 
-    Piece attackedPiece;
+    private Piece attackedPiece;
 
     public MoveAttack(Board board, Piece piece, Piece attackedPiece, int xDestination, int yDestination) {
         super(board, piece, xDestination, yDestination);
@@ -19,9 +19,6 @@ public class MoveAttack extends Move {
     //we want a unique hashcode for this attack
     @Override
     public int hashCode(){
-        if (attackedPiece == null){
-            return super.hashCode();
-        }
         return attackedPiece.hashCode() + super.hashCode();
     }
 
@@ -34,7 +31,34 @@ public class MoveAttack extends Move {
             return false;
         }
         final MoveAttack attackMove = (MoveAttack) other;
-        return super.equals(attackMove) && getAttackedPiece().equals(attackMove.getAttackedPiece());
+        return super.equals(attackMove) && attackedPiece.equals(attackMove.getAttackedPiece());
+    }
+
+    @Override
+    public Board execute() {
+        final Board.Builder builder = new Board.Builder();
+
+        // Set Current Player pieces on new Board
+        for (final Piece piece : this.board.getCurrentPlayer().getPlayerPieces()){
+            if (!this.piece.equals(piece)){
+                builder.setPiece(piece);
+            }
+
+        }
+        // Set Enemy Player pieces on new Board
+        for (final Piece piece : this.board.getCurrentPlayer().getOpponent().getPlayerPieces()){
+            if(piece != attackedPiece) {
+                builder.setPiece(piece);
+            }
+        }
+        // Move Piece
+        builder.setPiece(this.piece.movePiece(this));
+
+
+
+        builder.setPlayer(this.board.getCurrentPlayer().getOpponent().getAlliance());
+//        builder.setChosenMove(this);
+        return builder.build();
     }
 
     @Override
@@ -43,7 +67,7 @@ public class MoveAttack extends Move {
     }
 
     @Override
-    public Board execute() {
-        return null;
+    public Piece getAttackedPiece() {
+        return attackedPiece;
     }
 }

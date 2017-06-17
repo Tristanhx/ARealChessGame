@@ -61,6 +61,7 @@ public class Bishop extends Piece {
                         // if the piece at destination tile has a different alliance it is enemy piece, attack!
                         if (this.alliance != destPieceAlliance) {
                             legalMoves.add(new MoveAttack(board, this, pieceAtDest, xCoorDest, yCoorDest));
+                            break;
                         } else {
                             break; // No use in looking further in this direction
                         }

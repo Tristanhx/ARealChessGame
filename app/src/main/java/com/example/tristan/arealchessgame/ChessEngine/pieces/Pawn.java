@@ -21,8 +21,6 @@ import java.util.List;
 
 public class Pawn extends Piece {
 
-    boolean isFirstMove;
-
     private final static int[][] POSSIBLE_MOVES = {{0, 1}, {0, 2}, {-1, 1}, {1, 1}};
 
     public Pawn(int xPosition, int yPosition, Alliance alliance) {
@@ -55,9 +53,8 @@ public class Pawn extends Piece {
                 //pawn leap
                 else if (currentPM == POSSIBLE_MOVES[1] && this.isFirstMove){
                     //both the next and the destinationtile must be unoccupied
-                    final int inBetweenTileX = this.xPosition;
-                    final int inBetweenTileY = this.xPosition + (this.alliance.getDir());
-                    if (!board.getTile(inBetweenTileX, inBetweenTileY).tileIsOccupied() && !board.getTile(xCoorDest, yCoorDest).tileIsOccupied()){
+                    final int inBetweenTile = this.yPosition + (this.alliance.getDir());
+                    if (!board.getTile(this.xPosition, inBetweenTile).tileIsOccupied() && !board.getTile(xCoorDest, yCoorDest).tileIsOccupied()){
                         legalMoves.add(new MovePawnLeap(board, this, xCoorDest, yCoorDest));
                     }
                 }

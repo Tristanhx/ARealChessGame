@@ -18,4 +18,9 @@ public class MovePawn extends Move {
     public boolean isAttackMove() {
         return false;
     }
+
+    @Override
+    public Piece getAttackedPiece() {
+        return null;
+    }
 }

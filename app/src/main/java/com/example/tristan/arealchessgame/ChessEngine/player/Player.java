@@ -47,7 +47,7 @@ public abstract class Player {
 
     //should look into legalMoves, but the move isn't in there for some reason
     private boolean isLegalMove(final Move move){
-        return this.allMoves.contains(move);
+        return this.legalMoves.contains(move);
     }
 
     public AlternateBoard makeMove(final Move move){

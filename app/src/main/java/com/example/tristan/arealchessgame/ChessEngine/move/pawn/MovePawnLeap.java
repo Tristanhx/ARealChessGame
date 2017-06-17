@@ -20,6 +20,11 @@ public class MovePawnLeap extends Move {
     }
 
     @Override
+    public Piece getAttackedPiece() {
+        return null;
+    }
+
+    @Override
     public Board execute() {
         final Board.Builder builder = new Board.Builder();
 

@@ -18,4 +18,9 @@ public class MoveNormal extends Move {
         return false;
     }
 
+    @Override
+    public Piece getAttackedPiece() {
+        return null;
+    }
+
 }

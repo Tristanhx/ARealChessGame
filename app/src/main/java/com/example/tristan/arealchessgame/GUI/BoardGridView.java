@@ -15,12 +15,14 @@ import android.widget.GridView;
 import com.example.tristan.arealchessgame.ChessEngine.Tools;
 import com.example.tristan.arealchessgame.ChessEngine.board.Board;
 import com.example.tristan.arealchessgame.ChessEngine.move.Move;
+import com.example.tristan.arealchessgame.ChessEngine.move.MoveAttack;
 import com.example.tristan.arealchessgame.ChessEngine.move.MoveMaker;
 import com.example.tristan.arealchessgame.ChessEngine.board.Tile;
 import com.example.tristan.arealchessgame.ChessEngine.pieces.Piece;
 import com.example.tristan.arealchessgame.ChessEngine.player.AlternateBoard;
 import com.example.tristan.arealchessgame.R;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,8 +32,10 @@ import java.util.Map;
 
 public class BoardGridView extends GridView {
     private int columns = Tools.BOARD_DIM, rows = Tools.BOARD_DIM, tileDim;
-    private Paint blackPaint = new Paint();
+    private Paint darkTilePaint = new Paint();
     private Paint borderPaint = new Paint();
+    private Paint highlightPaint = new Paint();
+    private Paint highlightPaintAttack = new Paint();
 //    private Paint seemPaint = new Paint();
     final Map<String, Integer> resourceMap;
 
@@ -65,7 +69,7 @@ public class BoardGridView extends GridView {
     public BoardGridView(Context context, AttributeSet attributeSet){
         super(context, attributeSet);
         this.resourceMap = resourceMapMaker();
-        blackPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        darkTilePaint.setStyle(Paint.Style.FILL_AND_STROKE);
     }
 
     // Setters
@@ -108,7 +112,7 @@ public class BoardGridView extends GridView {
     protected void onDraw(Canvas canvas){
         // Create a canvas for our board
         canvas.drawColor(Color.WHITE);
-        blackPaint.setColor(ContextCompat.getColor(this.getContext(), R.color.darkTileColor2));
+        darkTilePaint.setColor(ContextCompat.getColor(this.getContext(), R.color.darkTileColor4));
 
         // Check if col/row isn't 0, now redundant since size is now hardcoded.
         if(columns == 0 || rows == 0){
@@ -135,15 +139,15 @@ public class BoardGridView extends GridView {
                 }
                 else{
                     canvas.drawRect(yRows * tileDim, xColumns * tileDim, (yRows + 1) * tileDim,
-                            (xColumns + 1) * tileDim, blackPaint);
+                            (xColumns + 1) * tileDim, darkTilePaint);
                 }
             }
         }
         for (int yRows = 1; yRows < columns; yRows++){
-            canvas.drawLine(yRows* tileDim, 0, yRows* tileDim, boardDim, blackPaint);
+            canvas.drawLine(yRows* tileDim, 0, yRows* tileDim, boardDim, darkTilePaint);
         }
         for(int xColumns = 1; xColumns <=rows; xColumns++){
-            canvas.drawLine(0, xColumns* tileDim, boardDim, xColumns* tileDim, blackPaint);
+            canvas.drawLine(0, xColumns* tileDim, boardDim, xColumns* tileDim, darkTilePaint);
         }
 
         //drawing borders
@@ -169,6 +173,41 @@ public class BoardGridView extends GridView {
                 Bitmap pieceIcon = createBitmap(xColumns, yRows);
                 if(pieceIcon != null){
                     canvas.drawBitmap(pieceIcon, xColumns * tileDim, yRows * tileDim, null);
+                }
+            }
+        }
+        //highlight selection
+        if (selectedPiece != null){
+            int x = startTile.getxCoordinate();
+            int y = startTile.getyCoordinate();
+            highlightPaint.setColor(ContextCompat.getColor(this.getContext(), R.color.highLightColor));
+            highlightPaint.setStrokeWidth(5);
+            highlightPaint.setStyle(Paint.Style.STROKE);
+            if(selectedPiece.getAlliance() == Board.getInstance().getCurrentPlayer().getAlliance()) {
+                canvas.drawRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, highlightPaint);
+            }
+            else{
+                startTile = null;
+                selectedPiece = null;
+            }
+        }
+        //highlight possible moves
+        if (selectedPiece != null){
+            if(selectedPiece.getAlliance() == Board.getInstance().getCurrentPlayer().getAlliance()) {
+                Collection<Move> legalMoves = selectedPiece.legalMoves(Board.getInstance());
+                highlightPaintAttack.setStrokeWidth(5);
+                highlightPaintAttack.setStyle(Paint.Style.STROKE);
+                highlightPaintAttack.setColor(ContextCompat.getColor(this.getContext(), R.color.highLightColorAttack));
+                for (Move move : legalMoves) {
+                    int x = move.getxDestination();
+                    int y = move.getyDestination();
+
+                    if (move instanceof MoveAttack){
+                        canvas.drawRoundRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, tileDim/2, tileDim/2, highlightPaintAttack);
+                    }
+                    else {
+                        canvas.drawRoundRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, tileDim/2, tileDim/2, highlightPaint);
+                    }
                 }
             }
         }
@@ -205,13 +244,12 @@ public class BoardGridView extends GridView {
     @Override
     public boolean onTouchEvent(MotionEvent event){
         Board oldBoard = Board.getInstance();
-        if (event.getAction() == MotionEvent.ACTION_DOWN){
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
             try {
                 int xColumn = (int) (event.getX() / tileDim);
                 int yRow = (int) (event.getY() / tileDim);
-                String message = Integer.toString(xColumn) +", " + Integer.toString(yRow);
+                String message = Integer.toString(xColumn) + ", " + Integer.toString(yRow);
                 Log.d("aroutbound", message);
-//                TODO: send coordinates to Move/Board class to select piece
                 if (startTile == null) {
                     startTile = oldBoard.getTile(xColumn, yRow);
                     selectedPiece = startTile.getPiece();
@@ -219,29 +257,37 @@ public class BoardGridView extends GridView {
                         startTile = null;
                     }
                     Log.d("invalidated", "I am here 1");
-                } else{
+                    invalidate();
+                } else {
                     destinationTile = oldBoard.getTile(xColumn, yRow);
-                    final Move move = MoveMaker.createMove(oldBoard,
+                    if (destinationTile.equals(startTile)) {
+                        startTile = null;
+                        destinationTile = null;
+                        selectedPiece = null;
+                        invalidate();
+                    } else {
+                        final Move move = MoveMaker.createMove(oldBoard,
                             startTile.getxCoordinate(), startTile.getyCoordinate(),
                             destinationTile.getxCoordinate(),
                             destinationTile.getyCoordinate());
-                    Log.d("LegalMoves Move", move.toString());
-                    final AlternateBoard newBoard =  oldBoard.getCurrentPlayer().makeMove(move);
-                    Log.d("invalidated", "I am here 2");
-                    if (newBoard.getMoveWas().isExecuted()){
-                        Board.instance = newBoard.getBoard();
-                        invalidate();
-                        Log.d("invalidated", "I am here 3");
+                            Log.d("LegalMoves Move", move.toString());
+                            final AlternateBoard newBoard = oldBoard.getCurrentPlayer().makeMove(move);
+                            Log.d("invalidated", "I am here 2");
+                            if (newBoard.getMoveWas().isExecuted()) {
+                                Board.instance = newBoard.getBoard();
+                                invalidate();
+                                Log.d("invalidated", "I am here 3");
+                            }
+                            startTile = null;
+                            destinationTile = null;
+                            selectedPiece = null;
+                            invalidate();
+                        }
                     }
-                    startTile = null;
-                    destinationTile = null;
-                    selectedPiece = null;
+                }catch(ArrayIndexOutOfBoundsException ar){
+                    Log.d("aroutbound", "That was out of bounds, solve later?");
                 }
-//                TODO: send coordinates and piece to Move/Board class, make new board with moved piece
-            }catch (ArrayIndexOutOfBoundsException ar){
-                Log.d("aroutbound", "That was out of bounds, solve later?");
             }
-        }
         return true;
     }
 
