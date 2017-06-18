@@ -6,6 +6,7 @@ import com.example.tristan.arealchessgame.ChessEngine.board.Board;
 import com.example.tristan.arealchessgame.ChessEngine.move.Move;
 import com.example.tristan.arealchessgame.ChessEngine.move.MoveNormal;
 import com.example.tristan.arealchessgame.ChessEngine.board.Tile;
+import com.example.tristan.arealchessgame.ChessEngine.move.pawn.MoveEnPassant;
 import com.example.tristan.arealchessgame.ChessEngine.move.pawn.MovePawn;
 import com.example.tristan.arealchessgame.ChessEngine.move.pawn.MovePawnAttack;
 import com.example.tristan.arealchessgame.ChessEngine.move.pawn.MovePawnLeap;
@@ -23,8 +24,8 @@ public class Pawn extends Piece {
 
     private final static int[][] POSSIBLE_MOVES = {{0, 1}, {0, 2}, {-1, 1}, {1, 1}};
 
-    public Pawn(int xPosition, int yPosition, Alliance alliance) {
-        super(PieceType.PAWN, xPosition, yPosition, alliance);
+    public Pawn(final int xPosition, final int yPosition, final Alliance alliance, final boolean isFirstMove) {
+        super(PieceType.PAWN, xPosition, yPosition, alliance, isFirstMove);
     }
 
     @Override
@@ -59,11 +60,36 @@ public class Pawn extends Piece {
                     }
                 }
                 //attack move
-                else if (currentPM == POSSIBLE_MOVES[2] || currentPM ==POSSIBLE_MOVES[3]){
+                else if (currentPM == POSSIBLE_MOVES[2]){
                     if (board.getTile(xCoorDest, yCoorDest).tileIsOccupied()){
                         final Piece attackedPiece = board.getTile(xCoorDest, yCoorDest).getPiece();
                         if (this.alliance != attackedPiece.getAlliance()){
                             legalMoves.add(new MovePawnAttack(board, this, attackedPiece, xCoorDest, yCoorDest));
+                        }
+                        else if (board.getEnPassantPawn() != null) {
+                            if (board.getEnPassantPawn().getXPos() == this.xPosition -1 && board.getEnPassantPawn().getYPos() == this.yPosition) {
+                                final Piece enPassantPiece = board.getEnPassantPawn();
+                                if(this.alliance != enPassantPiece.getAlliance()) {
+                                    legalMoves.add(new MoveEnPassant(board, this, enPassantPiece, xCoorDest, yCoorDest));
+                                }
+                            }
+                        }
+
+                    }
+                }
+                else if (currentPM ==POSSIBLE_MOVES[3]){
+                    if (board.getTile(xCoorDest, yCoorDest).tileIsOccupied()){
+                        final Piece attackedPiece = board.getTile(xCoorDest, yCoorDest).getPiece();
+                        if (this.alliance != attackedPiece.getAlliance()){
+                            legalMoves.add(new MovePawnAttack(board, this, attackedPiece, xCoorDest, yCoorDest));
+                        }
+                        else if (board.getEnPassantPawn() != null) {
+                            if (board.getEnPassantPawn().getXPos() == this.xPosition +1 && board.getEnPassantPawn().getYPos() == this.yPosition) {
+                                final Piece enPassantPiece = board.getEnPassantPawn();
+                                if(this.alliance != enPassantPiece.getAlliance()) {
+                                    legalMoves.add(new MoveEnPassant(board, this, enPassantPiece, xCoorDest, yCoorDest));
+                                }
+                            }
                         }
                     }
                 }
@@ -73,6 +99,10 @@ public class Pawn extends Piece {
 
     @Override
     public Piece movePiece(Move move) {
-        return new Pawn(move.getxDestination(), move.getyDestination(), move.getPiece().getAlliance());
+        return new Pawn(move.getxDestination(), move.getyDestination(), move.getPiece().getAlliance(), false);
+    }
+
+    public boolean isFirstMove(){
+        return isFirstMove;
     }
 }

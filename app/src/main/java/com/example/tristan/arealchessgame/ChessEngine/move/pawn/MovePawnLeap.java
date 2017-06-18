@@ -38,6 +38,7 @@ public class MovePawnLeap extends Move {
         // Move Piece
         final Pawn pawn = (Pawn) this.piece.movePiece(this);
         builder.setPiece(pawn);
+        builder.setEnPassantPawn(pawn);
 
         // Set Enemy Player pieces on new Board
         for (final Piece piece : this.board.getCurrentPlayer().getOpponent().getPlayerPieces()){

@@ -42,6 +42,7 @@ public class Board {
     private final PlayerWhite whitePlayer;
     private final PlayerBlack blackPlayer;
     private final Player currentPlayer;
+    private final Pawn enPassantPawn;
 
     private final Move chosenMove;
 
@@ -64,6 +65,7 @@ public class Board {
         this.blackPlayer = new PlayerBlack(this, whiteMoves, blackMoves, allMoves);
         this.currentPlayer = builder.nextPlayer.chooseNextPlayer(this.whitePlayer, this.blackPlayer);
         this.chosenMove = builder.chosenMove != null ? builder.chosenMove : MoveMaker.getNoMove();
+        this.enPassantPawn = builder.enPassantPawn;
     }
 
 
@@ -108,6 +110,10 @@ public class Board {
         return piecesList;
     }
 
+    public Pawn getEnPassantPawn(){
+        return enPassantPawn;
+    }
+
     public Player getCurrentPlayer(){
         return this.currentPlayer;
     }
@@ -144,29 +150,29 @@ public class Board {
     public static Board createDefaultBoard(){
         final Builder builder = new Builder();
         // Black
-        builder.setPiece(new Rook(0, 0, Alliance.BLACK));
-        builder.setPiece(new Knight(1, 0, Alliance.BLACK));
-        builder.setPiece(new Bishop(2, 0, Alliance.BLACK));
-        builder.setPiece(new Queen(3, 0, Alliance.BLACK));
-        builder.setPiece(new King(4, 0, Alliance.BLACK));
-        builder.setPiece(new Bishop(5, 0, Alliance.BLACK));
-        builder.setPiece(new Knight(6, 0, Alliance.BLACK));
-        builder.setPiece(new Rook(7, 0, Alliance.BLACK));
+        builder.setPiece(new Rook(0, 0, Alliance.BLACK, true));
+        builder.setPiece(new Knight(1, 0, Alliance.BLACK, true));
+        builder.setPiece(new Bishop(2, 0, Alliance.BLACK, true));
+        builder.setPiece(new Queen(3, 0, Alliance.BLACK, true));
+        builder.setPiece(new King(4, 0, Alliance.BLACK, true));
+        builder.setPiece(new Bishop(5, 0, Alliance.BLACK, true));
+        builder.setPiece(new Knight(6, 0, Alliance.BLACK, true));
+        builder.setPiece(new Rook(7, 0, Alliance.BLACK, true));
 
         // White
-        builder.setPiece(new Rook(0, 7, Alliance.WHITE));
-        builder.setPiece(new Knight(1, 7, Alliance.WHITE));
-        builder.setPiece(new Bishop(2, 7, Alliance.WHITE));
-        builder.setPiece(new Queen(3, 7, Alliance.WHITE));
-        builder.setPiece(new King(4, 7, Alliance.WHITE));
-        builder.setPiece(new Bishop(5, 7, Alliance.WHITE));
-        builder.setPiece(new Knight(6, 7, Alliance.WHITE));
-        builder.setPiece(new Rook(7, 7, Alliance.WHITE));
+        builder.setPiece(new Rook(0, 7, Alliance.WHITE, true));
+        builder.setPiece(new Knight(1, 7, Alliance.WHITE, true));
+        builder.setPiece(new Bishop(2, 7, Alliance.WHITE, true));
+        builder.setPiece(new Queen(3, 7, Alliance.WHITE, true));
+        builder.setPiece(new King(4, 7, Alliance.WHITE, true));
+        builder.setPiece(new Bishop(5, 7, Alliance.WHITE, true));
+        builder.setPiece(new Knight(6, 7, Alliance.WHITE, true));
+        builder.setPiece(new Rook(7, 7, Alliance.WHITE, true));
 
         // Pawns for Black and White
         for(int i = 0 ; i < Tools.BOARD_DIM ; i++){
-            builder.setPiece(new Pawn(i, 1, Alliance.BLACK));
-            builder.setPiece(new Pawn(i, 6, Alliance.WHITE));
+            builder.setPiece(new Pawn(i, 1, Alliance.BLACK, true));
+            builder.setPiece(new Pawn(i, 6, Alliance.WHITE, true));
         }
 
         builder.setPlayer(Alliance.WHITE);
@@ -194,6 +200,7 @@ public class Board {
         Alliance nextPlayer;
 
         Move chosenMove;
+        Pawn enPassantPawn;
 
 
         public Builder(){
@@ -217,6 +224,10 @@ public class Board {
         public Builder setChosenMove(MoveNormal alternateBoard) {
             this.chosenMove = alternateBoard;
             return this;
+        }
+
+        public void setEnPassantPawn(Pawn enPassantPawn) {
+            this.enPassantPawn = enPassantPawn;
         }
     }
 

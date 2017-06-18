@@ -19,6 +19,8 @@ import java.util.List;
 
 public class Rook extends Piece {
 
+    final boolean isFirstMove;
+
     private static final int[][][] POSSIBLE_MOVES =
             /* Up */
             {{{0, -1}, {0, -2}, {0, -3}, {0, -4}, {0, -5}, {0, -6}, {0, -7}},
@@ -29,8 +31,9 @@ public class Rook extends Piece {
                     /* Right */
             {{1, 0}, {2, 0}, {3, 0}, {4, 0}, {5, 0}, {6, 0}, {7, 0}}};
 
-    public Rook(int xPosition, int yPosition, Alliance alliance) {
-        super(PieceType.ROOK, xPosition, yPosition, alliance);
+    public Rook(int xPosition, int yPosition, Alliance alliance, final boolean isFirstMove) {
+        super(PieceType.ROOK, xPosition, yPosition, alliance, isFirstMove);
+        this.isFirstMove = isFirstMove;
     }
 
     @Override
@@ -75,6 +78,9 @@ public class Rook extends Piece {
 
     @Override
     public Piece movePiece(Move move) {
-        return new Rook(move.getxDestination(), move.getyDestination(), move.getPiece().getAlliance());
+        return new Rook(move.getxDestination(), move.getyDestination(), move.getPiece().getAlliance(), false);
+    }
+    public boolean isFirstMove(){
+        return isFirstMove;
     }
 }

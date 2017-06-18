@@ -8,7 +8,9 @@ import com.example.tristan.arealchessgame.ChessEngine.move.Move;
 import com.example.tristan.arealchessgame.ChessEngine.pieces.King;
 import com.example.tristan.arealchessgame.ChessEngine.pieces.Piece;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Tristan on 14/06/2017.
@@ -21,6 +23,7 @@ public abstract class Player {
     protected final Collection<Move> legalMoves;
     protected final Collection<Move> enemyMoves;
     protected final Collection<Move> allMoves;
+    private boolean isInCheck = false;
 
     Player(final Board board, final Collection<Move> legalMoves, final Collection<Move> enemyMoves, final Collection<Move> allMoves){
         this.board = board;
@@ -38,6 +41,24 @@ public abstract class Player {
         }
         throw new RuntimeException("You have no King! Not a Valid Board!");
     }
+
+    public boolean isInCheck(){
+        return this.isInCheck;
+    }
+
+    protected static Collection<Move> attacksOnTile(int xPos, int yPos, Collection<Move> moves){
+        final List<Move> attacks = new ArrayList<>();
+        for (final Move move : moves){
+            if (xPos == move.getxDestination() && yPos == move.getCurrentYPos()){
+                attacks.add(move);
+            }
+        }
+        return attacks;
+    }
+
+    protected abstract Collection<Move> castlingMoves(Collection<Move> legalMoves, Collection<Move> enemyMoves);
+
+
 
     public abstract Collection<Piece> getPlayerPieces();
 

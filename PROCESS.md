@@ -1,20 +1,20 @@
-# day 1
+# day 1 Tuesday
 Since I thought that making a prototype was going to be tough, I already started on the board in the weekend. This days deadline was for a proposal however so I began to write that. Now with it finished, I am going to focus on the prototype again.
-# day 2
+# day 2 Wednesday
 The visual representation of the board is finished, but I am having a hard time actually placing pieces on it. It might be better to have actual individual tiles placed in a gridlayout that handle their own colour and occupation rather than having a custom gridview with tiles drawn on it which nevertheless returns proper coordinates.
 What I really want to do is retain my custom gridview and have an imageview of a piece inflate into it. It is a challenge, because I haven't started on the engine yet and that will be where piece coordinates come from. I have created a position converter in case I want to implement a one-dimensional board on engine level and a two-dimensional board on GUI level. I have created a Piece class and a Knight class that extends Piece. After all I want to place some pieces on the board. I do think that the current state of the prototype is sufficient. 
-# day 3
+# day 3 Thursday
 Tried to build a board made of individual tiles today. Not a success. Yet. The board doesn't display. Should be at this point all be black tiles, but is empty gridlayout.
 I think that I am going to focus on the engine from now on, no point in making a GUI for a facade. It might be best to give pieces two-dimensional coordinates.
-# day 4
+# day 4 Friday
 Started work on the engine. Started by building pieces and movetypes. So far I have started work on the knight, the easiest piece, since it can jump over other pieces. This means no checking for pieces in its path. I took a very literal approach. By this I mean that I visualized a game of chess in my head and on the whiteboard, worked out some coordinate-offsets and put them in an two-dimensional array called POSSIBLE_MOVES.
 ![](doc/KnightMoves.jpeg)
 Add the offset to the piecePosition and check if there is another piece. At this point I needed two different moves: A 'Normal' move, and an 'Attack' move.
-# day 6
+# day 6 Saturday
 Today I started the Move classes and the rest of the Pieces. The Bishop needed a three-dimensional array because of its four directions and its two coordinates. For the rest it is similar to the knight. The Rook is just a copy of the Bishop, though with a different moveset and the Queen is probably best described as the culmination of the Bishop and the Rook (moveset wise). The Pawn though, has a very unique moveset as it can jump two squares in its first move and attacks diagonally. It would also be able to take pieces en passant, so it needs to check at its sides too. Opposing Pawns also move in different directions. So I think the Knight, Bishop, Rook, and Queen are finished, but the Pawn needs some work and the King too. 
-# day 7
+# day 7 Monday
 Today I created the board in engine, which is just a set of lists of tiles and pieces. However it is now still riddled with bugs and invoked virtual methods on null object references. As I am not that good at debugging, I'm going to need some 'expert' help on this. The only thing it should do is Map tiles of different coordinates to a Tilenumber. Do the same for the pieces and their movesets. I'll look into it tomorrow.
-# day 8
+# day 8 Tuesday
 Today I started bug-fixing. Using the debugging console, I found that my board was drawing black pawns on the first row, while this is where the higher pieces should be. It also drew an additional line of empty tiles. It took me way longer than I would like to admit to realize that when creating the pawns I set the yCoordinate for the black pawns to 0 instead of 1, and thus overlaying the higher pieces. Now using the debugger I ventured to find out why the app was crashing. It turns out that when I try to make a list of all the possible moves (which I need later to verify with the board that the selected move is legal) there seems to be a problem with the legalMove method in Piece. This leads to no Moves being added and so the trackMoves method in Board doesn't get any Move objects.
 I commented the making of this list out for the moment. The app ran fine and I was able to make an ASCII representation of the board. This was achieved by overriding the toString methods of all pieces and empty tiles.
 ![ASCII representation](doc/ASCII_representation_board.png)
@@ -33,7 +33,7 @@ This evening though, I found the culprit. My legalMoves methods inside the piece
 In the BoardGridView, I have implemented a method that returns a string key to a resourceID in a List. This resourceID is for each individual piece. The method takes coordinates from the nested for-loops in the onDraw method and recovers the belonging piece. The resulting resource is made into a Bitmap and if it isn't null, it is drawn in the onDraw method (if on black, after black is drawn). I switched the x and y coordinates by accident though and even though the pieces were in the wrong spot, all pieces were drawn. So I switched the x and y values and now some pieces are missing (but what pieces there are, are in the right place). I don't know why. Guess I'll find out tomorrow.  
 <img src="doc/all_pieces_wrong_place.jpeg" width="200"/>
 <img src="doc/all_butsome_pieces_right_place.jpeg" width="200"/>
-# day 9
+# day 9 Wednesday
 So I noticed a little speck on my screen. When I dragged the emulator it moved with it. It was right on the border with the black King's tile. It must be part of the queen that was drawn outside her tile! I realized that for some tiles the black tile was being drawn over the pieces. I split the drawing of the tiles and the pieces into two nested for-loops to make sure the tiles were drawn first and this fixed it. It also made me think that the bitmaps of the pieces were not scaling. Which is true.  
 The below images have titles, hover to get a sense of their dimensions.  
 <img src="doc/1_2.7_240x320.png" width="200" title="2.7, 240x320"/>
@@ -53,7 +53,7 @@ But Move holds the move! So I should get the move that corresponds to the coordi
 Since this photo was taken the PlayerMove Object has been refactored to AlternateBoard.
 
 The player is making the moves, but the moving will be done by the move itself. The player can validate a move and return the same board if the move is illegal (meaning it isn't in the legalMoves list). Otherwise a new board with the piece moved should be returned. 
-# day 10
+# day 10 Thursday
 I set the player to white. I tested the moving of a piece as it is right now, but the move is never executed. I have made the board a singleton again and made the instance static. I hope this way that I can set the instance to the new Board and then call invalidate(). This should lead to the Board being redrawn with the new altered instance. I found that the move I tried to do was marked as Illegal and therefore it was not executed. 
 <img src="doc/LegalMovesCheck.jpg" width="400"/>
 This was because when I was checking if the chosen move was in the collection of legal moves (using a boolean and legalMoves.contains(move)) that move wasn't in the collection. legalMoves contains all the moves from all the pieces for a given player. Essentially half of all the moves. So I made a new collection with all the moves from all the pieces on the board and for some reason the chosen move is in there. Can't explain it. So I checked the move there (allMoves.contains(move)). The pieces move now, but when I try to take a piece the board resets. Didn't expect that, though it comes in handy when I need to reset the board. Also when I move the same piece twice without moving a piece from the opponent, the piece gets copied instead of moved. This is likely linked to the fact that I reference with every piece's moves on the board. This also explains why I can begin a game by moving black pieces, while white should have first turn. I shouldn't be able to move the opponents pieces because they aren't in the current player's legalMove collection. It could be that when I earlier tried to reference from the white player's move collection, it was actually black's turn, and that they had switched somehow before a move was made. 
@@ -61,3 +61,13 @@ This was because when I was checking if the chosen move was in the collection of
 <img src="doc/MovePiece1.jpeg" width="200" title="Moving Piece example 1"/>
 <img src="doc/MovePiece2.jpeg" width="200" title="Moving Piece example 2"/>
 <img src="doc/Duplicate.jpeg" width="200" title="Piece Duplication"/>
+
+# day 11 Friday
+With the Beta version coming in sight, I needed to finish the enforcing of rules and making sure that everything worked without crashing. I am going to make an AI to play against. Today I created different moves for the Pawn. The pawn is a special piece with special rules. For example it may jump a tile, but only in its first move. So I created a move for that, so that when that move was executed the boolean that tracks if it is the first move can be set to false by that move. Should work. Pawns can also strike en passant, so I made a move for that. And the pawn wasn't fully fleshed out, so I did that. Also the pawn needs its own Normal and Attack move, because these moves must set its isFirstMove boolean to false.
+
+# day 12 Saturday
+Fixed some bugs. I limited the selecting of a piece on GUI level. This fixed the bug where you can select and move the opponents pieces. I also had the Player search in its own list of moves again in stead of all the moves and suddenly this just works. Literally just changed allMoves to legalMoves and it was fine. I also decided that I would highlight the selection and possible moves. This will help me debug some issues and faults. I found out through the highlighting that sliding pieces would have moves beyond pieces that 'are in the way'. The queen could teleport behind enemy lines. Fixed this. Highlighting looks like this.
+<img src="doc/highlighting.jpeg" width="200" title="highlighting"/>
+I also had the players check if they had a king when a new board was introduced. This is for when for some reason the king has failed to make it to the next board, there would be a runtime error. This has led to crashing when the king is taken. This should be fixed when we check for check and checkmate. Also now that MoveAttack is fully functional, the board doesn't reset when a piece is taken. Now I must restart the app to reset the board. I should implement a reset board button. 
+# day 12 Sunday
+Today I must 

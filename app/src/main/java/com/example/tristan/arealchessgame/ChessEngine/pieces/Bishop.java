@@ -29,8 +29,8 @@ public class Bishop extends Piece {
                     /* RightDown */
                     {{1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}, {6, 6}, {7, 7}}};
 
-    public Bishop(int xPosition, int yPosition, Alliance alliance) {
-        super(PieceType.BISHOP, xPosition, yPosition, alliance);
+    public Bishop(int xPosition, int yPosition, Alliance alliance, final boolean isFirstMove) {
+        super(PieceType.BISHOP, xPosition, yPosition, alliance, isFirstMove);
     }
 
     @Override
@@ -75,6 +75,6 @@ public class Bishop extends Piece {
 
     @Override
     public Piece movePiece(Move move) {
-        return new Bishop(move.getxDestination(), move.getyDestination(), move.getPiece().getAlliance());
+        return new Bishop(move.getxDestination(), move.getyDestination(), move.getPiece().getAlliance(), false);
     }
 }

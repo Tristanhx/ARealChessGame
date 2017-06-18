@@ -23,8 +23,8 @@ public class Knight extends Piece{
             {{-1, -2}, {1, -2}, {2, -1}, {2, 1}, {1, 2}, {-1, 2}, {-2, 1}, {-2, -1}};
 
 
-    public Knight(final int xPosition, int yPosition, final Alliance alliance) {
-        super(PieceType.KNIGHT, xPosition, yPosition, alliance);
+    public Knight(final int xPosition, int yPosition, final Alliance alliance, final boolean isFirstMove) {
+        super(PieceType.KNIGHT, xPosition, yPosition, alliance, isFirstMove);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class Knight extends Piece{
 
     @Override
     public Piece movePiece(Move move) {
-        return new Knight(move.getxDestination(), move.getyDestination(), move.getPiece().getAlliance());
+        return new Knight(move.getxDestination(), move.getyDestination(), move.getPiece().getAlliance(), false);
     }
 
 }

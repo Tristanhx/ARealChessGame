@@ -22,8 +22,8 @@ public class King extends Piece {
     private static final int[][] POSSIBLE_MOVES =
             {{-1, -1}, {1, -1}, {-1, 1}, {1, 1}, {0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
-    public King(int xPosition, int yPosition, Alliance alliance) {
-        super(PieceType.KING, xPosition, yPosition, alliance);
+    public King(int xPosition, int yPosition, Alliance alliance, final boolean isFirstMove) {
+        super(PieceType.KING, xPosition, yPosition, alliance, isFirstMove);
     }
 
     @Override
@@ -66,6 +66,6 @@ public class King extends Piece {
 
     @Override
     public Piece movePiece(Move move) {
-        return new King(move.getxDestination(), move.getyDestination(), move.getPiece().getAlliance());
+        return new King(move.getxDestination(), move.getyDestination(), move.getPiece().getAlliance(), false);
     }
 }

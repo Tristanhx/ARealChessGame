@@ -37,8 +37,8 @@ public class Queen extends Piece {
                            /* RightDown */
                             {1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}, {6, 6}, {7, 7}}};
 
-    public Queen(int xPosition, int yPosition, Alliance alliance) {
-        super(PieceType.QUEEN, xPosition, yPosition, alliance);
+    public Queen(int xPosition, int yPosition, Alliance alliance, final boolean isFirstMove) {
+        super(PieceType.QUEEN, xPosition, yPosition, alliance, isFirstMove);
     }
 
     @Override
@@ -83,6 +83,6 @@ public class Queen extends Piece {
 
     @Override
     public Piece movePiece(Move move) {
-        return new Queen(move.getxDestination(), move.getyDestination(), move.getPiece().getAlliance());
+        return new Queen(move.getxDestination(), move.getyDestination(), move.getPiece().getAlliance(), false);
     }
 }

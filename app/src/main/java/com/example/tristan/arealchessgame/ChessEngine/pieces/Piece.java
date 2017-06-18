@@ -20,18 +20,22 @@ public abstract class Piece {
     protected final int position;
     protected final Alliance alliance;
     protected final PieceType pieceType;
-    boolean isFirstMove;
+    final boolean isFirstMove;
 
-    Piece(final PieceType pieceType, final int xPosition, final int yPosition, final Alliance alliance){
+    Piece(final PieceType pieceType, final int xPosition, final int yPosition, final Alliance alliance, final boolean isFirstMove){
         this.alliance = alliance;
         this.pieceType = pieceType;
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.position = Tools.convertPosition(xPosition, yPosition);
-        this.isFirstMove = true;
+        this.isFirstMove = isFirstMove;
     }
 
     public abstract Collection<Move> legalMoves(final Board board);
+
+    public boolean isFirstMove(){
+        return isFirstMove;
+    }
 
 
     public Alliance getAlliance() {
@@ -50,9 +54,7 @@ public abstract class Piece {
         return pieceType;
     }
 
-    public void setIsFirstMove(final boolean isFirstMove){
-        this.isFirstMove = isFirstMove;
-    }
+
 
     public abstract Piece movePiece(Move move);
 
