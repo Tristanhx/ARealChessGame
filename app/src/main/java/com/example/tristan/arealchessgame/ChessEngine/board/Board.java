@@ -65,7 +65,7 @@ public class Board {
         this.blackPlayer = new PlayerBlack(this, whiteMoves, blackMoves, allMoves);
         this.currentPlayer = builder.nextPlayer.chooseNextPlayer(this.whitePlayer, this.blackPlayer);
         this.chosenMove = builder.chosenMove != null ? builder.chosenMove : MoveMaker.getNoMove();
-        this.enPassantPawn = builder.enPassantPawn;
+        this.enPassantPawn = builder.enPassantPiece;
     }
 
 
@@ -111,7 +111,7 @@ public class Board {
     }
 
     public Pawn getEnPassantPawn(){
-        return enPassantPawn;
+        return this.enPassantPawn;
     }
 
     public Player getCurrentPlayer(){
@@ -200,7 +200,7 @@ public class Board {
         Alliance nextPlayer;
 
         Move chosenMove;
-        Pawn enPassantPawn;
+        Pawn enPassantPiece;
 
 
         public Builder(){
@@ -226,8 +226,8 @@ public class Board {
             return this;
         }
 
-        public void setEnPassantPawn(Pawn enPassantPawn) {
-            this.enPassantPawn = enPassantPawn;
+        public void setEnPassantPiece(Pawn enPassantPiece) {
+            this.enPassantPiece = enPassantPiece;
         }
     }
 

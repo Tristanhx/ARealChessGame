@@ -61,34 +61,34 @@ public class Pawn extends Piece {
                 }
                 //attack move
                 else if (currentPM == POSSIBLE_MOVES[2]){
-                    if (board.getTile(xCoorDest, yCoorDest).tileIsOccupied()){
+                    if (board.getTile(xCoorDest, yCoorDest).tileIsOccupied()) {
                         final Piece attackedPiece = board.getTile(xCoorDest, yCoorDest).getPiece();
-                        if (this.alliance != attackedPiece.getAlliance()){
+                        if (this.alliance != attackedPiece.getAlliance()) {
                             legalMoves.add(new MovePawnAttack(board, this, attackedPiece, xCoorDest, yCoorDest));
                         }
-                        else if (board.getEnPassantPawn() != null) {
-                            if (board.getEnPassantPawn().getXPos() == this.xPosition -1 && board.getEnPassantPawn().getYPos() == this.yPosition) {
-                                final Piece enPassantPiece = board.getEnPassantPawn();
-                                if(this.alliance != enPassantPiece.getAlliance()) {
-                                    legalMoves.add(new MoveEnPassant(board, this, enPassantPiece, xCoorDest, yCoorDest));
-                                }
+                    }
+                    else if (board.getEnPassantPawn() != null) {
+                         if (board.getEnPassantPawn().getXPos() == this.xPosition -1 && board.getEnPassantPawn().getYPos() == this.yPosition) {
+                            final Piece enPassantPiece = board.getEnPassantPawn();
+                            if(this.alliance != enPassantPiece.getAlliance()) {
+                                legalMoves.add(new MoveEnPassant(board, this, enPassantPiece, xCoorDest, yCoorDest));
                             }
                         }
-
                     }
+
                 }
                 else if (currentPM ==POSSIBLE_MOVES[3]){
-                    if (board.getTile(xCoorDest, yCoorDest).tileIsOccupied()){
+                    if (board.getTile(xCoorDest, yCoorDest).tileIsOccupied()) {
                         final Piece attackedPiece = board.getTile(xCoorDest, yCoorDest).getPiece();
-                        if (this.alliance != attackedPiece.getAlliance()){
+                        if (this.alliance != attackedPiece.getAlliance()) {
                             legalMoves.add(new MovePawnAttack(board, this, attackedPiece, xCoorDest, yCoorDest));
                         }
-                        else if (board.getEnPassantPawn() != null) {
-                            if (board.getEnPassantPawn().getXPos() == this.xPosition +1 && board.getEnPassantPawn().getYPos() == this.yPosition) {
-                                final Piece enPassantPiece = board.getEnPassantPawn();
-                                if(this.alliance != enPassantPiece.getAlliance()) {
-                                    legalMoves.add(new MoveEnPassant(board, this, enPassantPiece, xCoorDest, yCoorDest));
-                                }
+                    }
+                    else if (board.getEnPassantPawn() != null) {
+                        if (board.getEnPassantPawn().getXPos() == this.xPosition +1 && board.getEnPassantPawn().getYPos() == this.yPosition) {
+                            final Piece enPassantPiece = board.getEnPassantPawn();
+                            if(this.alliance != enPassantPiece.getAlliance()) {
+                                legalMoves.add(new MoveEnPassant(board, this, enPassantPiece, xCoorDest, yCoorDest));
                             }
                         }
                     }

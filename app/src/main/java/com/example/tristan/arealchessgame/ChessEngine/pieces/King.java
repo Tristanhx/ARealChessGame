@@ -7,6 +7,7 @@ import com.example.tristan.arealchessgame.ChessEngine.move.Move;
 import com.example.tristan.arealchessgame.ChessEngine.move.MoveAttack;
 import com.example.tristan.arealchessgame.ChessEngine.move.MoveNormal;
 import com.example.tristan.arealchessgame.ChessEngine.board.Tile;
+import com.example.tristan.arealchessgame.ChessEngine.player.Player;
 import com.example.tristan.arealchessgame.PieceType;
 
 import java.util.ArrayList;

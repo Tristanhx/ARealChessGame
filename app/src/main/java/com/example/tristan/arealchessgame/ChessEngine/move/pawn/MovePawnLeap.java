@@ -1,5 +1,7 @@
 package com.example.tristan.arealchessgame.ChessEngine.move.pawn;
 
+import android.util.Log;
+
 import com.example.tristan.arealchessgame.ChessEngine.board.Board;
 import com.example.tristan.arealchessgame.ChessEngine.move.Move;
 import com.example.tristan.arealchessgame.ChessEngine.pieces.Pawn;
@@ -38,7 +40,9 @@ public class MovePawnLeap extends Move {
         // Move Piece
         final Pawn pawn = (Pawn) this.piece.movePiece(this);
         builder.setPiece(pawn);
-        builder.setEnPassantPawn(pawn);
+        //set this piece as the piece that can me taken en passant next move
+        builder.setEnPassantPiece(pawn);
+        Log.d("en passant", "This " + pawn.getAlliance().toString() + " pawn has been set as en passant");
 
         // Set Enemy Player pieces on new Board
         for (final Piece piece : this.board.getCurrentPlayer().getOpponent().getPlayerPieces()){
