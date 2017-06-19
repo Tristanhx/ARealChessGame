@@ -16,6 +16,11 @@ public enum MoveWas {
         public boolean isExecuted() {
             return false;
         }
+    }, THIS_LEAVES_KING_IN_CHECK {
+        @Override
+        public boolean isExecuted() {
+            return false;
+        }
     };
 
     public abstract boolean isExecuted();

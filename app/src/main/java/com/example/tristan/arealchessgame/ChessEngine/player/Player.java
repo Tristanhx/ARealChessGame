@@ -102,11 +102,20 @@ public abstract class Player {
             return new AlternateBoard(this.board, move, MoveWas.ILLEGAL);
         }
 
+        //check if the king is in check and discard any moves that leave the king in check.
         final Board newBoard = move.execute();
+        final King nextBoardPlayerKing = newBoard.getCurrentPlayer().getOpponent().getKing();
+        final Collection<Move> nextAttacksOnKing = Player.attacksOnTile(nextBoardPlayerKing.getXPos(),
+                nextBoardPlayerKing.getYPos(), newBoard.getCurrentPlayer().getLegalMoves());
+        if (!nextAttacksOnKing.isEmpty()){
+            return new AlternateBoard(this.board, move, MoveWas.THIS_LEAVES_KING_IN_CHECK);
+        }
+
         return new AlternateBoard(newBoard, move, MoveWas.LEGAL);
     }
 
 
-
-
+    public King getKing() {
+        return this.playerKing;
+    }
 }
