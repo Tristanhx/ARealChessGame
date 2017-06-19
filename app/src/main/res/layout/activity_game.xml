@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray"
+    android:background="@color/stone_dark"
     tools:context="com.example.tristan.arealchessgame.GameActivity">
 
 
@@ -14,34 +14,6 @@
         android:layout_centerVertical="true"
         android:layout_margin="20dp"
         />
-
-    <!--<GridLayout-->
-        <!--android:id="@+id/boardLayout"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:rowCount="@integer/board_dimensions"-->
-        <!--android:columnCount="@integer/board_dimensions"-->
-        <!--android:layout_centerVertical="true">-->
-
-    <!--</GridLayout>-->
-
-    <!--Castle Buttons-->
-    <Button
-        android:id="@+id/castle_button_p1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/chessboard"
-        android:layout_alignParentStart="true"
-        android:text="@string/castle"/>
-
-    <Button
-        android:id="@+id/castle_button_p2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/chessboard"
-        android:layout_alignParentEnd="true"
-        android:rotation="@integer/rotate_180"
-        android:text="@string/castle"/>
 
     <!--Forfeit Buttons-->
     <Button

@@ -7,6 +7,8 @@ import com.example.tristan.arealchessgame.ChessEngine.board.Board;
 import com.example.tristan.arealchessgame.ChessEngine.move.Move;
 import com.example.tristan.arealchessgame.ChessEngine.pieces.King;
 import com.example.tristan.arealchessgame.ChessEngine.pieces.Piece;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,18 +24,15 @@ public abstract class Player {
     protected final King playerKing;
     protected final Collection<Move> legalMoves;
     protected final Collection<Move> enemyMoves;
-    protected final Collection<Move> allMoves;
-    private boolean isInCheck = false;
 
-    Player(final Board board, final Collection<Move> legalMoves, final Collection<Move> enemyMoves, final Collection<Move> allMoves){
+    Player(final Board board, final Collection<Move> legalMoves, final Collection<Move> enemyMoves){
         this.board = board;
-        this.legalMoves = legalMoves;
-        this.enemyMoves = enemyMoves;
         this.playerKing = whoIsMyKing();
-        this.allMoves = allMoves;
+        this.legalMoves = ImmutableList.copyOf(Iterables.concat(legalMoves, castlingMoves(legalMoves, enemyMoves)));
+        this.enemyMoves = enemyMoves;
     }
 
-    private King whoIsMyKing() {
+    public King whoIsMyKing() {
         for (final Piece piece : getPlayerPieces()){
             if (piece.getPieceType().isKing()){
                 return (King) piece;
@@ -42,25 +41,35 @@ public abstract class Player {
         throw new RuntimeException("You have no King! Not a Valid Board!");
     }
 
-    public boolean isInCheck(){
-        return this.isInCheck;
+    public boolean isInCheck(Iterable<Move> moves){
+        for (final Move move : moves){
+            if (move.getAttackedPiece() == playerKing){
+                return true;
+            }
+        }
+        return false;
     }
 
     protected static Collection<Move> attacksOnTile(int xPos, int yPos, Collection<Move> moves){
         final List<Move> attacks = new ArrayList<>();
         for (final Move move : moves){
-            if (xPos == move.getxDestination() && yPos == move.getCurrentYPos()){
+            if (xPos == move.getXDestination() && yPos == move.getCurrentYPos()){
                 attacks.add(move);
             }
         }
         return attacks;
     }
 
-    protected abstract Collection<Move> castlingMoves(Collection<Move> legalMoves, Collection<Move> enemyMoves);
+    protected abstract Collection<Move> castlingMoves(Collection<Move> legalMoves,
+                                                      Collection<Move> enemyMoves);
 
 
 
     public abstract Collection<Piece> getPlayerPieces();
+
+    public Collection<Move> getLegalMoves(){
+        return this.legalMoves;
+    }
 
     public abstract Alliance getAlliance();
 

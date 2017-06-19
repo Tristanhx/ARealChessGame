@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -18,6 +17,7 @@ import com.example.tristan.arealchessgame.ChessEngine.move.Move;
 import com.example.tristan.arealchessgame.ChessEngine.move.MoveAttack;
 import com.example.tristan.arealchessgame.ChessEngine.move.MoveMaker;
 import com.example.tristan.arealchessgame.ChessEngine.board.Tile;
+import com.example.tristan.arealchessgame.ChessEngine.move.castle.MoveCastle;
 import com.example.tristan.arealchessgame.ChessEngine.pieces.Piece;
 import com.example.tristan.arealchessgame.ChessEngine.player.AlternateBoard;
 import com.example.tristan.arealchessgame.R;
@@ -36,6 +36,7 @@ public class BoardGridView extends GridView {
     private Paint borderPaint = new Paint();
     private Paint highlightPaint = new Paint();
     private Paint highlightPaintAttack = new Paint();
+    private Paint specialMovePaint = new Paint();
 //    private Paint seemPaint = new Paint();
     final Map<String, Integer> resourceMap;
 
@@ -111,8 +112,8 @@ public class BoardGridView extends GridView {
     @Override
     protected void onDraw(Canvas canvas){
         // Create a canvas for our board
-        canvas.drawColor(Color.WHITE);
-        darkTilePaint.setColor(ContextCompat.getColor(this.getContext(), R.color.darkTileColor4));
+        canvas.drawColor(ContextCompat.getColor(this.getContext(), R.color.stone));
+        darkTilePaint.setColor(ContextCompat.getColor(this.getContext(), R.color.bark));
 
         // Check if col/row isn't 0, now redundant since size is now hardcoded.
         if(columns == 0 || rows == 0){
@@ -198,11 +199,17 @@ public class BoardGridView extends GridView {
                 highlightPaintAttack.setStrokeWidth(5);
                 highlightPaintAttack.setStyle(Paint.Style.STROKE);
                 highlightPaintAttack.setColor(ContextCompat.getColor(this.getContext(), R.color.highLightColorAttack));
+                specialMovePaint.setStrokeWidth(5);
+                specialMovePaint.setStyle(Paint.Style.STROKE);
+                specialMovePaint.setColor(ContextCompat.getColor(this.getContext(), R.color.enPassantColor));
                 for (Move move : legalMoves) {
-                    int x = move.getxDestination();
-                    int y = move.getyDestination();
+                    int x = move.getXDestination();
+                    int y = move.getYDestination();
 
                     if (move instanceof MoveAttack){
+                        canvas.drawRoundRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, tileDim/2, tileDim/2, highlightPaintAttack);
+                    }
+                    else if (move instanceof MoveCastle){
                         canvas.drawRoundRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, tileDim/2, tileDim/2, highlightPaintAttack);
                     }
                     else {

@@ -55,9 +55,6 @@ public class Knight extends Piece{
                     if (this.alliance != destPieceAlliance){
                         legalMoves.add(new MoveAttack(board, this, pieceAtDest, xCoorDest, yCoorDest));
                     }
-                    else{
-
-                    }
                 }
             }
         }
@@ -66,7 +63,7 @@ public class Knight extends Piece{
 
     @Override
     public Piece movePiece(Move move) {
-        return new Knight(move.getxDestination(), move.getyDestination(), move.getPiece().getAlliance(), false);
+        return new Knight(move.getXDestination(), move.getYDestination(), move.getPiece().getAlliance(), false);
     }
 
 }

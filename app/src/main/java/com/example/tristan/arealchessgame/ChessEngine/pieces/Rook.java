@@ -78,7 +78,7 @@ public class Rook extends Piece {
 
     @Override
     public Piece movePiece(Move move) {
-        return new Rook(move.getxDestination(), move.getyDestination(), move.getPiece().getAlliance(), false);
+        return new Rook(move.getXDestination(), move.getYDestination(), move.getPiece().getAlliance(), false);
     }
     public boolean isFirstMove(){
         return isFirstMove;

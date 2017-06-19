@@ -1,7 +1,6 @@
 package com.example.tristan.arealchessgame.ChessEngine.move;
 
 import com.example.tristan.arealchessgame.ChessEngine.board.Board;
-import com.example.tristan.arealchessgame.ChessEngine.board.Tile;
 import com.example.tristan.arealchessgame.ChessEngine.pieces.Piece;
 
 /**
@@ -12,9 +11,9 @@ public abstract class Move {
 
     public final Board board;
     public final Piece piece;
-    final int xDestination;
-    final int yDestination;
-    public static final Move NO_MOVE = new NoMove();
+    private final int xDestination;
+    private final int yDestination;
+    static final Move NO_MOVE = new NoMove();
 
     public Move(final Board board, final Piece piece, final int xDestination, final int yDestination){
         this.board = board;
@@ -32,8 +31,8 @@ public abstract class Move {
             return false;
         }
         final Move otherMove = (Move) other;
-        return getxDestination() == otherMove.getxDestination() && getyDestination() ==
-                otherMove.getyDestination() && getPiece() == otherMove.getPiece();
+        return getXDestination() == otherMove.getXDestination() && getYDestination() ==
+                otherMove.getYDestination() && getPiece() == otherMove.getPiece();
     }
 
     @Override
@@ -53,11 +52,11 @@ public abstract class Move {
         return this.piece;
     }
 
-    public int getxDestination(){
+    public int getXDestination(){
         return this.xDestination;
     }
 
-    public int getyDestination(){
+    public int getYDestination(){
         return this.yDestination;
     }
 

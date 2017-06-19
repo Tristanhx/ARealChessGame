@@ -17,6 +17,7 @@ import com.example.tristan.arealchessgame.ChessEngine.pieces.Pawn;
 import com.example.tristan.arealchessgame.ChessEngine.pieces.Piece;
 import com.example.tristan.arealchessgame.ChessEngine.pieces.Queen;
 import com.example.tristan.arealchessgame.ChessEngine.pieces.Rook;
+import com.google.common.collect.Iterables;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,15 +35,14 @@ public class Board {
     private final List<Tile> mBoard;
     private final Collection<Piece> whitePieces;
     private final Collection<Piece> blackPieces;
-    private final Collection<Piece> allPieces;
     private final Collection<Move> whiteMoves;
     private final Collection<Move> blackMoves;
-    private final Collection<Move> allMoves;
 
     private final PlayerWhite whitePlayer;
     private final PlayerBlack blackPlayer;
     private final Player currentPlayer;
     private final Pawn enPassantPawn;
+
 
     private final Move chosenMove;
 
@@ -55,22 +55,23 @@ public class Board {
 
     private Board(Builder builder){
         this.mBoard = createNewBoard(builder);
+        //get all pieces of an alliance
         this.whitePieces = trackPieces(this.mBoard, Alliance.WHITE);
         this.blackPieces = trackPieces(this.mBoard, Alliance.BLACK);
-        this.allPieces = getAllPieces(this.mBoard);
+        //get the moves of those pieces
         this.whiteMoves = trackMoves(this.whitePieces);
         this.blackMoves = trackMoves(this.blackPieces);
-        this.allMoves = trackMoves(this.allPieces);
-        this.whitePlayer = new PlayerWhite(this, whiteMoves, blackMoves, allMoves);
-        this.blackPlayer = new PlayerBlack(this, whiteMoves, blackMoves, allMoves);
+        //give those moves to the players
+        this.whitePlayer = new PlayerWhite(this, whiteMoves, blackMoves);
+        this.blackPlayer = new PlayerBlack(this, whiteMoves, blackMoves);
         this.currentPlayer = builder.nextPlayer.chooseNextPlayer(this.whitePlayer, this.blackPlayer);
         this.chosenMove = builder.chosenMove != null ? builder.chosenMove : MoveMaker.getNoMove();
         this.enPassantPawn = builder.enPassantPiece;
     }
 
 
-    public Collection<Move> getAllLegalMoves(){
-        return this.allMoves;
+    public Iterable<Move> getAllLegalMoves(){
+        return Iterables.unmodifiableIterable(Iterables.concat(this.whitePlayer.getLegalMoves(), blackPlayer.getLegalMoves()));
     }
 
     private Collection<Piece> getAllPieces(List<Tile> mBoard) {

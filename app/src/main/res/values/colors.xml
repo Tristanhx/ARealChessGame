@@ -13,4 +13,8 @@
     <color name="darkTileColor">#954535</color>
     <color name="highLightColor">#00FF00</color>
     <color name="highLightColorAttack">#FF0000</color>
+    <color name="enPassantColor">#9900FF</color>
+    <color name="bark">#67544e</color>
+    <color name="stone">#b8b09b</color>
+    <color name="stone_dark">#948869</color>
 </resources>

@@ -16,7 +16,7 @@ public class MoveMaker {
                                   final int xDestinationCoor, final int yDestinationCoor){
         for (final Move move : board.getAllLegalMoves()){
             if (move.getCurrentXPos() == xCoordinate && move.getCurrentYPos() == yCoordinate &&
-            move.getxDestination() == xDestinationCoor && move.getyDestination() == yDestinationCoor){
+            move.getXDestination() == xDestinationCoor && move.getYDestination() == yDestinationCoor){
                 return move;
             }
         }

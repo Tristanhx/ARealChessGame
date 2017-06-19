@@ -7,7 +7,6 @@ import com.example.tristan.arealchessgame.ChessEngine.move.Move;
 import com.example.tristan.arealchessgame.ChessEngine.move.MoveAttack;
 import com.example.tristan.arealchessgame.ChessEngine.move.MoveNormal;
 import com.example.tristan.arealchessgame.ChessEngine.board.Tile;
-import com.example.tristan.arealchessgame.ChessEngine.player.Player;
 import com.example.tristan.arealchessgame.PieceType;
 
 import java.util.ArrayList;
@@ -67,6 +66,6 @@ public class King extends Piece {
 
     @Override
     public Piece movePiece(Move move) {
-        return new King(move.getxDestination(), move.getyDestination(), move.getPiece().getAlliance(), false);
+        return new King(move.getXDestination(), move.getYDestination(), move.getPiece().getAlliance(), false);
     }
 }

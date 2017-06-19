@@ -4,7 +4,6 @@ import com.example.tristan.arealchessgame.Alliance;
 import com.example.tristan.arealchessgame.ChessEngine.Tools;
 import com.example.tristan.arealchessgame.ChessEngine.board.Board;
 import com.example.tristan.arealchessgame.ChessEngine.move.Move;
-import com.example.tristan.arealchessgame.ChessEngine.move.MoveNormal;
 import com.example.tristan.arealchessgame.ChessEngine.board.Tile;
 import com.example.tristan.arealchessgame.ChessEngine.move.pawn.MoveEnPassant;
 import com.example.tristan.arealchessgame.ChessEngine.move.pawn.MovePawn;
@@ -99,7 +98,7 @@ public class Pawn extends Piece {
 
     @Override
     public Piece movePiece(Move move) {
-        return new Pawn(move.getxDestination(), move.getyDestination(), move.getPiece().getAlliance(), false);
+        return new Pawn(move.getXDestination(), move.getYDestination(), move.getPiece().getAlliance(), false);
     }
 
     public boolean isFirstMove(){
