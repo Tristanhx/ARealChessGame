@@ -24,12 +24,14 @@ public abstract class Player {
     protected final King playerKing;
     protected final Collection<Move> legalMoves;
     protected final Collection<Move> enemyMoves;
+    protected final boolean isInCheck;
 
     Player(final Board board, final Collection<Move> legalMoves, final Collection<Move> enemyMoves){
         this.board = board;
         this.playerKing = whoIsMyKing();
         this.legalMoves = ImmutableList.copyOf(Iterables.concat(legalMoves, castlingMoves(legalMoves, enemyMoves)));
         this.enemyMoves = enemyMoves;
+        this.isInCheck = !Player.attacksOnTile(playerKing.getXPos(), playerKing.getYPos(), enemyMoves).isEmpty();
     }
 
     public King whoIsMyKing() {
@@ -41,9 +43,23 @@ public abstract class Player {
         throw new RuntimeException("You have no King! Not a Valid Board!");
     }
 
-    public boolean isInCheck(Iterable<Move> moves){
-        for (final Move move : moves){
-            if (move.getAttackedPiece() == playerKing){
+    public boolean isInCheck(){
+
+        return isInCheck;
+    }
+
+    public boolean checkMate(){
+        return this.isInCheck && !canEscape();
+    }
+
+    public boolean staleMate(){
+        return !this.isInCheck && !canEscape();
+    }
+
+    protected boolean canEscape(){
+        for(final Move move : this.legalMoves){
+            final AlternateBoard board = makeMove(move);
+            if (board.getMoveWas().isExecuted()){
                 return true;
             }
         }

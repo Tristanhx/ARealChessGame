@@ -18,6 +18,9 @@ import com.example.tristan.arealchessgame.ChessEngine.move.MoveAttack;
 import com.example.tristan.arealchessgame.ChessEngine.move.MoveMaker;
 import com.example.tristan.arealchessgame.ChessEngine.board.Tile;
 import com.example.tristan.arealchessgame.ChessEngine.move.castle.MoveCastle;
+import com.example.tristan.arealchessgame.ChessEngine.move.castle.MoveLongCastle;
+import com.example.tristan.arealchessgame.ChessEngine.move.castle.MoveShortCastle;
+import com.example.tristan.arealchessgame.ChessEngine.move.pawn.MoveEnPassant;
 import com.example.tristan.arealchessgame.ChessEngine.pieces.Piece;
 import com.example.tristan.arealchessgame.ChessEngine.player.AlternateBoard;
 import com.example.tristan.arealchessgame.R;
@@ -196,6 +199,7 @@ public class BoardGridView extends GridView {
         if (selectedPiece != null){
             if(selectedPiece.getAlliance() == Board.getInstance().getCurrentPlayer().getAlliance()) {
                 Collection<Move> legalMoves = selectedPiece.legalMoves(Board.getInstance());
+                Collection<Move> castleMoves = Board.getInstance().getCurrentPlayer().getLegalMoves();
                 highlightPaintAttack.setStrokeWidth(5);
                 highlightPaintAttack.setStyle(Paint.Style.STROKE);
                 highlightPaintAttack.setColor(ContextCompat.getColor(this.getContext(), R.color.highLightColorAttack));
@@ -209,11 +213,18 @@ public class BoardGridView extends GridView {
                     if (move instanceof MoveAttack){
                         canvas.drawRoundRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, tileDim/2, tileDim/2, highlightPaintAttack);
                     }
-                    else if (move instanceof MoveCastle){
-                        canvas.drawRoundRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, tileDim/2, tileDim/2, highlightPaintAttack);
+                    else if (move instanceof MoveEnPassant){
+                        canvas.drawRoundRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, tileDim/2, tileDim/2, specialMovePaint);
                     }
                     else {
                         canvas.drawRoundRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, tileDim/2, tileDim/2, highlightPaint);
+                    }
+                }
+                for (Move move : castleMoves){
+                    int x = move.getXDestination();
+                    int y = move.getYDestination();
+                    if (move instanceof MoveCastle){
+                        canvas.drawRoundRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, tileDim/2, tileDim/2, specialMovePaint);
                     }
                 }
             }
