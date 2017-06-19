@@ -26,7 +26,7 @@ public class PlayerBlack extends Player{
     protected Collection<Move> castlingMoves(Collection<Move> legalMoves, Collection<Move> enemyMoves){
         final List<Move> castlingMoves = new ArrayList<>();
 
-        if (this.playerKing.isFirstMove() && !this.isInCheck(enemyMoves)){
+        if (this.playerKing.isFirstMove() && !this.isInCheck()){
             //short
             if (!this.board.getTile(5, 0).tileIsOccupied() && !this.board.getTile(6, 0).tileIsOccupied()){
                 final Tile tile = this.board.getTile(7, 0);
