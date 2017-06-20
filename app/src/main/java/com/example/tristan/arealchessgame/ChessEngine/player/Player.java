@@ -31,7 +31,7 @@ public abstract class Player {
         this.playerKing = whoIsMyKing();
         this.legalMoves = ImmutableList.copyOf(Iterables.concat(legalMoves, castlingMoves(legalMoves, enemyMoves)));
         this.enemyMoves = enemyMoves;
-        this.isInCheck = !Player.attacksOnTile(playerKing.getXPos(), playerKing.getYPos(), enemyMoves).isEmpty();
+        this.isInCheck = !attacksOnTile(playerKing.getXPos(), playerKing.getYPos(), enemyMoves).isEmpty();
     }
 
     protected static Collection<Move> attacksOnTile(int xPos, int yPos, Collection<Move> moves){
