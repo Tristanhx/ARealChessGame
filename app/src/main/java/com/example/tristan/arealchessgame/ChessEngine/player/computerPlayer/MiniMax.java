@@ -10,16 +10,19 @@ import com.example.tristan.arealchessgame.ChessEngine.player.AlternateBoard;
 
 public class MiniMax implements Strategy {
     private final Evaluator evaluator;
+    private final int maxDepth;
 
-    public MiniMax() {
-        this.evaluator = null;
+    public MiniMax(final int maxDepth) {
+        this.evaluator = new StandardEvaluator();
+        this.maxDepth = maxDepth;
     }
 
     @Override
-    public Move execute(Board board, int depth) {
+    public Move execute(Board board) {
         Move bestMove = null;
         int highest = Integer.MIN_VALUE;
         int lowest = Integer.MAX_VALUE;
+        int depth = this.maxDepth;
         int current;
         for (Move move : board.getCurrentPlayer().getLegalMoves()){
             final AlternateBoard newBoard = board.getCurrentPlayer().makeMove(move);
@@ -42,8 +45,12 @@ public class MiniMax implements Strategy {
         return bestMove;
     }
 
+    private static boolean gameOver(final Board board){
+        return board.getCurrentPlayer().checkMate() || board.getCurrentPlayer().staleMate();
+    }
+
     public int min(final Board board, final int depth){
-        if (depth == 0){
+        if (depth == 0 || gameOver(board)){
             return this.evaluator.evaluate(board, depth);
         }
         int lowest = Integer.MAX_VALUE;
@@ -60,7 +67,7 @@ public class MiniMax implements Strategy {
     }
 
     public int max(final Board board, final int depth){
-        if (depth == 0){
+        if (depth == 0 || gameOver(board)){
             return this.evaluator.evaluate(board, depth);
         }
         int highest = Integer.MIN_VALUE;

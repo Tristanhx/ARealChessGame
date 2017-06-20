@@ -11,11 +11,21 @@ public enum PieceType {
         public boolean isKing() {
             return false;
         }
+
+        @Override
+        public int getValue() {
+            return 3;
+        }
     },
     KING("K") {
         @Override
         public boolean isKing() {
             return true;
+        }
+
+        @Override
+        public int getValue() {
+            return Integer.MAX_VALUE;
         }
     },
     KNIGHT("N") {
@@ -23,11 +33,21 @@ public enum PieceType {
         public boolean isKing() {
             return false;
         }
+
+        @Override
+        public int getValue() {
+            return 3;
+        }
     },
     PAWN("P") {
         @Override
         public boolean isKing() {
             return false;
+        }
+
+        @Override
+        public int getValue() {
+            return 1;
         }
     },
     QUEEN("Q") {
@@ -35,11 +55,21 @@ public enum PieceType {
         public boolean isKing() {
             return false;
         }
+
+        @Override
+        public int getValue() {
+            return 9;
+        }
     },
     ROOK("R") {
         @Override
         public boolean isKing() {
             return false;
+        }
+
+        @Override
+        public int getValue() {
+            return 5;
         }
     };
 
@@ -56,4 +86,5 @@ public enum PieceType {
     }
 
     public abstract boolean isKing();
+    public abstract int getValue();
 }
