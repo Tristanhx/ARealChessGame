@@ -91,7 +91,6 @@ public abstract class Player {
 
     public abstract Player getOpponent();
 
-    //should look into legalMoves, but the move isn't in there for some reason
     private boolean isLegalMove(final Move move){
         return this.legalMoves.contains(move);
     }
@@ -105,12 +104,13 @@ public abstract class Player {
         //check if the king is in check and discard any moves that leave the king in check.
         final Board newBoard = move.execute();
         final King nextBoardPlayerKing = newBoard.getCurrentPlayer().getOpponent().getKing();
-        final Collection<Move> nextAttacksOnKing = Player.attacksOnTile(nextBoardPlayerKing.getXPos(),
-                nextBoardPlayerKing.getYPos(), newBoard.getCurrentPlayer().getLegalMoves());
+
+        final Collection<Move> nextAttacksOnKing = Player.attacksOnTile(newBoard.getCurrentPlayer().getOpponent().getKing().getXPos(),
+                newBoard.getCurrentPlayer().getOpponent().getKing().getYPos(), newBoard.getCurrentPlayer().getLegalMoves());
         if (!nextAttacksOnKing.isEmpty()){
+            Log.d("LegalMoves", "LEAVES KING IN CHECK");
             return new AlternateBoard(this.board, move, MoveWas.THIS_LEAVES_KING_IN_CHECK);
         }
-
         return new AlternateBoard(newBoard, move, MoveWas.LEGAL);
     }
 
