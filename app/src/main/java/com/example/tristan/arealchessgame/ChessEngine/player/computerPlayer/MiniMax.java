@@ -17,7 +17,29 @@ public class MiniMax implements Strategy {
 
     @Override
     public Move execute(Board board, int depth) {
-        return null;
+        Move bestMove = null;
+        int highest = Integer.MIN_VALUE;
+        int lowest = Integer.MAX_VALUE;
+        int current;
+        for (Move move : board.getCurrentPlayer().getLegalMoves()){
+            final AlternateBoard newBoard = board.getCurrentPlayer().makeMove(move);
+            if (newBoard.getMoveWas().isExecuted()){
+                current =  board.getCurrentPlayer().getAlliance().isBlack() ?
+                        max(newBoard.getBoard(), depth-1) :
+                        min(newBoard.getBoard(), depth-1);
+
+                if (board.getCurrentPlayer().getAlliance().isWhite() && current >= highest){
+                    highest = current;
+                    bestMove = move;
+                }
+                else if (board.getCurrentPlayer().getAlliance().isBlack() && current <= lowest){
+                    lowest = current;
+                    bestMove = move;
+                }
+            }
+        }
+
+        return bestMove;
     }
 
     public int min(final Board board, final int depth){

@@ -21,6 +21,11 @@ public enum Alliance {
         }
 
         @Override
+        public boolean isWhite() {
+            return true;
+        }
+
+        @Override
         public Player chooseNextPlayer(final PlayerWhite whitePlayer, final PlayerBlack blackPlayer) {
             return whitePlayer;
         }
@@ -42,6 +47,11 @@ public enum Alliance {
         }
 
         @Override
+        public boolean isWhite() {
+            return false;
+        }
+
+        @Override
         public Player chooseNextPlayer(final PlayerWhite whitePlayer, final PlayerBlack blackPlayer) {
             return blackPlayer;
         }
@@ -55,6 +65,8 @@ public enum Alliance {
     public abstract int getDir();
 
     public abstract boolean isBlack();
+
+    public abstract boolean isWhite();
 
     public abstract Player chooseNextPlayer(PlayerWhite whitePlayer, PlayerBlack blackPlayer);
 }
