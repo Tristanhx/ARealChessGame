@@ -21,6 +21,7 @@ import com.example.tristan.arealchessgame.ChessEngine.move.castle.MoveCastle;
 import com.example.tristan.arealchessgame.ChessEngine.move.castle.MoveLongCastle;
 import com.example.tristan.arealchessgame.ChessEngine.move.castle.MoveShortCastle;
 import com.example.tristan.arealchessgame.ChessEngine.move.pawn.MoveEnPassant;
+import com.example.tristan.arealchessgame.ChessEngine.pieces.King;
 import com.example.tristan.arealchessgame.ChessEngine.pieces.Piece;
 import com.example.tristan.arealchessgame.ChessEngine.player.AlternateBoard;
 import com.example.tristan.arealchessgame.R;
@@ -223,7 +224,7 @@ public class BoardGridView extends GridView {
                 for (Move move : castleMoves){
                     int x = move.getXDestination();
                     int y = move.getYDestination();
-                    if (move instanceof MoveCastle){
+                    if (move instanceof MoveCastle && selectedPiece instanceof King){
                         canvas.drawRoundRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, tileDim/2, tileDim/2, specialMovePaint);
                     }
                 }

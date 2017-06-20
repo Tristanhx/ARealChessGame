@@ -34,6 +34,16 @@ public abstract class Player {
         this.isInCheck = !Player.attacksOnTile(playerKing.getXPos(), playerKing.getYPos(), enemyMoves).isEmpty();
     }
 
+    protected static Collection<Move> attacksOnTile(int xPos, int yPos, Collection<Move> moves){
+        final List<Move> attacks = new ArrayList<>();
+        for (final Move move : moves){
+            if (xPos == move.getXDestination() && yPos == move.getYDestination()){
+                attacks.add(move);
+            }
+        }
+        return attacks;
+    }
+
     public King whoIsMyKing() {
         for (final Piece piece : getPlayerPieces()){
             if (piece.getPieceType().isKing()){
@@ -44,7 +54,7 @@ public abstract class Player {
     }
 
     public boolean isInCheck(){
-
+        Log.d("King", playerKing.getAlliance().toString() + " is in check " + String.valueOf(isInCheck));
         return isInCheck;
     }
 
@@ -66,15 +76,7 @@ public abstract class Player {
         return false;
     }
 
-    protected static Collection<Move> attacksOnTile(int xPos, int yPos, Collection<Move> moves){
-        final List<Move> attacks = new ArrayList<>();
-        for (final Move move : moves){
-            if (xPos == move.getXDestination() && yPos == move.getCurrentYPos()){
-                attacks.add(move);
-            }
-        }
-        return attacks;
-    }
+
 
     protected abstract Collection<Move> castlingMoves(Collection<Move> legalMoves,
                                                       Collection<Move> enemyMoves);
@@ -111,7 +113,9 @@ public abstract class Player {
             Log.d("LegalMoves", "LEAVES KING IN CHECK");
             return new AlternateBoard(this.board, move, MoveWas.THIS_LEAVES_KING_IN_CHECK);
         }
-        return new AlternateBoard(newBoard, move, MoveWas.LEGAL);
+        else {
+            return new AlternateBoard(newBoard, move, MoveWas.LEGAL);
+        }
     }
 
 
