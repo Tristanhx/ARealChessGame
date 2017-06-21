@@ -24,17 +24,17 @@ public abstract class Player {
     protected final King playerKing;
     protected final Collection<Move> legalMoves;
     protected final Collection<Move> enemyMoves;
-    protected boolean isInCheck;
+    protected final Collection attacksOnKing;
 
     Player(final Board board, final Collection<Move> legalMoves, final Collection<Move> enemyMoves){
         this.board = board;
         this.playerKing = whoIsMyKing();
-        this.legalMoves = ImmutableList.copyOf(Iterables.concat(legalMoves, castlingMoves(legalMoves, enemyMoves)));
+        this.attacksOnKing = attacksOnTile(playerKing.getXPos(), playerKing.getYPos(), enemyMoves);
         this.enemyMoves = enemyMoves;
+        this.legalMoves = ImmutableList.copyOf(Iterables.concat(legalMoves, castlingMoves(legalMoves, enemyMoves)));
         Log.d("EnemyMovesLog", getAlliance().toString()+ " size " + String.valueOf(enemyMoves.size()));
         Log.d("feho", "Player: "+ attacksOnTile(playerKing.getXPos(), playerKing.getYPos(), enemyMoves).toString());
         Log.d("feho", "Player: " + attacksOnTile(playerKing.getXPos(), playerKing.getYPos(), enemyMoves).isEmpty());
-        this.isInCheck = !(attacksOnTile(playerKing.getXPos(), playerKing.getYPos(), enemyMoves).isEmpty());
     }
 
     protected static Collection<Move> attacksOnTile(int xPos, int yPos, Collection<Move> moves){
@@ -57,8 +57,14 @@ public abstract class Player {
     }
 
     public boolean checkInCheck(){
-        Log.d("King", playerKing.getAlliance().toString() + " is in check " + String.valueOf(isInCheck));
-        return isInCheck;
+        if (this.attacksOnKing.size() >= 1){
+            Log.d("King", playerKing.getAlliance().toString() + " is in check");
+            return true;
+        }
+        else{
+            Log.d("King", "King" + playerKing.getAlliance().toString() + " is NOT in check");
+            return false;
+        }
     }
 
     public boolean checkMate(){

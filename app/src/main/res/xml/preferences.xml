@@ -1,0 +1,22 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="prefkey_cbp_1"
+        android:summary="You will play against another human-being sitting across from you."
+        android:title="Human vs Human" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="prefkey_cbp_2"
+        android:summary="You will be playing against artificial intelligence"
+        android:title="Human vs Computer"
+        />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="prefkey_cbp_3"
+        android:summary="Your phone will play against itself"
+        android:title="Computer vs Computer"
+        />
+
+</PreferenceScreen>

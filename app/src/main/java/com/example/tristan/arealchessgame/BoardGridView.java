@@ -229,12 +229,12 @@ public class BoardGridView extends GridView{
                     }
                 }
 
-                //debug highlight enemymoves
-                for (Move move : enemyMoves){
-                    int x = move.getXDestination();
-                    int y = move.getYDestination();
-                    canvas.drawRect(x * tileDim, y * tileDim, (x+1) * tileDim, (y+1) * tileDim, borderPaint);
-                }
+//                //debug highlight enemymoves
+//                for (Move move : enemyMoves){
+//                    int x = move.getXDestination();
+//                    int y = move.getYDestination();
+//                    canvas.drawRect(x * tileDim, y * tileDim, (x+1) * tileDim, (y+1) * tileDim, borderPaint);
+//                }
             }
         }
     }
