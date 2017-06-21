@@ -7,7 +7,7 @@
     tools:context="com.example.tristan.arealchessgame.GameActivity">
 
 
-    <com.example.tristan.arealchessgame.GUI.BoardGridView
+    <com.example.tristan.arealchessgame.BoardGridView
         android:id="@+id/chessboard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

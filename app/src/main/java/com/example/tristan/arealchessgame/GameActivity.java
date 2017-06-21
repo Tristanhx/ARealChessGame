@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.tristan.arealchessgame.ChessEngine.board.Board;
+import com.example.tristan.arealchessgame.chess_engine.board.Board;
 
 public class GameActivity extends AppCompatActivity {
 
