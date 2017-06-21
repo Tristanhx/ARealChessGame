@@ -27,12 +27,13 @@ import com.example.tristan.arealchessgame.R;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
 
 /**
  * Created by Tristan on 04/06/2017.
  */
 
-public class BoardGridView extends GridView {
+public class BoardGridView extends GridView{
     private int columns = Tools.BOARD_DIM, rows = Tools.BOARD_DIM, tileDim;
     private Paint darkTilePaint = new Paint();
     private Paint borderPaint = new Paint();
@@ -154,7 +155,7 @@ public class BoardGridView extends GridView {
         }
 
         //drawing borders
-        borderPaint.setStrokeWidth(25);
+        borderPaint.setStrokeWidth(20);
         borderPaint.setColor(ContextCompat.getColor(this.getContext(), R.color.darkTileColor3));
 //        seemPaint.setStrokeWidth(5);
         //top
@@ -199,6 +200,7 @@ public class BoardGridView extends GridView {
             if(selectedPiece.getAlliance() == Board.getInstance().getCurrentPlayer().getAlliance()) {
                 Collection<Move> legalMoves = selectedPiece.legalMoves(Board.getInstance());
                 Collection<Move> castleMoves = Board.getInstance().getCurrentPlayer().getLegalMoves();
+                Collection<Move> enemyMoves = Board.getInstance().getCurrentPlayer().getOpponent().getLegalMoves();
                 highlightPaintAttack.setStrokeWidth(5);
                 highlightPaintAttack.setStyle(Paint.Style.STROKE);
                 highlightPaintAttack.setColor(ContextCompat.getColor(this.getContext(), R.color.highLightColorAttack));
@@ -225,6 +227,13 @@ public class BoardGridView extends GridView {
                     if (move instanceof MoveCastle && selectedPiece instanceof King){
                         canvas.drawRoundRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, tileDim/2, tileDim/2, specialMovePaint);
                     }
+                }
+
+                //debug highlight enemymoves
+                for (Move move : enemyMoves){
+                    int x = move.getXDestination();
+                    int y = move.getYDestination();
+                    canvas.drawRect(x * tileDim, y * tileDim, (x+1) * tileDim, (y+1) * tileDim, borderPaint);
                 }
             }
         }

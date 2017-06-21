@@ -7,4 +7,5 @@
     <string name="player2">Player 2</string>
     <string name="castle">Castle</string>
     <string name="forfeit">Forfeit</string>
+    <string name="reset">Reset</string>
 </resources>

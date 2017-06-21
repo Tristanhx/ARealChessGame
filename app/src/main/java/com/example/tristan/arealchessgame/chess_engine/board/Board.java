@@ -2,6 +2,7 @@ package com.example.tristan.arealchessgame.chess_engine.board;
 
 import android.util.Log;
 
+import com.example.tristan.arealchessgame.GameChanger;
 import com.example.tristan.arealchessgame.chess_engine.Alliance;
 import com.example.tristan.arealchessgame.chess_engine.move.Move;
 import com.example.tristan.arealchessgame.chess_engine.move.MoveMaker;
@@ -46,6 +47,8 @@ public class Board {
 
     private final Move chosenMove;
 
+    private final GameChanger gameChanger;
+
     public static synchronized Board getInstance(){
         if (instance == null){
             instance = createDefaultBoard();
@@ -65,6 +68,7 @@ public class Board {
         this.whitePlayer = new PlayerWhite(this, whiteMoves, blackMoves);
         this.blackPlayer = new PlayerBlack(this, whiteMoves, blackMoves);
         this.currentPlayer = builder.nextPlayer.chooseNextPlayer(this.whitePlayer, this.blackPlayer);
+        this.gameChanger = new GameChanger(currentPlayer);
         this.chosenMove = builder.chosenMove != null ? builder.chosenMove : MoveMaker.getNoMove();
         this.enPassantPawn = builder.enPassantPiece;
     }

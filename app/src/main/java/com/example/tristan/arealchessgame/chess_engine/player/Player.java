@@ -31,7 +31,10 @@ public abstract class Player {
         this.playerKing = whoIsMyKing();
         this.legalMoves = ImmutableList.copyOf(Iterables.concat(legalMoves, castlingMoves(legalMoves, enemyMoves)));
         this.enemyMoves = enemyMoves;
-        this.isInCheck = !attacksOnTile(playerKing.getXPos(), playerKing.getYPos(), enemyMoves).isEmpty();
+        Log.d("EnemyMovesLog", getAlliance().toString()+ " size " + String.valueOf(enemyMoves.size()));
+        Log.d("feho", "Player: "+ attacksOnTile(playerKing.getXPos(), playerKing.getYPos(), enemyMoves).toString());
+        Log.d("feho", "Player: " + attacksOnTile(playerKing.getXPos(), playerKing.getYPos(), enemyMoves).isEmpty());
+        this.isInCheck = !(attacksOnTile(playerKing.getXPos(), playerKing.getYPos(), enemyMoves).isEmpty());
     }
 
     protected static Collection<Move> attacksOnTile(int xPos, int yPos, Collection<Move> moves){
@@ -53,17 +56,17 @@ public abstract class Player {
         throw new RuntimeException("You have no King! Not a Valid Board!");
     }
 
-    public boolean isInCheck(){
+    public boolean checkInCheck(){
         Log.d("King", playerKing.getAlliance().toString() + " is in check " + String.valueOf(isInCheck));
         return isInCheck;
     }
 
     public boolean checkMate(){
-        return this.isInCheck && !canEscape();
+        return checkInCheck() && !canEscape();
     }
 
     public boolean staleMate(){
-        return !this.isInCheck && !canEscape();
+        return !checkInCheck() && !canEscape();
     }
 
     protected boolean canEscape(){
