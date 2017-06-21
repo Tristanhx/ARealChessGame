@@ -32,5 +32,13 @@
         android:layout_centerInParent="true"
         android:text="@string/score_button"
         android:onClick="scoreBoard"/>
+    <Button
+        android:id="@+id/settings_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/score_button"
+        android:layout_centerInParent="true"
+        android:text="@string/settings_button"
+        android:onClick="settingsScreen"/>
 
 </RelativeLayout>

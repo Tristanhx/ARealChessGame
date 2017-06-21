@@ -3,6 +3,7 @@
     <string name="chess_title">ChessGame</string>
     <string name="play_button">Play</string>
     <string name="score_button">Score</string>
+    <string name="settings_button">Settings</string>
     <string name="player1">Player 1</string>
     <string name="player2">Player 2</string>
     <string name="castle">Castle</string>

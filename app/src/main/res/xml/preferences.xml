@@ -2,21 +2,30 @@
 
     <CheckBoxPreference
         android:defaultValue="true"
-        android:key="prefkey_cbp_1"
+        android:key="HvH"
         android:summary="You will play against another human-being sitting across from you."
         android:title="Human vs Human" />
 
     <CheckBoxPreference
         android:defaultValue="false"
-        android:key="prefkey_cbp_2"
+        android:key="HvC"
         android:summary="You will be playing against artificial intelligence"
         android:title="Human vs Computer"
         />
     <CheckBoxPreference
         android:defaultValue="false"
-        android:key="prefkey_cbp_3"
+        android:key="CvC"
         android:summary="Your phone will play against itself"
         android:title="Computer vs Computer"
+        />
+
+    <ListPreference
+        android:defaultValue="4"
+        android:key="depth"
+        android:title="Difficulty"
+        android:summary="How long the Computer thinks."
+        android:entries="@array/difficulty"
+        android:entryValues="@array/difficulty"
         />
 
 </PreferenceScreen>
