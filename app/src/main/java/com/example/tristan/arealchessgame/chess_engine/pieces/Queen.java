@@ -32,10 +32,10 @@ public class Queen extends Piece {
                     {{-1, -1}, {-2, -2}, {-3, -3}, {-4, -4}, {-5, -5}, {-6, -6}, {-7, -7}},
                     /* LeftDown */
                     {{-1, 1}, {-2, 2}, {-3, 3}, {-4, 4}, {-5, 5}, {-6, 6}, {-7, 7}},
-                     /* RightUp */
-                    {{1, -1}, {2, -2}, {3, -3}, {4, -4}, {5, -5}, {6, -6}, {7, -7},
-                           /* RightDown */
-                            {1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}, {6, 6}, {7, 7}}};
+                    /* RightUp */
+                    {{1, -1}, {2, -2}, {3, -3}, {4, -4}, {5, -5}, {6, -6}, {7, -7}},
+                    /* RightDown */
+                    {{1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}, {6, 6}, {7, 7}}};
 
     public Queen(int xPosition, int yPosition, Alliance alliance, final boolean isFirstMove) {
         super(PieceType.QUEEN, xPosition, yPosition, alliance, isFirstMove);
@@ -69,10 +69,8 @@ public class Queen extends Piece {
                         // if the piece at destination tile has a different alliance it is enemy piece, attack!
                         if (this.alliance != destPieceAlliance) {
                             legalMoves.add(new MoveAttack(board, this, pieceAtDest, xCoorDest, yCoorDest));
-                            break;
-                        } else {
-                            break; // No use in looking further in this direction
                         }
+                        break; // No use in looking further in this direction
                     }
                 }
             }

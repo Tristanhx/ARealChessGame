@@ -13,6 +13,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        StaticApplicationContext.context = this.getApplicationContext();
+
         Button testButton = (Button) findViewById(R.id.play_button);
         Button scoreButton = (Button) findViewById(R.id.score_button);
 
