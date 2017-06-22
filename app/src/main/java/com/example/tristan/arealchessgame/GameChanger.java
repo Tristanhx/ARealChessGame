@@ -6,6 +6,7 @@ import com.example.tristan.arealchessgame.chess_engine.Alliance;
 import com.example.tristan.arealchessgame.chess_engine.Setup;
 import com.example.tristan.arealchessgame.chess_engine.board.Board;
 import com.example.tristan.arealchessgame.chess_engine.player.Player;
+import com.example.tristan.arealchessgame.chess_engine.player.Type;
 import com.example.tristan.arealchessgame.chess_engine.player.computer_player.MiniMax;
 
 import java.util.Observable;
@@ -45,5 +46,10 @@ public class GameChanger extends Observable {
     private void setupUpdate(Setup setup){
         setChanged();
         notifyObservers(setup);
+    }
+
+    public void moveUpdate(final Type type){
+        setChanged();
+        notifyObservers(type);
     }
 }

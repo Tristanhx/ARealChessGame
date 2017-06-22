@@ -34,6 +34,7 @@ import java.util.Observable;
  */
 
 public class BoardGridView extends GridView{
+
     private int columns = Tools.BOARD_DIM, rows = Tools.BOARD_DIM, tileDim;
     private Paint darkTilePaint = new Paint();
     private Paint borderPaint = new Paint();
