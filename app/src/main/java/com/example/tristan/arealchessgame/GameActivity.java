@@ -4,13 +4,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.tristan.arealchessgame.chess_engine.board.Board;
+import com.example.tristan.arealchessgame.chess_engine.player.Player;
 
 public class GameActivity extends AppCompatActivity {
 
     Board board;
     BoardGridView chessBoardView;
+    GameChanger gameChanger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

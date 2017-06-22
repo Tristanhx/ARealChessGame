@@ -27,6 +27,10 @@ public class SettingsFragment extends PreferenceFragment {
         compVsComp = (CheckBoxPreference) findPreference("CvC");
         difficulty = (ListPreference) findPreference("depth");
 
+        if (humanVsHuman.isChecked()){
+            difficulty.setEnabled(false);
+        }
+
         Preference.OnPreferenceChangeListener onPreferenceChangeListener = new Preference.OnPreferenceChangeListener(){
             public boolean onPreferenceChange(Preference preference, Object newValue){
                 String key = preference.getKey();

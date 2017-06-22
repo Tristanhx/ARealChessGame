@@ -1,8 +1,13 @@
 package com.example.tristan.arealchessgame.chess_engine.board;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.tristan.arealchessgame.GameActivity;
 import com.example.tristan.arealchessgame.GameChanger;
+import com.example.tristan.arealchessgame.ScoreActivity;
 import com.example.tristan.arealchessgame.chess_engine.Alliance;
 import com.example.tristan.arealchessgame.chess_engine.move.Move;
 import com.example.tristan.arealchessgame.chess_engine.move.MoveMaker;
@@ -45,14 +50,18 @@ public class Board {
     private final Pawn enPassantPawn;
 
 
+
     private final Move chosenMove;
 
-    private final GameChanger gameChanger;
+//    public void getContext(Context context){
+//        gameContext = context;
+//    }
 
     public static synchronized Board getInstance(){
         if (instance == null){
             instance = createDefaultBoard();
         }
+
         return instance;
     }
 
@@ -68,9 +77,19 @@ public class Board {
         this.whitePlayer = new PlayerWhite(this, whiteMoves, blackMoves);
         this.blackPlayer = new PlayerBlack(this, whiteMoves, blackMoves);
         this.currentPlayer = builder.nextPlayer.chooseNextPlayer(this.whitePlayer, this.blackPlayer);
-        this.gameChanger = new GameChanger(currentPlayer);
         this.chosenMove = builder.chosenMove != null ? builder.chosenMove : MoveMaker.getNoMove();
         this.enPassantPawn = builder.enPassantPiece;
+//        endGame();
+    }
+
+    public Boolean endGame(){
+        if (whitePlayer.checkMate()) {
+            return true;
+        }
+        else if(blackPlayer.checkMate()){
+            return true;
+        }
+        return false;
     }
 
 

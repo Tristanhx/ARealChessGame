@@ -9,6 +9,7 @@ import com.example.tristan.arealchessgame.chess_engine.pieces.King;
 import com.example.tristan.arealchessgame.chess_engine.pieces.Piece;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.primitives.Booleans;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,17 +25,14 @@ public abstract class Player {
     protected final King playerKing;
     protected final Collection<Move> legalMoves;
     protected final Collection<Move> enemyMoves;
-    protected final Collection attacksOnKing;
+    protected final Boolean isInCheck;
 
     Player(final Board board, final Collection<Move> legalMoves, final Collection<Move> enemyMoves){
         this.board = board;
         this.playerKing = whoIsMyKing();
-        this.attacksOnKing = attacksOnTile(playerKing.getXPos(), playerKing.getYPos(), enemyMoves);
+        this.isInCheck = !(attacksOnTile(playerKing.getXPos(), playerKing.getYPos(), enemyMoves).isEmpty());
         this.enemyMoves = enemyMoves;
         this.legalMoves = ImmutableList.copyOf(Iterables.concat(legalMoves, castlingMoves(legalMoves, enemyMoves)));
-        Log.d("EnemyMovesLog", getAlliance().toString()+ " size " + String.valueOf(enemyMoves.size()));
-        Log.d("feho", "Player: "+ attacksOnTile(playerKing.getXPos(), playerKing.getYPos(), enemyMoves).toString());
-        Log.d("feho", "Player: " + attacksOnTile(playerKing.getXPos(), playerKing.getYPos(), enemyMoves).isEmpty());
     }
 
     protected static Collection<Move> attacksOnTile(int xPos, int yPos, Collection<Move> moves){
@@ -57,17 +55,12 @@ public abstract class Player {
     }
 
     public boolean checkInCheck(){
-        if (this.attacksOnKing.size() >= 1){
-            Log.d("King", playerKing.getAlliance().toString() + " is in check");
-            return true;
-        }
-        else{
-            Log.d("King", "King" + playerKing.getAlliance().toString() + " is NOT in check");
-            return false;
-        }
+        Log.d("check", playerKing.getAlliance().toString() + " check " + isInCheck);
+        return isInCheck;
     }
 
     public boolean checkMate(){
+        Log.d("checkmate", playerKing.getAlliance().toString() + " checkmate " + (checkInCheck() && !canEscape()));
         return checkInCheck() && !canEscape();
     }
 

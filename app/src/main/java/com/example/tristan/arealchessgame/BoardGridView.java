@@ -40,6 +40,7 @@ public class BoardGridView extends GridView{
     private Paint highlightPaint = new Paint();
     private Paint highlightPaintAttack = new Paint();
     private Paint specialMovePaint = new Paint();
+    private Paint scorePaint = new Paint();
 //    private Paint seemPaint = new Paint();
     final Map<String, Integer> resourceMap;
 
@@ -236,6 +237,13 @@ public class BoardGridView extends GridView{
 //                    canvas.drawRect(x * tileDim, y * tileDim, (x+1) * tileDim, (y+1) * tileDim, borderPaint);
 //                }
             }
+        }
+        //endgame
+        scorePaint.setColor(ContextCompat.getColor(this.getContext(), R.color.stone));
+        specialMovePaint.setTextSize(100);
+        if(Board.getInstance().endGame()){
+            canvas.drawRect(0, 0, boardDim, boardDim, scorePaint);
+            canvas.drawText("Checkmate!", 200, 500, specialMovePaint);
         }
     }
 

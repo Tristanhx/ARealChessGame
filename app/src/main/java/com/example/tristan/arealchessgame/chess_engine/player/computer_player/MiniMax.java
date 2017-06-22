@@ -4,6 +4,8 @@ import com.example.tristan.arealchessgame.chess_engine.board.Board;
 import com.example.tristan.arealchessgame.chess_engine.move.Move;
 import com.example.tristan.arealchessgame.chess_engine.player.AlternateBoard;
 
+import java.util.Observer;
+
 /**
  * Created by trist on 6/20/2017.
  */
