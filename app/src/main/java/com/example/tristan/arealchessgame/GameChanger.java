@@ -1,7 +1,10 @@
 package com.example.tristan.arealchessgame;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.example.tristan.arealchessgame.chess_engine.Setup;
 import com.example.tristan.arealchessgame.chess_engine.board.Board;
@@ -19,16 +22,23 @@ import java.util.concurrent.ExecutionException;
  * Created by trist on 6/21/2017.
  */
 
-public class GameChanger extends Observable {
+public class GameChanger extends Observable implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static GameChanger instance = null;
     Setup setup;
+    static BoardGridView boardGridView;
+
+    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(StaticApplicationContext.context);
 
     public static Player currentPlayer = null;
 
-    private Observer AI;
-
-
+    public static GameChanger getInstance(BoardGridView BGV){
+        if (instance == null){
+            instance = new GameChanger(StaticApplicationContext.context);
+            boardGridView = BGV;
+        }
+        return instance;
+    }
 
     public static GameChanger getInstance(){
         if (instance == null){
@@ -37,23 +47,29 @@ public class GameChanger extends Observable {
         return instance;
     }
 
-
     protected GameChanger(Context context){
         this.setup = new Setup(context);
+        preferences.registerOnSharedPreferenceChangeListener(this);
+        this.addObserver(new TurnWatcher());
     }
 
     public Setup getSetup(){
         return this.setup;
     }
 
-    private void setupUpdate(Setup setup){
-        setChanged();
-        notifyObservers(setup);
-    }
+//    private void setupUpdate(Setup setup){
+//        setChanged();
+//        notifyObservers(setup);
+//    }
 
     public void moveUpdate(final Type type){
         setChanged();
         notifyObservers(type);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        this.setup = new Setup(StaticApplicationContext.context);
     }
 
     public enum Type {
@@ -61,7 +77,7 @@ public class GameChanger extends Observable {
         COMPUTER
     }
 
-    public class TurnWatcher implements Observer {
+    private static class TurnWatcher implements Observer {
 
 
         @Override
@@ -74,10 +90,10 @@ public class GameChanger extends Observable {
         }
     }
 
-    class Thinker extends AsyncTask<Move, String, Move> {
+    private static class Thinker extends AsyncTask<Move, String, Move> {
 
 
-        public Thinker(){
+        Thinker(){
 
         }
 
@@ -98,6 +114,7 @@ public class GameChanger extends Observable {
                 final Move bestMove = get();
                 final AlternateBoard newBoard = Board.getInstance().getCurrentPlayer().makeMove(bestMove);
                 Board.instance = newBoard.getBoard();
+                boardGridView.invalidate();
 
 
             } catch (InterruptedException e) {

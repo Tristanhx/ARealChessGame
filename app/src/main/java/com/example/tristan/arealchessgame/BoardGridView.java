@@ -210,17 +210,18 @@ public class BoardGridView extends GridView{
                 specialMovePaint.setStyle(Paint.Style.STROKE);
                 specialMovePaint.setColor(ContextCompat.getColor(this.getContext(), R.color.enPassantColor));
                 for (Move move : legalMoves) {
-                    int x = move.getXDestination();
-                    int y = move.getYDestination();
+                    final AlternateBoard testBoard = Board.getInstance().getCurrentPlayer().makeMove(move);
+                    if (testBoard.getMoveWas().isExecuted()) {
+                        int x = move.getXDestination();
+                        int y = move.getYDestination();
 
-                    if (move instanceof MoveAttack){
-                        canvas.drawRoundRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, tileDim/2, tileDim/2, highlightPaintAttack);
-                    }
-                    else if (move instanceof MoveEnPassant){
-                        canvas.drawRoundRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, tileDim/2, tileDim/2, specialMovePaint);
-                    }
-                    else {
-                        canvas.drawRoundRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, tileDim/2, tileDim/2, highlightPaint);
+                        if (move instanceof MoveAttack) {
+                            canvas.drawRoundRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, tileDim / 2, tileDim / 2, highlightPaintAttack);
+                        } else if (move instanceof MoveEnPassant) {
+                            canvas.drawRoundRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, tileDim / 2, tileDim / 2, specialMovePaint);
+                        } else {
+                            canvas.drawRoundRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, tileDim / 2, tileDim / 2, highlightPaint);
+                        }
                     }
                 }
                 for (Move move : castleMoves){
@@ -285,6 +286,8 @@ public class BoardGridView extends GridView{
                 int yRow = (int) (event.getY() / tileDim);
                 String message = Integer.toString(xColumn) + ", " + Integer.toString(yRow);
                 Log.d("aroutbound", message);
+                Boolean curComp = GameChanger.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer());
+                Log.d("typeSet", curComp ? "Current Player is Computer " + curComp: "Current Player is Human " + curComp);
                 if (startTile == null) {
                     startTile = oldBoard.getTile(xColumn, yRow);
                     selectedPiece = startTile.getPiece();
@@ -310,6 +313,10 @@ public class BoardGridView extends GridView{
                             Log.d("invalidated", "I am here 2");
                             if (newBoard.getMoveWas().isExecuted()) {
                                 Board.instance = newBoard.getBoard();
+
+                                if(GameChanger.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer())){
+                                    GameChanger.getInstance().moveUpdate(GameChanger.Type.HUMAN);
+                                }
                                 invalidate();
                                 Log.d("invalidated", "I am here 3");
                             }

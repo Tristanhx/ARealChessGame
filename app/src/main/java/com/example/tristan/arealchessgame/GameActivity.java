@@ -22,7 +22,7 @@ public class GameActivity extends AppCompatActivity {
 
 
 
-        gameChanger = GameChanger.getInstance();
+
 
         board = Board.getInstance();
 
@@ -30,6 +30,7 @@ public class GameActivity extends AppCompatActivity {
 
         chessBoardView = (BoardGridView) findViewById(R.id.chessboard);
 
+        gameChanger = GameChanger.getInstance((BoardGridView) findViewById(R.id.chessboard));
         Log.d("boardstring", board.toString());
     }
 

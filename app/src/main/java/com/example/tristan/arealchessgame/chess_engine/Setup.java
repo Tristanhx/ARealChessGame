@@ -15,15 +15,13 @@ public class Setup {
 
     private GameChanger.Type whiteType;
     private GameChanger.Type blackType;
-    SharedPreferences preferences;
-    String HvH;
-    String CvC;
+
     public Setup(Context context){
-        this.preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        HvH = preferences.getString("HvH", null);
-        CvC = preferences.getString("CvC", null);
-        this.whiteType = CvC.equals("true") ? GameChanger.Type.COMPUTER : GameChanger.Type.HUMAN;
-        this.blackType = HvH.equals("true") ? GameChanger.Type.HUMAN : GameChanger.Type.COMPUTER;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        Boolean HvH = preferences.getBoolean("HvH", true);
+        Boolean CvC = preferences.getBoolean("CvC", true);
+        this.whiteType = CvC ? GameChanger.Type.COMPUTER : GameChanger.Type.HUMAN;
+        this.blackType = HvH ? GameChanger.Type.HUMAN : GameChanger.Type.COMPUTER;
 
     }
 
@@ -34,11 +32,11 @@ public class Setup {
         return getBlackType() == GameChanger.Type.COMPUTER;
     }
 
-    GameChanger.Type getWhiteType(){
+    private GameChanger.Type getWhiteType(){
         return this.whiteType;
     }
 
-    GameChanger.Type getBlackType(){
+    private GameChanger.Type getBlackType(){
         return this.blackType;
     }
 }
