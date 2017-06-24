@@ -10,13 +10,16 @@ import com.example.tristan.arealchessgame.chess_engine.player.Player;
 
 class StandardEvaluator implements Evaluator {
 
+    private int CHECK = 10;
+    private int CASTLE = 10;
+
     @Override
     public int evaluate(Board board, int depth) {
         return score(board, board.getWhitePlayer(), depth)-score(board, board.getBlackPlayer(), depth);
     }
 
     private int score(Board board, Player player, int depth) {
-        return pieceValue(player);
+        return pieceValue(player) + isCheck(player);
     }
 
     private int pieceValue(Player player) {
@@ -26,4 +29,18 @@ class StandardEvaluator implements Evaluator {
         }
         return pieceValue;
     }
+
+    private int isCheck(Player player){
+        if (player.checkInCheck()){
+            return CHECK;
+        }
+        return 0;
+    }
+
+//    private int isCastled(Player player){
+//        if (player.isCastled()){
+//            return CASTLE;
+//        }
+//        return 0;
+//    }
 }

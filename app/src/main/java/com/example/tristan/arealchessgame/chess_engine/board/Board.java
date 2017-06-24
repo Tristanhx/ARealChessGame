@@ -52,6 +52,7 @@ public class Board {
 
 
     private final Move chosenMove;
+    private Move lastMove;
 
 //    public void getContext(Context context){
 //        gameContext = context;
@@ -90,6 +91,14 @@ public class Board {
             return true;
         }
         return false;
+    }
+
+    public void setLastMove(Move move){
+        this.lastMove = move;
+    }
+
+    public Move getLastMove(){
+        return this.lastMove;
     }
 
 
@@ -256,6 +265,11 @@ public class Board {
     }
 
     public Tile getTile(int xCoor, int yCoor){
-        return mBoard.get(Tools.convertPosition(xCoor, yCoor));
+        try {
+            return mBoard.get(Tools.convertPosition(xCoor, yCoor));
+        }catch (IndexOutOfBoundsException e){
+            Log.d("outofbounds", "Index out of bounds");
+        }
+        return null;
     }
 }

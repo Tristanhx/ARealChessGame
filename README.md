@@ -27,3 +27,5 @@ Castling and Taking a piece en passant can be difficult to implement. AI can als
 Chess is an app that implements a board and pieces and is probably much more elaborate than I can make it in this short time. This app also flips buttons and pieces if the players so choose. In my app this will be the only choice. Its style is not minimalistic enough for my taste. It is too dark and poorly visible when the brightness is turned down. The user will want to turn the brightness down to have lasting battery-life as a game of chess can take a while. I aim to make a very minimalistic chess game, that is well visible in low brightness. 
 ### MVP
 All pieces must be selectable and movable according to the rules onto a chessboard. When a game has ended the result must be displayed onto the Scoreboard along with previous games. Optional parts to implement is 'Castling', and 'Taking a piece en passant'. Implementing AI is also optional, all if time permits.
+
+[![BCH compliance](https://bettercodehub.com/edge/badge/Tristanhx/ARealChessGame?branch=master)](https://bettercodehub.com/)

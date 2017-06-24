@@ -3,6 +3,7 @@ package com.example.tristan.arealchessgame.chess_engine;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.example.tristan.arealchessgame.GameChanger;
 import com.example.tristan.arealchessgame.chess_engine.player.Player;
@@ -22,7 +23,6 @@ public class Setup {
         Boolean CvC = preferences.getBoolean("CvC", true);
         this.whiteType = CvC ? GameChanger.Type.COMPUTER : GameChanger.Type.HUMAN;
         this.blackType = HvH ? GameChanger.Type.HUMAN : GameChanger.Type.COMPUTER;
-
     }
 
     public boolean isComputer(final Player player){

@@ -57,10 +57,10 @@ public class GameChanger extends Observable implements SharedPreferences.OnShare
         return this.setup;
     }
 
-//    private void setupUpdate(Setup setup){
-//        setChanged();
-//        notifyObservers(setup);
-//    }
+    private void setupUpdate(Setup setup){
+        setChanged();
+        notifyObservers(setup);
+    }
 
     public void moveUpdate(final Type type){
         setChanged();
@@ -70,6 +70,7 @@ public class GameChanger extends Observable implements SharedPreferences.OnShare
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         this.setup = new Setup(StaticApplicationContext.context);
+        setupUpdate(setup);
     }
 
     public enum Type {
@@ -100,7 +101,7 @@ public class GameChanger extends Observable implements SharedPreferences.OnShare
         @Override
         protected Move doInBackground(Move... params) {
 
-            final Strategy miniMax = new MiniMax(2);
+            final Strategy miniMax = new MiniMax(3);
             final Move bestMove = miniMax.execute(Board.getInstance());
 
             return bestMove;
@@ -114,6 +115,10 @@ public class GameChanger extends Observable implements SharedPreferences.OnShare
                 final Move bestMove = get();
                 final AlternateBoard newBoard = Board.getInstance().getCurrentPlayer().makeMove(bestMove);
                 Board.instance = newBoard.getBoard();
+                Board.getInstance().setLastMove(bestMove);
+                if(GameChanger.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer())){
+                    GameChanger.getInstance().moveUpdate(Type.COMPUTER);
+                }
                 boardGridView.invalidate();
 
 
