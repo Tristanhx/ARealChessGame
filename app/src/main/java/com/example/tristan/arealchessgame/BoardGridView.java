@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.GridView;
 
+import com.example.tristan.arealchessgame.chess_engine.Alliance;
 import com.example.tristan.arealchessgame.chess_engine.Tools;
 import com.example.tristan.arealchessgame.chess_engine.board.Board;
 import com.example.tristan.arealchessgame.chess_engine.move.Move;
@@ -22,12 +23,10 @@ import com.example.tristan.arealchessgame.chess_engine.move.pawn.MoveEnPassant;
 import com.example.tristan.arealchessgame.chess_engine.pieces.King;
 import com.example.tristan.arealchessgame.chess_engine.pieces.Piece;
 import com.example.tristan.arealchessgame.chess_engine.player.AlternateBoard;
-import com.example.tristan.arealchessgame.R;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Observable;
 
 /**
  * Created by Tristan on 04/06/2017.
@@ -41,7 +40,8 @@ public class BoardGridView extends GridView{
     private Paint highlightPaint = new Paint();
     private Paint highlightPaintAttack = new Paint();
     private Paint specialMovePaint = new Paint();
-    private Paint scorePaint = new Paint();
+    private Paint scorePaintWhite = new Paint();
+    private Paint scorePaintBlack = new Paint();
     private Paint lastMoveBluePaint = new Paint();
     private Paint lastMoveRedPaint = new Paint();
 //    private Paint seemPaint = new Paint();
@@ -80,24 +80,6 @@ public class BoardGridView extends GridView{
         darkTilePaint.setStyle(Paint.Style.FILL_AND_STROKE);
     }
 
-    // Setters
-    public void setColumns(int columns){
-        this.columns = columns;
-    }
-
-    public void setRows(int rows){
-        this.rows = rows;
-    }
-
-    // Getters
-    public int getColumns(){
-        return columns;
-    }
-
-    public int getRows(){
-        return rows;
-    }
-
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh){
         super.onSizeChanged(w, h, oldw, oldh);
@@ -110,8 +92,6 @@ public class BoardGridView extends GridView{
         }
 
         tileDim = getWidth() / columns;
-
-//        tileBlack = new boolean[columns][rows];
 
         invalidate();
     }
@@ -143,10 +123,11 @@ public class BoardGridView extends GridView{
         highlightPaint.setStrokeWidth(5);
         highlightPaint.setStyle(Paint.Style.STROKE);
 
-        // Check if col/row isn't 0, now redundant since size is now hardcoded.
-        if(columns == 0 || rows == 0){
-            return;
-        }
+        scorePaintWhite.setColor(ContextCompat.getColor(this.getContext(), R.color.white));
+        scorePaintWhite.setAlpha(127);
+        scorePaintBlack.setColor(ContextCompat.getColor(this.getContext(), R.color.black));
+        scorePaintBlack.setAlpha(127);
+        specialMovePaint.setTextSize(100);
 
         // Set boardDimensions, always square according to shortest side.
         int boardDim;
@@ -203,6 +184,24 @@ public class BoardGridView extends GridView{
                 }
             }
         }
+        //highlight lastMove
+        Move lastMove = Board.getInstance().getLastMove();
+        if (lastMove != null){
+            int xStart = lastMove.getCurrentXPos();
+            int yStart =lastMove.getCurrentYPos();
+            int xDest = lastMove.getXDestination();
+            int yDest = lastMove.getYDestination();
+
+
+            if (!(lastMove instanceof MoveAttack)) {
+                canvas.drawRect(xStart * tileDim, yStart * tileDim, (xStart + 1) * tileDim, (yStart + 1) * tileDim, lastMoveBluePaint);
+                canvas.drawRect(xDest * tileDim, yDest * tileDim, (xDest + 1) * tileDim, (yDest + 1) * tileDim, lastMoveBluePaint);
+            }
+            else{
+                canvas.drawRect(xStart * tileDim, yStart * tileDim, (xStart + 1) * tileDim, (yStart + 1) * tileDim, lastMoveRedPaint);
+                canvas.drawRect(xDest * tileDim, yDest * tileDim, (xDest + 1) * tileDim, (yDest + 1) * tileDim, lastMoveRedPaint);
+            }
+        }
         //highlight selection
         if (selectedPiece != null){
             int x = startTile.getxCoordinate();
@@ -236,32 +235,15 @@ public class BoardGridView extends GridView{
                         }
                     }
                 }
-                for (Move move : castleMoves){
-                    int x = move.getXDestination();
-                    int y = move.getYDestination();
-                    if (move instanceof MoveCastle && selectedPiece instanceof King){
+                for (Move castleMove : castleMoves){
+                    int x = castleMove.getXDestination();
+                    int y = castleMove.getYDestination();
+                    if (castleMove instanceof MoveCastle && selectedPiece instanceof King){
                         canvas.drawRoundRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, tileDim/2, tileDim/2, specialMovePaint);
                     }
                 }
 
-                //highlight lastMove
-                Move move = Board.getInstance().getLastMove();
-                if (move != null){
-                    int xStart = move.getCurrentXPos();
-                    int yStart = move.getCurrentYPos();
-                    int xDest = move.getXDestination();
-                    int yDest = move.getYDestination();
 
-
-                    if (!(move instanceof MoveAttack)) {
-                        canvas.drawRect(xStart * tileDim, yStart * tileDim, (xStart + 1) * tileDim, (yStart + 1) * tileDim, lastMoveBluePaint);
-                        canvas.drawRect(xDest * tileDim, yDest * tileDim, (xDest + 1) * tileDim, (yDest + 1) * tileDim, lastMoveBluePaint);
-                    }
-                    else{
-                        canvas.drawRect(xStart * tileDim, yStart * tileDim, (xStart + 1) * tileDim, (yStart + 1) * tileDim, lastMoveRedPaint);
-                        canvas.drawRect(xDest * tileDim, yDest * tileDim, (xDest + 1) * tileDim, (yDest + 1) * tileDim, lastMoveRedPaint);
-                    }
-                }
 
 
 //                //debug highlight enemymoves
@@ -273,11 +255,15 @@ public class BoardGridView extends GridView{
             }
         }
         //endgame
-        scorePaint.setColor(ContextCompat.getColor(this.getContext(), R.color.stone));
-        specialMovePaint.setTextSize(100);
         if(Board.getInstance().endGame()){
-            canvas.drawRect(0, 0, boardDim, boardDim, scorePaint);
-            canvas.drawText("Checkmate!", 200, 500, specialMovePaint);
+            if (Board.getInstance().getCurrentPlayer().getAlliance() == Alliance.WHITE) {
+                canvas.drawRect(0, 0, boardDim, boardDim, scorePaintWhite);
+                canvas.drawText("Checkmate!", 200, 500, specialMovePaint);
+            }
+            else{
+                canvas.drawRect(0, 0, boardDim, boardDim, scorePaintBlack);
+                canvas.drawText("Checkmate!", 200, 500, specialMovePaint);
+            }
         }
     }
 
@@ -313,6 +299,7 @@ public class BoardGridView extends GridView{
     public boolean onTouchEvent(MotionEvent event){
         Board oldBoard = Board.getInstance();
 //        if (!GameChanger.getInstance().setup.isComputer(oldBoard.getCurrentPlayer())) {
+        if(!oldBoard.endGame()) {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 try {
                     int xColumn = (int) (event.getX() / tileDim);
@@ -363,6 +350,7 @@ public class BoardGridView extends GridView{
                     Log.d("aroutbound", "That was out of bounds, solve later?");
                 }
             }
+        }
 //        }
         return true;
     }

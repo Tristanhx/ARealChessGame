@@ -101,7 +101,7 @@ public class GameChanger extends Observable implements SharedPreferences.OnShare
         @Override
         protected Move doInBackground(Move... params) {
 
-            final Strategy miniMax = new MiniMax(3);
+            final Strategy miniMax = new MiniMax(2);
             final Move bestMove = miniMax.execute(Board.getInstance());
 
             return bestMove;
