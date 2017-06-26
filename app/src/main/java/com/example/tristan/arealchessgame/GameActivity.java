@@ -10,6 +10,7 @@ import com.example.tristan.arealchessgame.chess_engine.board.Board;
 
 public class GameActivity extends AppCompatActivity {
 
+    private static boolean visibility;
     Board board;
     BoardGridView boardGridView;
     GameChanger gameChanger;
@@ -18,9 +19,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
-
+        setVisible();
 
         board = Board.getInstance();
 
@@ -43,5 +42,33 @@ public class GameActivity extends AppCompatActivity {
         if(!Board.getInstance().getCurrentPlayer().checkInCheck()) {
             Board.getInstance().getCurrentPlayer().setForfeited();
         }
+    }
+
+    public static boolean visibility(){
+        return visibility;
+    }
+
+    public static void setVisible(){
+        visibility = true;
+    }
+    public static void setInvisible(){
+        visibility = false;
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        setVisible();
+    }
+    @Override
+    protected void onPause(){
+        super.onPause();
+        setInvisible();
+    }
+
+    @Override
+    public void onBackPressed(){
+        GameChanger.currentPlayer = null;
+        finish();
     }
 }

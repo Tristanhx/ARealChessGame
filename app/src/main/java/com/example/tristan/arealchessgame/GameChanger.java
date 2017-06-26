@@ -121,16 +121,22 @@ public class GameChanger extends Observable implements SharedPreferences.OnShare
         @Override
         public void onPostExecute(Move move){
 
-            if (Board.getInstance().endGame() == Alliance.NONE && !GameChanger.getInstance().isFirstMove) {
+            if (Board.getInstance().endGame() == Alliance.NONE && !GameChanger.getInstance().isFirstMove ) {
                 try {
                     final Move bestMove = get();
                     final AlternateBoard newBoard = Board.getInstance().getCurrentPlayer().makeMove(bestMove);
                     Board.instance = newBoard.getBoard();
                     Board.getInstance().setLastMove(bestMove);
-                    if (GameChanger.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer())) {
-                        GameChanger.getInstance().moveUpdate(Type.COMPUTER);
-                    }
-                    boardGridView.invalidate();
+//                    do {
+//                        if(GameActivity.visibility()) {
+                            GameChanger.getInstance().notFirstMove();
+                            if (GameChanger.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer())) {
+                                GameChanger.getInstance().moveUpdate(Type.COMPUTER);
+                            }
+                            Log.d("Computer", "made a move");
+                            boardGridView.invalidate();
+//                        }
+//                    }while(!GameActivity.visibility());
 
 
                 } catch (InterruptedException e) {

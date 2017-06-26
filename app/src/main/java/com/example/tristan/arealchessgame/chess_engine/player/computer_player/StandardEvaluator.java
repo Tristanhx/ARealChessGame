@@ -4,6 +4,7 @@ import com.example.tristan.arealchessgame.chess_engine.board.Board;
 import com.example.tristan.arealchessgame.chess_engine.move.Move;
 import com.example.tristan.arealchessgame.chess_engine.move.castle.MoveCastle;
 import com.example.tristan.arealchessgame.chess_engine.pieces.Piece;
+import com.example.tristan.arealchessgame.chess_engine.pieces.Rook;
 import com.example.tristan.arealchessgame.chess_engine.player.Player;
 
 /**
@@ -12,7 +13,7 @@ import com.example.tristan.arealchessgame.chess_engine.player.Player;
 
 class StandardEvaluator implements Evaluator {
 
-    private int CHECK = 10;
+    private int CHECK = 6;
     private int CASTLE = 5;
 
     @Override
@@ -40,16 +41,20 @@ class StandardEvaluator implements Evaluator {
     }
 
     private int possibleMoves(Player player){
-        return (player.getLegalMoves().size());
+        return (player.getLegalMoves().size()/5);
     }
 
-    //TODO this is wrong. now only checks if castling is possible now! and not in the future.
     private int castlePossibility(Player player){
 
         int count = 0;
-        for (Move move : player.getLegalMoves()){
-            if (move instanceof MoveCastle){
-                count++;
+        if (!player.getKing().isFirstMove()){
+            return 0;
+        }
+        for (Piece piece : player.getPlayerPieces()){
+            if (piece instanceof Rook){
+                if (piece.isFirstMove()){
+                    count++;
+                }
             }
         }
         return (CASTLE * count);
