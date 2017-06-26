@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.example.tristan.arealchessgame.chess_engine.Alliance;
 import com.example.tristan.arealchessgame.chess_engine.Setup;
 import com.example.tristan.arealchessgame.chess_engine.board.Board;
 import com.example.tristan.arealchessgame.chess_engine.move.Move;
@@ -120,21 +121,23 @@ public class GameChanger extends Observable implements SharedPreferences.OnShare
         @Override
         public void onPostExecute(Move move){
 
-            try {
-                final Move bestMove = get();
-                final AlternateBoard newBoard = Board.getInstance().getCurrentPlayer().makeMove(bestMove);
-                Board.instance = newBoard.getBoard();
-                Board.getInstance().setLastMove(bestMove);
-                if(GameChanger.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer())){
-                    GameChanger.getInstance().moveUpdate(Type.COMPUTER);
+            if (Board.getInstance().endGame() == Alliance.NONE && !GameChanger.getInstance().isFirstMove) {
+                try {
+                    final Move bestMove = get();
+                    final AlternateBoard newBoard = Board.getInstance().getCurrentPlayer().makeMove(bestMove);
+                    Board.instance = newBoard.getBoard();
+                    Board.getInstance().setLastMove(bestMove);
+                    if (GameChanger.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer())) {
+                        GameChanger.getInstance().moveUpdate(Type.COMPUTER);
+                    }
+                    boardGridView.invalidate();
+
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
                 }
-                boardGridView.invalidate();
-
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
             }
 
         }

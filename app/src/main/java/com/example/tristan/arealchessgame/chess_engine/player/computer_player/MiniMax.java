@@ -1,5 +1,6 @@
 package com.example.tristan.arealchessgame.chess_engine.player.computer_player;
 
+import com.example.tristan.arealchessgame.chess_engine.Alliance;
 import com.example.tristan.arealchessgame.chess_engine.board.Board;
 import com.example.tristan.arealchessgame.chess_engine.move.Move;
 import com.example.tristan.arealchessgame.chess_engine.player.AlternateBoard;
@@ -48,7 +49,7 @@ public class MiniMax implements Strategy {
     }
 
     private static boolean gameOver(final Board board){
-        return board.getCurrentPlayer().checkMate() || board.getCurrentPlayer().staleMate();
+        return board.endGame() != Alliance.NONE;
     }
 
     public int min(final Board board, final int depth){

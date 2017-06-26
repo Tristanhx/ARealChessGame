@@ -35,6 +35,7 @@ public class GameActivity extends AppCompatActivity {
 
     public void resetBoard(View view){
         Board.instance = Board.createDefaultBoard();
+        GameChanger.getInstance().isFirstMove = true;
         boardGridView.invalidate();
     }
 
