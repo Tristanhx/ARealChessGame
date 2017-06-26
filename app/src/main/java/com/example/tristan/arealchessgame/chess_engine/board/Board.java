@@ -2,10 +2,8 @@ package com.example.tristan.arealchessgame.chess_engine.board;
 
 import android.util.Log;
 
-import com.example.tristan.arealchessgame.GameChanger;
 import com.example.tristan.arealchessgame.chess_engine.Alliance;
 import com.example.tristan.arealchessgame.chess_engine.move.Move;
-import com.example.tristan.arealchessgame.chess_engine.move.MoveMaker;
 import com.example.tristan.arealchessgame.chess_engine.move.MoveNormal;
 import com.example.tristan.arealchessgame.chess_engine.player.Player;
 import com.example.tristan.arealchessgame.chess_engine.player.PlayerBlack;
@@ -48,7 +46,7 @@ public class Board {
 
 //    public void setMoveCount(int moveCount){
 //        this.moveCount = moveCount;
-//        GameChanger.counterView.setText(String.valueOf(moveCount));
+//        GameController.counterView.setText(String.valueOf(moveCount));
 //    }
 //    public int getMoveCount(){
 //        return this.moveCount;

@@ -1,7 +1,6 @@
 package com.example.tristan.arealchessgame.chess_engine;
 
-import com.example.tristan.arealchessgame.GameChanger;
-import com.example.tristan.arealchessgame.chess_engine.board.Board;
+import com.example.tristan.arealchessgame.GameController;
 import com.example.tristan.arealchessgame.chess_engine.player.Player;
 import com.example.tristan.arealchessgame.chess_engine.player.PlayerBlack;
 import com.example.tristan.arealchessgame.chess_engine.player.PlayerWhite;
@@ -29,7 +28,7 @@ public enum Alliance {
 
         @Override
         public Player chooseNextPlayer(final PlayerWhite whitePlayer, final PlayerBlack blackPlayer) {
-            GameChanger.currentPlayer = whitePlayer;
+            GameController.currentPlayer = whitePlayer;
             return whitePlayer;
         }
 
@@ -56,7 +55,7 @@ public enum Alliance {
 
         @Override
         public Player chooseNextPlayer(final PlayerWhite whitePlayer, final PlayerBlack blackPlayer) {
-            GameChanger.currentPlayer = blackPlayer;
+            GameController.currentPlayer = blackPlayer;
             return blackPlayer;
         }
 

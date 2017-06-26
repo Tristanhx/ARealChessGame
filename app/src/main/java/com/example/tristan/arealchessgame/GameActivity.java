@@ -4,16 +4,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import com.example.tristan.arealchessgame.chess_engine.board.Board;
+import com.example.tristan.arealchessgame.gui.BackGroundView;
+import com.example.tristan.arealchessgame.gui.BoardGridView;
 
 public class GameActivity extends AppCompatActivity {
 
     private static boolean visibility;
     Board board;
     BoardGridView boardGridView;
-    GameChanger gameChanger;
+    BackGroundView backGroundView;
+    GameController gameController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,16 +27,16 @@ public class GameActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_game);
 
+        backGroundView = (BackGroundView) findViewById(R.id.background);
         boardGridView = (BoardGridView) findViewById(R.id.chessboard);
-        TextView counter = (TextView) findViewById(R.id.counter);
 
-        gameChanger = GameChanger.getInstance(boardGridView, counter);
+        gameController = GameController.getInstance(boardGridView, backGroundView);
         Log.d("boardstring", board.toString());
     }
 
     public void resetBoard(View view){
         Board.instance = Board.createDefaultBoard();
-        GameChanger.getInstance().isFirstMove = true;
+        GameController.getInstance().isFirstMove = true;
         boardGridView.invalidate();
     }
 
@@ -68,7 +70,14 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){
-        GameChanger.currentPlayer = null;
-        finish();
+        if (GameController.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer())
+                || GameController.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer().getOpponent())) {
+            GameController.instance = null;
+            Board.instance = null;
+            finish();
+        }
+        else{
+            super.onBackPressed();
+        }
     }
 }

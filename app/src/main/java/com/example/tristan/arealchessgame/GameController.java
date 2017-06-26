@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.example.tristan.arealchessgame.chess_engine.Alliance;
 import com.example.tristan.arealchessgame.chess_engine.Setup;
@@ -15,6 +14,8 @@ import com.example.tristan.arealchessgame.chess_engine.player.AlternateBoard;
 import com.example.tristan.arealchessgame.chess_engine.player.Player;
 import com.example.tristan.arealchessgame.chess_engine.player.computer_player.MiniMax;
 import com.example.tristan.arealchessgame.chess_engine.player.computer_player.Strategy;
+import com.example.tristan.arealchessgame.gui.BackGroundView;
+import com.example.tristan.arealchessgame.gui.BoardGridView;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -24,35 +25,35 @@ import java.util.concurrent.ExecutionException;
  * Created by trist on 6/21/2017.
  */
 
-public class GameChanger extends Observable implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class GameController extends Observable implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private static GameChanger instance = null;
-    Setup setup;
+    public static GameController instance = null;
+    private Setup setup;
     public static BoardGridView boardGridView;
-    public static TextView counterView;
+    public static BackGroundView backGroundView;
     public Boolean isFirstMove = true;
 
     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(StaticApplicationContext.context);
 
     public static Player currentPlayer = null;
 
-    public static GameChanger getInstance(BoardGridView BGV, TextView counter){
+    public static GameController getInstance(BoardGridView BGV, BackGroundView bgView){
         if (instance == null){
-            instance = new GameChanger(StaticApplicationContext.context);
+            instance = new GameController(StaticApplicationContext.context);
             boardGridView = BGV;
-            counterView = counter;
+            backGroundView = bgView;
         }
         return instance;
     }
 
-    public static GameChanger getInstance(){
+    public static GameController getInstance(){
         if (instance == null){
-            instance = new GameChanger(StaticApplicationContext.context);
+            instance = new GameController(StaticApplicationContext.context);
         }
         return instance;
     }
 
-    protected GameChanger(Context context){
+    protected GameController(Context context){
         this.setup = new Setup(context);
         preferences.registerOnSharedPreferenceChangeListener(this);
         this.addObserver(new TurnWatcher());
@@ -92,7 +93,7 @@ public class GameChanger extends Observable implements SharedPreferences.OnShare
 
         @Override
         public void update(final Observable o, final Object arg) {
-            if (GameChanger.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer())
+            if (GameController.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer())
                     && !Board.getInstance().getCurrentPlayer().checkMate() &&
                     !Board.getInstance().getCurrentPlayer().staleMate()/* && Board.getInstance().getMoveCount() >=0*/){
                 final Thinker thinker = new Thinker();
@@ -111,7 +112,7 @@ public class GameChanger extends Observable implements SharedPreferences.OnShare
         @Override
         protected Move doInBackground(Move... params) {
 
-            final Strategy miniMax = new MiniMax(GameChanger.getInstance().getSetup().getDepth());
+            final Strategy miniMax = new MiniMax(GameController.getInstance().getSetup().getDepth());
             final Move bestMove = miniMax.execute(Board.getInstance());
 
             return bestMove;
@@ -121,7 +122,7 @@ public class GameChanger extends Observable implements SharedPreferences.OnShare
         @Override
         public void onPostExecute(Move move){
 
-            if (Board.getInstance().endGame() == Alliance.NONE && !GameChanger.getInstance().isFirstMove ) {
+            if (Board.getInstance().endGame() == Alliance.NONE && !GameController.getInstance().isFirstMove ) {
                 try {
                     final Move bestMove = get();
                     final AlternateBoard newBoard = Board.getInstance().getCurrentPlayer().makeMove(bestMove);
@@ -129,12 +130,13 @@ public class GameChanger extends Observable implements SharedPreferences.OnShare
                     Board.getInstance().setLastMove(bestMove);
 //                    do {
 //                        if(GameActivity.visibility()) {
-                            GameChanger.getInstance().notFirstMove();
-                            if (GameChanger.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer())) {
-                                GameChanger.getInstance().moveUpdate(Type.COMPUTER);
+                            GameController.getInstance().notFirstMove();
+                            if (GameController.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer())) {
+                                GameController.getInstance().moveUpdate(Type.COMPUTER);
                             }
-                            Log.d("Computer", "made a move");
-                            boardGridView.invalidate();
+                    Log.d("Computer", "made a move");
+                    backGroundView.invalidate();
+                    boardGridView.invalidate();
 //                        }
 //                    }while(!GameActivity.visibility());
 

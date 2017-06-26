@@ -1,4 +1,4 @@
-package com.example.tristan.arealchessgame;
+package com.example.tristan.arealchessgame.gui;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.GridView;
 
+import com.example.tristan.arealchessgame.GameController;
+import com.example.tristan.arealchessgame.R;
 import com.example.tristan.arealchessgame.chess_engine.Alliance;
 import com.example.tristan.arealchessgame.chess_engine.Tools;
 import com.example.tristan.arealchessgame.chess_engine.board.Board;
@@ -317,11 +319,10 @@ public class BoardGridView extends GridView{
     public boolean onTouchEvent(MotionEvent event){
         Board oldBoard = Board.getInstance();
         Boolean allowed = false;
-        if (!GameChanger.getInstance().setup.isComputer(oldBoard.getCurrentPlayer())){
+        if (!GameController.getInstance().getSetup().isComputer(oldBoard.getCurrentPlayer())){
             allowed = true;
         }
-        if (GameChanger.getInstance().setup.isComputer(oldBoard.getCurrentPlayer()) &&
-                GameChanger.getInstance().isFirstMove){
+        else if (GameController.getInstance().isFirstMove){
             allowed = true;
         }
         if (allowed) {
@@ -332,7 +333,7 @@ public class BoardGridView extends GridView{
                         int yRow = (int) (event.getY() / tileDim);
                         String message = Integer.toString(xColumn) + ", " + Integer.toString(yRow);
                         Log.d("aroutbound", message);
-                        Boolean curComp = GameChanger.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer());
+                        Boolean curComp = GameController.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer());
                         Log.d("typeSet", curComp ? "Current Player is Computer " + curComp : "Current Player is Human " + curComp);
                         if (startTile == null) {
                             startTile = oldBoard.getTile(xColumn, yRow);
@@ -362,10 +363,11 @@ public class BoardGridView extends GridView{
                                     Board.instance = newBoard.getBoard();
                                     Board.getInstance().setLastMove(move);
 //                                    Board.getInstance().setMoveCount(oldMoveCount + 1);
-                                    GameChanger.getInstance().notFirstMove();
-                                    if (GameChanger.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer())) {
-                                        GameChanger.getInstance().moveUpdate(GameChanger.Type.HUMAN);
+                                    GameController.getInstance().notFirstMove();
+                                    if (GameController.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer())) {
+                                        GameController.getInstance().moveUpdate(GameController.Type.HUMAN);
                                     }
+                                    GameController.backGroundView.invalidate();
                                     invalidate();
                                     Log.d("invalidated", "I am here 3");
                                 }

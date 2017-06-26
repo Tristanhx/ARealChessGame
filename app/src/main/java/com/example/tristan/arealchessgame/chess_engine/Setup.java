@@ -3,9 +3,8 @@ package com.example.tristan.arealchessgame.chess_engine;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
-import com.example.tristan.arealchessgame.GameChanger;
+import com.example.tristan.arealchessgame.GameController;
 import com.example.tristan.arealchessgame.chess_engine.player.Player;
 
 /**
@@ -14,8 +13,8 @@ import com.example.tristan.arealchessgame.chess_engine.player.Player;
 
 public class Setup {
 
-    private GameChanger.Type whiteType;
-    private GameChanger.Type blackType;
+    private GameController.Type whiteType;
+    private GameController.Type blackType;
     private int depth;
 
     public Setup(Context context){
@@ -23,22 +22,22 @@ public class Setup {
         Boolean HvH = preferences.getBoolean("HvH", true);
         Boolean CvC = preferences.getBoolean("CvC", true);
         this.depth = Integer.parseInt(preferences.getString("max_depth", "2"));
-        this.whiteType = CvC ? GameChanger.Type.COMPUTER : GameChanger.Type.HUMAN;
-        this.blackType = HvH ? GameChanger.Type.HUMAN : GameChanger.Type.COMPUTER;
+        this.whiteType = CvC ? GameController.Type.COMPUTER : GameController.Type.HUMAN;
+        this.blackType = HvH ? GameController.Type.HUMAN : GameController.Type.COMPUTER;
     }
 
     public boolean isComputer(final Player player){
         if (player.getAlliance() == Alliance.WHITE){
-            return getWhiteType() == GameChanger.Type.COMPUTER;
+            return getWhiteType() == GameController.Type.COMPUTER;
         }
-        return getBlackType() == GameChanger.Type.COMPUTER;
+        return getBlackType() == GameController.Type.COMPUTER;
     }
 
-    private GameChanger.Type getWhiteType(){
+    private GameController.Type getWhiteType(){
         return this.whiteType;
     }
 
-    private GameChanger.Type getBlackType(){
+    private GameController.Type getBlackType(){
         return this.blackType;
     }
 
