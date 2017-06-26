@@ -1,13 +1,8 @@
 package com.example.tristan.arealchessgame.chess_engine.board;
 
-import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.example.tristan.arealchessgame.GameActivity;
 import com.example.tristan.arealchessgame.GameChanger;
-import com.example.tristan.arealchessgame.ScoreActivity;
 import com.example.tristan.arealchessgame.chess_engine.Alliance;
 import com.example.tristan.arealchessgame.chess_engine.move.Move;
 import com.example.tristan.arealchessgame.chess_engine.move.MoveMaker;
@@ -24,7 +19,6 @@ import com.example.tristan.arealchessgame.chess_engine.pieces.Piece;
 import com.example.tristan.arealchessgame.chess_engine.pieces.Queen;
 import com.example.tristan.arealchessgame.chess_engine.pieces.Rook;
 import com.google.common.collect.Iterables;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -49,10 +43,16 @@ public class Board {
     private final Player currentPlayer;
     private final Pawn enPassantPawn;
 
-
-
-    private final Move chosenMove;
     private Move lastMove;
+    private int moveCount = 0;
+
+//    public void setMoveCount(int moveCount){
+//        this.moveCount = moveCount;
+//        GameChanger.counterView.setText(String.valueOf(moveCount));
+//    }
+//    public int getMoveCount(){
+//        return this.moveCount;
+//    }
 
 //    public void getContext(Context context){
 //        gameContext = context;
@@ -78,19 +78,18 @@ public class Board {
         this.whitePlayer = new PlayerWhite(this, whiteMoves, blackMoves);
         this.blackPlayer = new PlayerBlack(this, whiteMoves, blackMoves);
         this.currentPlayer = builder.nextPlayer.chooseNextPlayer(this.whitePlayer, this.blackPlayer);
-        this.chosenMove = builder.chosenMove != null ? builder.chosenMove : MoveMaker.getNoMove();
         this.enPassantPawn = builder.enPassantPiece;
 //        endGame();
     }
 
-    public Boolean endGame(){
-        if (whitePlayer.checkMate()) {
-            return true;
+    public Alliance endGame(){
+        if (whitePlayer.checkMate() || whitePlayer.isForfeited()) {
+            return Alliance.WHITE;
         }
-        else if(blackPlayer.checkMate()){
-            return true;
+        else if(blackPlayer.checkMate() || blackPlayer.isForfeited()){
+            return Alliance.BLACK;
         }
-        return false;
+        return Alliance.NONE;
     }
 
     public void setLastMove(Move move){
@@ -209,6 +208,7 @@ public class Board {
         }
 
         builder.setPlayer(Alliance.WHITE);
+//        Board.getInstance().setMoveCount(0);
         return builder.build();
     }
 

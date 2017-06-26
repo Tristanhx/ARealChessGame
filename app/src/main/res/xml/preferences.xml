@@ -20,12 +20,12 @@
         />
 
     <ListPreference
-        android:defaultValue="4"
-        android:key="depth"
+        android:defaultValue="2"
+        android:key="max_depth"
         android:title="Difficulty"
         android:summary="How long the Computer thinks."
-        android:entries="@array/difficulty"
-        android:entryValues="@array/difficulty"
+        android:entries="@array/difficulty_string"
+        android:entryValues="@array/difficulty_values"
         />
 
 </PreferenceScreen>

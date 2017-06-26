@@ -25,7 +25,7 @@ public class SettingsFragment extends PreferenceFragment {
         humanVsHuman = (CheckBoxPreference) findPreference("HvH");
         humanVsComp = (CheckBoxPreference) findPreference("HvC");
         compVsComp = (CheckBoxPreference) findPreference("CvC");
-        difficulty = (ListPreference) findPreference("depth");
+        difficulty = (ListPreference) findPreference("max_depth");
 
         if (humanVsHuman.isChecked()){
             difficulty.setEnabled(false);

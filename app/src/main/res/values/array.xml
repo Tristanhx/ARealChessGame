@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="difficulty">
+    <string-array name="difficulty_string">
+        <item>Easy, really fast!</item>
+        <item>Medium, still fast!</item>
+        <item>Hard, half a minute per turn</item>
+        <item>Very Hard, for people with patience</item>
+    </string-array>
+
+    <string-array name="difficulty_values">
         <item>1</item>
         <item>2</item>
         <item>3</item>
         <item>4</item>
-        <item>5</item>
-        <item>6</item>
     </string-array>
 </resources>

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.example.tristan.arealchessgame.chess_engine.Setup;
 import com.example.tristan.arealchessgame.chess_engine.board.Board;
@@ -26,16 +27,19 @@ public class GameChanger extends Observable implements SharedPreferences.OnShare
 
     private static GameChanger instance = null;
     Setup setup;
-    static BoardGridView boardGridView;
+    public static BoardGridView boardGridView;
+    public static TextView counterView;
+    public Boolean isFirstMove = true;
 
     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(StaticApplicationContext.context);
 
     public static Player currentPlayer = null;
 
-    public static GameChanger getInstance(BoardGridView BGV){
+    public static GameChanger getInstance(BoardGridView BGV, TextView counter){
         if (instance == null){
             instance = new GameChanger(StaticApplicationContext.context);
             boardGridView = BGV;
+            counterView = counter;
         }
         return instance;
     }
@@ -51,6 +55,10 @@ public class GameChanger extends Observable implements SharedPreferences.OnShare
         this.setup = new Setup(context);
         preferences.registerOnSharedPreferenceChangeListener(this);
         this.addObserver(new TurnWatcher());
+    }
+
+    public void notFirstMove(){
+        this.isFirstMove = false;
     }
 
     public Setup getSetup(){
@@ -84,7 +92,8 @@ public class GameChanger extends Observable implements SharedPreferences.OnShare
         @Override
         public void update(final Observable o, final Object arg) {
             if (GameChanger.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer())
-                    && !Board.getInstance().getCurrentPlayer().checkMate() && !Board.getInstance().getCurrentPlayer().staleMate()){
+                    && !Board.getInstance().getCurrentPlayer().checkMate() &&
+                    !Board.getInstance().getCurrentPlayer().staleMate()/* && Board.getInstance().getMoveCount() >=0*/){
                 final Thinker thinker = new Thinker();
                 thinker.execute();
             }
@@ -101,7 +110,7 @@ public class GameChanger extends Observable implements SharedPreferences.OnShare
         @Override
         protected Move doInBackground(Move... params) {
 
-            final Strategy miniMax = new MiniMax(2);
+            final Strategy miniMax = new MiniMax(GameChanger.getInstance().getSetup().getDepth());
             final Move bestMove = miniMax.execute(Board.getInstance());
 
             return bestMove;

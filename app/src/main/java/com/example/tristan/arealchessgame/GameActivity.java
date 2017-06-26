@@ -4,16 +4,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import com.example.tristan.arealchessgame.chess_engine.Setup;
 import com.example.tristan.arealchessgame.chess_engine.board.Board;
-import com.example.tristan.arealchessgame.chess_engine.player.Player;
 
 public class GameActivity extends AppCompatActivity {
 
     Board board;
-    BoardGridView chessBoardView;
+    BoardGridView boardGridView;
     GameChanger gameChanger;
 
     @Override
@@ -28,14 +26,21 @@ public class GameActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_game);
 
-        chessBoardView = (BoardGridView) findViewById(R.id.chessboard);
+        boardGridView = (BoardGridView) findViewById(R.id.chessboard);
+        TextView counter = (TextView) findViewById(R.id.counter);
 
-        gameChanger = GameChanger.getInstance((BoardGridView) findViewById(R.id.chessboard));
+        gameChanger = GameChanger.getInstance(boardGridView, counter);
         Log.d("boardstring", board.toString());
     }
 
     public void resetBoard(View view){
         Board.instance = Board.createDefaultBoard();
-        chessBoardView.invalidate();
+        boardGridView.invalidate();
+    }
+
+    public void forfeitPlayer(View view) {
+        if(!Board.getInstance().getCurrentPlayer().checkInCheck()) {
+            Board.getInstance().getCurrentPlayer().setForfeited();
+        }
     }
 }

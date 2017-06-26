@@ -26,6 +26,7 @@ public abstract class Player {
     protected final Collection<Move> legalMoves;
     protected final Collection<Move> enemyMoves;
     protected final Boolean isInCheck;
+    public boolean forfeited;
 
     Player(final Board board, final Collection<Move> legalMoves, final Collection<Move> enemyMoves){
         this.board = board;
@@ -33,6 +34,7 @@ public abstract class Player {
         this.isInCheck = !(attacksOnTile(playerKing.getXPos(), playerKing.getYPos(), enemyMoves).isEmpty());
         this.enemyMoves = enemyMoves;
         this.legalMoves = ImmutableList.copyOf(Iterables.concat(legalMoves, castlingMoves(legalMoves, enemyMoves)));
+        this.forfeited = false;
     }
 
     protected static Collection<Move> attacksOnTile(int xPos, int yPos, Collection<Move> moves){
@@ -43,6 +45,10 @@ public abstract class Player {
             }
         }
         return attacks;
+    }
+
+    public Boolean isForfeited(){
+        return forfeited;
     }
 
     public King whoIsMyKing() {
@@ -124,4 +130,6 @@ public abstract class Player {
     public King getKing() {
         return this.playerKing;
     }
+
+    public abstract void setForfeited();
 }

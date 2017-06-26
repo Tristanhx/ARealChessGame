@@ -44,6 +44,8 @@ public class BoardGridView extends GridView{
     private Paint scorePaintBlack = new Paint();
     private Paint lastMoveBluePaint = new Paint();
     private Paint lastMoveRedPaint = new Paint();
+    private Paint blackWinsPaint = new Paint();
+    private Paint whiteWinsPaint = new Paint();
 //    private Paint seemPaint = new Paint();
     final Map<String, Integer> resourceMap;
 
@@ -127,7 +129,11 @@ public class BoardGridView extends GridView{
         scorePaintWhite.setAlpha(127);
         scorePaintBlack.setColor(ContextCompat.getColor(this.getContext(), R.color.black));
         scorePaintBlack.setAlpha(127);
-        specialMovePaint.setTextSize(100);
+
+        blackWinsPaint.setColor(ContextCompat.getColor(this.getContext(), R.color.white));
+        blackWinsPaint.setTextSize(100);
+        whiteWinsPaint.setColor(ContextCompat.getColor(this.getContext(), R.color.black));
+        whiteWinsPaint.setTextSize(100);
 
         // Set boardDimensions, always square according to shortest side.
         int boardDim;
@@ -255,17 +261,29 @@ public class BoardGridView extends GridView{
             }
         }
         //endgame
-        if(Board.getInstance().endGame()){
-            if (Board.getInstance().getCurrentPlayer().getAlliance() == Alliance.WHITE) {
-                canvas.drawRect(0, 0, boardDim, boardDim, scorePaintWhite);
-                canvas.drawText("Checkmate!", 200, 500, specialMovePaint);
+        if(Board.getInstance().endGame() == Alliance.WHITE){
+            if (Board.getInstance().getCurrentPlayer().isForfeited()) {
+                canvas.drawRect(0, 0, boardDim, boardDim, scorePaintBlack);
+                canvas.drawText("White Forfeited!", 150, 500, blackWinsPaint);
             }
             else{
                 canvas.drawRect(0, 0, boardDim, boardDim, scorePaintBlack);
-                canvas.drawText("Checkmate!", 200, 500, specialMovePaint);
+                canvas.drawText("Checkmate!", 200, 450, blackWinsPaint);
+                canvas.drawText("Black Wins!", 200, 550, blackWinsPaint);
             }
         }
-    }
+        else if(Board.getInstance().endGame() == Alliance.BLACK){
+            if (Board.getInstance().getCurrentPlayer().isForfeited()) {
+                canvas.drawRect(0, 0, boardDim, boardDim, scorePaintWhite);
+                canvas.drawText("Black Forfeited!", 150, 500, whiteWinsPaint);
+            }
+            else{
+                canvas.drawRect(0, 0, boardDim, boardDim, scorePaintWhite);
+                canvas.drawText("Checkmate!", 200, 450, whiteWinsPaint);
+                canvas.drawText("White Wins!", 200, 550, whiteWinsPaint);
+            }
+            }
+        }
 
     private Bitmap createBitmap(int xCoordinate, int yCoordinate) {
         Piece piece = Board.getInstance().getTile(xCoordinate, yCoordinate).getPiece();
@@ -298,60 +316,71 @@ public class BoardGridView extends GridView{
     @Override
     public boolean onTouchEvent(MotionEvent event){
         Board oldBoard = Board.getInstance();
-//        if (!GameChanger.getInstance().setup.isComputer(oldBoard.getCurrentPlayer())) {
-        if(!oldBoard.endGame()) {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                try {
-                    int xColumn = (int) (event.getX() / tileDim);
-                    int yRow = (int) (event.getY() / tileDim);
-                    String message = Integer.toString(xColumn) + ", " + Integer.toString(yRow);
-                    Log.d("aroutbound", message);
-                    Boolean curComp = GameChanger.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer());
-                    Log.d("typeSet", curComp ? "Current Player is Computer " + curComp : "Current Player is Human " + curComp);
-                    if (startTile == null) {
-                        startTile = oldBoard.getTile(xColumn, yRow);
-                        selectedPiece = startTile.getPiece();
-                        if (selectedPiece == null) {
-                            startTile = null;
-                        }
-                        Log.d("invalidated", "I am here 1");
-                        invalidate();
-                    } else {
-                        destinationTile = oldBoard.getTile(xColumn, yRow);
-                        if (destinationTile.equals(startTile)) {
-                            startTile = null;
-                            destinationTile = null;
-                            selectedPiece = null;
+        Boolean allowed = false;
+        if (!GameChanger.getInstance().setup.isComputer(oldBoard.getCurrentPlayer())){
+            allowed = true;
+        }
+        if (GameChanger.getInstance().setup.isComputer(oldBoard.getCurrentPlayer()) &&
+                GameChanger.getInstance().isFirstMove){
+            allowed = true;
+        }
+        if (allowed) {
+            if(oldBoard.endGame() == Alliance.NONE) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    try {
+                        int xColumn = (int) (event.getX() / tileDim);
+                        int yRow = (int) (event.getY() / tileDim);
+                        String message = Integer.toString(xColumn) + ", " + Integer.toString(yRow);
+                        Log.d("aroutbound", message);
+                        Boolean curComp = GameChanger.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer());
+                        Log.d("typeSet", curComp ? "Current Player is Computer " + curComp : "Current Player is Human " + curComp);
+                        if (startTile == null) {
+                            startTile = oldBoard.getTile(xColumn, yRow);
+                            selectedPiece = startTile.getPiece();
+                            if (selectedPiece == null) {
+                                startTile = null;
+                            }
+                            Log.d("invalidated", "I am here 1");
                             invalidate();
                         } else {
-                            final Move move = MoveMaker.createMove(oldBoard,
-                                    startTile.getxCoordinate(), startTile.getyCoordinate(),
-                                    destinationTile.getxCoordinate(),
-                                    destinationTile.getyCoordinate());
-                            Log.d("LegalMoves Move", move.toString());
-                            final AlternateBoard newBoard = oldBoard.getCurrentPlayer().makeMove(move);
-                            Log.d("invalidated", "I am here 2");
-                            if (newBoard.getMoveWas().isExecuted()) {
-                                Board.instance = newBoard.getBoard();
-                                Board.getInstance().setLastMove(move);
-                                if (GameChanger.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer())) {
-                                    GameChanger.getInstance().moveUpdate(GameChanger.Type.HUMAN);
-                                }
+                            destinationTile = oldBoard.getTile(xColumn, yRow);
+                            if (destinationTile.equals(startTile)) {
+                                startTile = null;
+                                destinationTile = null;
+                                selectedPiece = null;
                                 invalidate();
-                                Log.d("invalidated", "I am here 3");
+                            } else {
+                                final Move move = MoveMaker.createMove(oldBoard,
+                                        startTile.getxCoordinate(), startTile.getyCoordinate(),
+                                        destinationTile.getxCoordinate(),
+                                        destinationTile.getyCoordinate());
+                                Log.d("LegalMoves Move", move.toString());
+                                final AlternateBoard newBoard = oldBoard.getCurrentPlayer().makeMove(move);
+                                Log.d("invalidated", "I am here 2");
+                                if (newBoard.getMoveWas().isExecuted()) {
+//                                    int oldMoveCount = oldBoard.getMoveCount();
+                                    Board.instance = newBoard.getBoard();
+                                    Board.getInstance().setLastMove(move);
+//                                    Board.getInstance().setMoveCount(oldMoveCount + 1);
+                                    GameChanger.getInstance().notFirstMove();
+                                    if (GameChanger.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer())) {
+                                        GameChanger.getInstance().moveUpdate(GameChanger.Type.HUMAN);
+                                    }
+                                    invalidate();
+                                    Log.d("invalidated", "I am here 3");
+                                }
+                                startTile = null;
+                                destinationTile = null;
+                                selectedPiece = null;
+                                invalidate();
                             }
-                            startTile = null;
-                            destinationTile = null;
-                            selectedPiece = null;
-                            invalidate();
                         }
+                    } catch (ArrayIndexOutOfBoundsException ar) {
+                        Log.d("aroutbound", "That was out of bounds, solve later?");
                     }
-                } catch (ArrayIndexOutOfBoundsException ar) {
-                    Log.d("aroutbound", "That was out of bounds, solve later?");
                 }
             }
         }
-//        }
         return true;
     }
 

@@ -1,5 +1,6 @@
 package com.example.tristan.arealchessgame.chess_engine.player;
 
+import com.example.tristan.arealchessgame.GameChanger;
 import com.example.tristan.arealchessgame.chess_engine.Alliance;
 import com.example.tristan.arealchessgame.chess_engine.board.Board;
 import com.example.tristan.arealchessgame.chess_engine.board.Tile;
@@ -65,5 +66,11 @@ public class PlayerBlack extends Player{
     @Override
     public Player getOpponent() {
         return this.board.getWhitePlayer();
+    }
+
+    @Override
+    public void setForfeited() {
+        this.forfeited = true;
+        GameChanger.boardGridView.invalidate();
     }
 }
