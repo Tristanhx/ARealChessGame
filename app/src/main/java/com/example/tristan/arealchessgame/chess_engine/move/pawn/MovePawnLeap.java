@@ -50,6 +50,7 @@ public class MovePawnLeap extends Move {
         }
 
         builder.setPlayer(this.board.getCurrentPlayer().getOpponent().getAlliance());
+        builder.setLastMove(this);
 //        builder.setChosenMove(this);
         return builder.build();
     }

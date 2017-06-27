@@ -36,6 +36,7 @@ public abstract class MoveCastle extends Move {
         builder.setPiece(this.piece.movePiece(this));
         builder.setPiece(new Rook(this.xDestinationRook, this.yDestinationRook, this.rook.getAlliance(), false));
         builder.setPlayer(this.board.getCurrentPlayer().getOpponent().getAlliance());
+        builder.setLastMove(this);
         return builder.build();
     }
 

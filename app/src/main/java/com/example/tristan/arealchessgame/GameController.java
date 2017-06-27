@@ -10,6 +10,7 @@ import com.example.tristan.arealchessgame.chess_engine.Alliance;
 import com.example.tristan.arealchessgame.chess_engine.Setup;
 import com.example.tristan.arealchessgame.chess_engine.board.Board;
 import com.example.tristan.arealchessgame.chess_engine.move.Move;
+import com.example.tristan.arealchessgame.chess_engine.pieces.Piece;
 import com.example.tristan.arealchessgame.chess_engine.player.AlternateBoard;
 import com.example.tristan.arealchessgame.chess_engine.player.Player;
 import com.example.tristan.arealchessgame.chess_engine.player.computer_player.MiniMax;
@@ -32,6 +33,7 @@ public class GameController extends Observable implements SharedPreferences.OnSh
     public static BoardGridView boardGridView;
     public static BackGroundView backGroundView;
     public Boolean isFirstMove = true;
+    private Boolean allowed;
 
     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(StaticApplicationContext.context);
 
@@ -40,9 +42,9 @@ public class GameController extends Observable implements SharedPreferences.OnSh
     public static GameController getInstance(BoardGridView BGV, BackGroundView bgView){
         if (instance == null){
             instance = new GameController(StaticApplicationContext.context);
-            boardGridView = BGV;
-            backGroundView = bgView;
         }
+        boardGridView = BGV;
+        backGroundView = bgView;
         return instance;
     }
 
@@ -57,10 +59,19 @@ public class GameController extends Observable implements SharedPreferences.OnSh
         this.setup = new Setup(context);
         preferences.registerOnSharedPreferenceChangeListener(this);
         this.addObserver(new TurnWatcher());
+        this.allowed = true;
     }
 
     public void notFirstMove(){
         this.isFirstMove = false;
+    }
+
+    public void setAllowed(Boolean allowed){
+        this.allowed = allowed;
+    }
+
+    public Boolean getAllowed(){
+        return this.allowed;
     }
 
     public Setup getSetup(){
@@ -118,36 +129,43 @@ public class GameController extends Observable implements SharedPreferences.OnSh
             return bestMove;
         }
 
-
         @Override
         public void onPostExecute(Move move){
 
-            if (Board.getInstance().endGame() == Alliance.NONE && !GameController.getInstance().isFirstMove ) {
+            if (Board.getInstance().endGame() == Alliance.NONE && !GameController.getInstance().isFirstMove) {
                 try {
                     final Move bestMove = get();
                     final AlternateBoard newBoard = Board.getInstance().getCurrentPlayer().makeMove(bestMove);
                     Board.instance = newBoard.getBoard();
-                    Board.getInstance().setLastMove(bestMove);
-//                    do {
-//                        if(GameActivity.visibility()) {
-                            GameController.getInstance().notFirstMove();
-                            if (GameController.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer())) {
-                                GameController.getInstance().moveUpdate(Type.COMPUTER);
-                            }
-                    Log.d("Computer", "made a move");
+                    if (newBoard.getMoveWas().isExecuted()) {
+                        Piece movedPiece = bestMove.getPiece();
+                        Log.d("Computer", Board.getInstance().getCurrentPlayer().getOpponent().getAlliance().isBlack()
+                                ? "Black made a move " + movedPiece.toString() + " " +
+                                bestMove.toString() : "White made a move " + movedPiece.toString()
+                                + " " + bestMove.toString());
+                    }
+                    Thread.sleep(2000);
+                    GameController.getInstance().notFirstMove();
+                    if (GameController.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer())) {
+                        GameController.getInstance().moveUpdate(Type.COMPUTER);
+                    }
                     backGroundView.invalidate();
                     boardGridView.invalidate();
-//                        }
-//                    }while(!GameActivity.visibility());
-
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                } catch (InterruptedException i) {
+                    i.printStackTrace();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
-            }
 
+//            do {
+//                try {
+//                    Thread.sleep(100);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }while(!GameController.getInstance().getAllowed());
+
+            }
         }
     }
 }

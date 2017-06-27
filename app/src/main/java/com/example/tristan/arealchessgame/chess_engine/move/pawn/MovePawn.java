@@ -3,6 +3,7 @@ package com.example.tristan.arealchessgame.chess_engine.move.pawn;
 import com.example.tristan.arealchessgame.chess_engine.board.Board;
 import com.example.tristan.arealchessgame.chess_engine.move.Move;
 import com.example.tristan.arealchessgame.chess_engine.pieces.Piece;
+import com.example.tristan.arealchessgame.chess_engine.pieces.Queen;
 
 /**
  * Created by Tristan on 16/06/2017.
@@ -36,7 +37,13 @@ public class MovePawn extends Move {
 
         }
         // Move Piece
-        builder.setPiece(this.piece.movePiece(this));
+        if ((getYDestination() == 0 && piece.getAlliance().isWhite())||
+                (getYDestination() == 7 && piece.getAlliance().isBlack())){
+            builder.setPiece(new Queen(getXDestination(), getYDestination(), piece.getAlliance(), true));
+        }
+        else {
+            builder.setPiece(this.piece.movePiece(this));
+        }
 
         // Set Enemy Player pieces on new Board
         for (final Piece piece : this.board.getCurrentPlayer().getOpponent().getPlayerPieces()){
@@ -44,6 +51,7 @@ public class MovePawn extends Move {
         }
 
         builder.setPlayer(this.board.getCurrentPlayer().getOpponent().getAlliance());
+        builder.setLastMove(this);
 //        builder.setChosenMove(this);
         return builder.build();
     }

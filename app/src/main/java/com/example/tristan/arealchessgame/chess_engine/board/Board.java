@@ -41,7 +41,8 @@ public class Board {
     private final Player currentPlayer;
     private final Pawn enPassantPawn;
 
-    private Move lastMove;
+    private final Move lastMove;
+
     private int moveCount = 0;
 
 //    public void setMoveCount(int moveCount){
@@ -77,6 +78,7 @@ public class Board {
         this.blackPlayer = new PlayerBlack(this, whiteMoves, blackMoves);
         this.currentPlayer = builder.nextPlayer.chooseNextPlayer(this.whitePlayer, this.blackPlayer);
         this.enPassantPawn = builder.enPassantPiece;
+        lastMove = builder.lastMove;
 //        endGame();
     }
 
@@ -88,10 +90,6 @@ public class Board {
             return Alliance.BLACK;
         }
         return Alliance.NONE;
-    }
-
-    public void setLastMove(Move move){
-        this.lastMove = move;
     }
 
     public Move getLastMove(){
@@ -230,8 +228,8 @@ public class Board {
         Map<Integer, Piece> boardLayout = new HashMap<>();
         Alliance nextPlayer;
 
-        Move chosenMove;
         Pawn enPassantPiece;
+        private Move lastMove;
 
 
         public Builder(){
@@ -252,13 +250,12 @@ public class Board {
             return new Board(this);
         }
 
-        public Builder setChosenMove(MoveNormal alternateBoard) {
-            this.chosenMove = alternateBoard;
-            return this;
-        }
-
         public void setEnPassantPiece(Pawn enPassantPiece) {
             this.enPassantPiece = enPassantPiece;
+        }
+
+        public void setLastMove(Move lastMove) {
+            this.lastMove = lastMove;
         }
     }
 

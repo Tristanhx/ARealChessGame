@@ -20,4 +20,5 @@
     <color name="stone_dark">#948869</color>
     <color name="lastMoveBlue">#00aaFF</color>
     <color name="lastMoveRed">#FF3300</color>
+    <color name="prettyDarkGray">#333333</color>
 </resources>

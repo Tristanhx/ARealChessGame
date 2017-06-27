@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/stone"
+    android:background="@color/prettyDarkGray"
     tools:context="com.example.tristan.arealchessgame.MainActivity">
 
 
@@ -16,6 +16,7 @@
         android:layout_centerHorizontal="true"
         android:fontFamily="cursive"
         android:textStyle="bold|italic"
+        android:textColor="@color/white"
         />
     <ImageView
         android:layout_width="wrap_content"

@@ -361,7 +361,6 @@ public class BoardGridView extends GridView{
                                 if (newBoard.getMoveWas().isExecuted()) {
 //                                    int oldMoveCount = oldBoard.getMoveCount();
                                     Board.instance = newBoard.getBoard();
-                                    Board.getInstance().setLastMove(move);
 //                                    Board.getInstance().setMoveCount(oldMoveCount + 1);
                                     GameController.getInstance().notFirstMove();
                                     if (GameController.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer())) {

@@ -1,5 +1,7 @@
 package com.example.tristan.arealchessgame;
 
+import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,8 +23,6 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setVisible();
-
         board = Board.getInstance();
 
         setContentView(R.layout.activity_game);
@@ -31,6 +31,7 @@ public class GameActivity extends AppCompatActivity {
         boardGridView = (BoardGridView) findViewById(R.id.chessboard);
 
         gameController = GameController.getInstance(boardGridView, backGroundView);
+        gameController.setAllowed(true);
         Log.d("boardstring", board.toString());
     }
 
@@ -46,38 +47,9 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    public static boolean visibility(){
-        return visibility;
-    }
-
-    public static void setVisible(){
-        visibility = true;
-    }
-    public static void setInvisible(){
-        visibility = false;
-    }
-
     @Override
-    protected void onResume(){
-        super.onResume();
-        setVisible();
-    }
-    @Override
-    protected void onPause(){
-        super.onPause();
-        setInvisible();
-    }
-
-    @Override
-    public void onBackPressed(){
-        if (GameController.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer())
-                || GameController.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer().getOpponent())) {
-            GameController.instance = null;
-            Board.instance = null;
-            finish();
-        }
-        else{
-            super.onBackPressed();
-        }
+    protected void onDestroy(){
+        gameController.setAllowed(false);
+        super.onDestroy();
     }
 }
