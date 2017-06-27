@@ -4,9 +4,12 @@
     <string name="play_button">Play</string>
     <string name="score_button">Score</string>
     <string name="settings_button">Settings</string>
-    <string name="player1">Player 1</string>
-    <string name="player2">Player 2</string>
+    <string name="player1">White</string>
+    <string name="player2">Black</string>
     <string name="castle">Castle</string>
     <string name="forfeit">Forfeit</string>
     <string name="reset">Reset</string>
+    <string name="score_key">com.example.tristan.arealchessgame.score_key</string>
+    <string name="white_score">white_score</string>
+    <string name="black_score">black_score</string>
 </resources>

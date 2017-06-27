@@ -144,7 +144,7 @@ public class GameController extends Observable implements SharedPreferences.OnSh
                                 bestMove.toString() : "White made a move " + movedPiece.toString()
                                 + " " + bestMove.toString());
                     }
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                     GameController.getInstance().notFirstMove();
                     if (GameController.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer())) {
                         GameController.getInstance().moveUpdate(Type.COMPUTER);

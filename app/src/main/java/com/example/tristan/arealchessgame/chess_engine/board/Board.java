@@ -2,6 +2,7 @@ package com.example.tristan.arealchessgame.chess_engine.board;
 
 import android.util.Log;
 
+import com.example.tristan.arealchessgame.ScoreObject;
 import com.example.tristan.arealchessgame.chess_engine.Alliance;
 import com.example.tristan.arealchessgame.chess_engine.move.Move;
 import com.example.tristan.arealchessgame.chess_engine.move.MoveNormal;
@@ -84,9 +85,11 @@ public class Board {
 
     public Alliance endGame(){
         if (whitePlayer.checkMate() || whitePlayer.isForfeited()) {
+            ScoreObject.getInstance().setBlackPlayerScore(1);
             return Alliance.WHITE;
         }
         else if(blackPlayer.checkMate() || blackPlayer.isForfeited()){
+            ScoreObject.getInstance().setWhitePlayerScore(1);
             return Alliance.BLACK;
         }
         return Alliance.NONE;
