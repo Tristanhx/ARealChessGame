@@ -56,18 +56,26 @@ public class BoardGridView extends GridView{
 
     public Map<String, Integer> resourceMapMaker(){
         Map<String, Integer> tmpresourceMap = new HashMap<>();
-        tmpresourceMap.put("BB", R.drawable.bb);
         tmpresourceMap.put("BW", R.drawable.bw);
-        tmpresourceMap.put("KB", R.drawable.kb);
         tmpresourceMap.put("KW", R.drawable.kw);
-        tmpresourceMap.put("NB", R.drawable.nb);
         tmpresourceMap.put("NW", R.drawable.nw);
-        tmpresourceMap.put("PB", R.drawable.pb);
         tmpresourceMap.put("PW", R.drawable.pw);
-        tmpresourceMap.put("QB", R.drawable.qb);
-        tmpresourceMap.put("QW", R.drawable.qw);
-        tmpresourceMap.put("RB", R.drawable.rb);
         tmpresourceMap.put("RW", R.drawable.rw);
+        tmpresourceMap.put("QW", R.drawable.qw);
+        tmpresourceMap.put("BB", R.drawable.bb);
+        tmpresourceMap.put("KB", R.drawable.kb);
+        tmpresourceMap.put("NB", R.drawable.nb);
+        tmpresourceMap.put("PB", R.drawable.pb);
+        tmpresourceMap.put("QB", R.drawable.qb);
+        tmpresourceMap.put("RB", R.drawable.rb);
+        tmpresourceMap.put("UBB", R.drawable.ubb);
+        tmpresourceMap.put("UKB", R.drawable.ukb);
+        tmpresourceMap.put("UNB", R.drawable.unb);
+        tmpresourceMap.put("UPB", R.drawable.upb);
+        tmpresourceMap.put("UQB", R.drawable.uqb);
+        tmpresourceMap.put("URB", R.drawable.urb);
+
+
 
 
         return tmpresourceMap;
@@ -221,6 +229,25 @@ public class BoardGridView extends GridView{
         }
     }
 
+    private Bitmap createBitmap(int xCoordinate, int yCoordinate) {
+        Piece piece = Board.getInstance().getTile(xCoordinate, yCoordinate).getPiece();
+        String pathString;
+        if (piece != null) {
+            if (!GameController.getInstance().getSetup().isComputer(Board.getInstance().getBlackPlayer())
+                    && !GameController.getInstance().getSetup().isComputer(Board.getInstance().getWhitePlayer())
+                    && piece.getAlliance().isBlack()){
+                pathString = "U" + piece.toString() + piece.getAlliance().toString();
+            }
+            else {
+                pathString = piece.toString() + piece.getAlliance().toString();
+            }
+            return BitmapFactory.decodeResource(getResources(), resourceMap.get(pathString));
+        }
+        else{
+            return null;
+        }
+    }
+
     private void drawBoard(Canvas canvas) {
         for (int yRows = 0; yRows < rows; yRows++) {
             for (int xColumns = 0; xColumns < columns; xColumns++) {
@@ -284,17 +311,6 @@ public class BoardGridView extends GridView{
         blackWinsPaint.setTextSize(100);
         whiteWinsPaint.setColor(ContextCompat.getColor(this.getContext(), R.color.black));
         whiteWinsPaint.setTextSize(100);
-    }
-
-    private Bitmap createBitmap(int xCoordinate, int yCoordinate) {
-        Piece piece = Board.getInstance().getTile(xCoordinate, yCoordinate).getPiece();
-        if (piece != null) {
-            String pathString = piece.toString() + piece.getAlliance().toString();
-            return BitmapFactory.decodeResource(getResources(), resourceMap.get(pathString));
-        }
-        else{
-            return null;
-        }
     }
 
     // Force gridView to be square on every screenSize.
