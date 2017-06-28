@@ -12,15 +12,6 @@ public class NoMove extends Move {
         super(null, null, -1, -1);
     }
 
-    @Override
-    public boolean isAttackMove() {
-        return false;
-    }
-
-    @Override
-    public Piece getAttackedPiece() {
-        return null;
-    }
 
     @Override
     public int hashCode(){

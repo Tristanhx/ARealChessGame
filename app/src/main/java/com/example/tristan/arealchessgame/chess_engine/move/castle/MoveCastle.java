@@ -14,6 +14,7 @@ public abstract class MoveCastle extends Move {
     final Rook rook;
     final int xDestinationRook;
     final int yDestinationRook;
+
     public MoveCastle(Board board, King king, Rook rook, int xDestinationKing, int yDestinationKing, int xDestinationRook, int yDestinationRook) {
         super(board, king, xDestinationKing, yDestinationKing);
         this.rook = rook;
@@ -37,15 +38,5 @@ public abstract class MoveCastle extends Move {
         builder.setPlayer(this.board.getCurrentPlayer().getOpponent().getAlliance());
         builder.setLastMove(this);
         return builder.build();
-    }
-
-    @Override
-    public boolean isAttackMove() {
-        return false;
-    }
-
-    @Override
-    public Piece getAttackedPiece() {
-        return null;
     }
 }
