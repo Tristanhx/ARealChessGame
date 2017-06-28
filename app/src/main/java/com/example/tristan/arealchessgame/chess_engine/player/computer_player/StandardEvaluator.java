@@ -1,6 +1,7 @@
 package com.example.tristan.arealchessgame.chess_engine.player.computer_player;
 
 import com.example.tristan.arealchessgame.chess_engine.board.Board;
+import com.example.tristan.arealchessgame.chess_engine.pieces.Pawn;
 import com.example.tristan.arealchessgame.chess_engine.pieces.Piece;
 import com.example.tristan.arealchessgame.chess_engine.pieces.Rook;
 import com.example.tristan.arealchessgame.chess_engine.player.Player;
@@ -13,9 +14,7 @@ class StandardEvaluator implements Evaluator {
 
     private int CHECK = 6;
     private int CASTLE = 5;
-    private int PAWN = 7;
-
-
+    private int PAWN = 3;
 
     @Override
     public int evaluate(Board board, int depth) {
@@ -23,19 +22,22 @@ class StandardEvaluator implements Evaluator {
     }
 
     private int score(Board board, Player player, int depth) {
-        return pieceValue(player) + isCheck(player) + possibleMoves(player) + castlePossibility(player) * random();
+        return pieceValue(player) + isCheck(player) + possibleMoves(player) + castlePossibility(player)
+                + movedPawn() * random();
     }
 
     private int random(){
         return (int) Math.random() * 10;
     }
 
-//    private int movedPawn() {
-//        if (Board.getInstance().getLastMove().getPiece() instanceof Pawn && Board.getInstance().getLastMove() !=null){
-//            return PAWN;
-//        }
-//        return 0;
-//    }
+    private int movedPawn() {
+        if (Board.getInstance().getLastMove() !=null) {
+            if (Board.getInstance().getLastMove().getPiece() instanceof Pawn) {
+                return PAWN;
+            }
+        }
+        return 0;
+    }
 
     private int pieceValue(Player player) {
         int pieceValue = 0;

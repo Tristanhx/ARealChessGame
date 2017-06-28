@@ -60,7 +60,7 @@ public class BackGroundView extends View {
         int blackHeightOffset = 75;
         int widthOffset = (width/2)-125;
 
-        canvas.drawColor(ContextCompat.getColor(this.getContext(), R.color.prettyDarkGray));
+        canvas.drawColor(ContextCompat.getColor(this.getContext(), R.color.gray));
 
         textPaint.setTextSize(50);
         textPaint.setColor(ContextCompat.getColor(StaticApplicationContext.context, R.color.white));
