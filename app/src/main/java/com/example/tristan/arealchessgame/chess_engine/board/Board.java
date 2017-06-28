@@ -5,7 +5,6 @@ import android.util.Log;
 import com.example.tristan.arealchessgame.ScoreObject;
 import com.example.tristan.arealchessgame.chess_engine.Alliance;
 import com.example.tristan.arealchessgame.chess_engine.move.Move;
-import com.example.tristan.arealchessgame.chess_engine.move.MoveNormal;
 import com.example.tristan.arealchessgame.chess_engine.player.Player;
 import com.example.tristan.arealchessgame.chess_engine.player.PlayerBlack;
 import com.example.tristan.arealchessgame.chess_engine.player.PlayerWhite;
@@ -63,7 +62,7 @@ public class Board {
         //give those moves to the players
         this.whitePlayer = new PlayerWhite(this, whiteMoves, blackMoves);
         this.blackPlayer = new PlayerBlack(this, whiteMoves, blackMoves);
-        this.currentPlayer = builder.nextPlayer.chooseNextPlayer(this.whitePlayer, this.blackPlayer);
+        this.currentPlayer = builder.player.chooseNextPlayer(this.whitePlayer, this.blackPlayer);
         this.enPassantPawn = builder.enPassantPiece;
         lastMove = builder.lastMove;
     }
@@ -89,25 +88,12 @@ public class Board {
         return Iterables.unmodifiableIterable(Iterables.concat(this.whitePlayer.getLegalMoves(), blackPlayer.getLegalMoves()));
     }
 
-    private Collection<Piece> getAllPieces(List<Tile> mBoard) {
-
-        List<Piece> piecesList = new ArrayList<>();
-        for (final Tile tile : mBoard){
-            if (tile.tileIsOccupied()){
-                final Piece piece = tile.getPiece();
-                piecesList.add(piece);
-            }
-        }
-        return piecesList;
-    }
-
     private Collection<Move> trackMoves(Collection<Piece> pieces) {
 
         final List<Move> legalMoves = new ArrayList<>();
         for (final Piece piece : pieces){
             legalMoves.addAll(piece.legalMoves(this));
         }
-        Log.d("LegalMoves TrackMoves", legalMoves.toString());
         return legalMoves;
     }
 
@@ -213,7 +199,7 @@ public class Board {
 
     public static class Builder{
         Map<Integer, Piece> boardLayout = new HashMap<>();
-        Alliance nextPlayer;
+        Alliance player;
 
         Pawn enPassantPiece;
         private Move lastMove;
@@ -228,8 +214,8 @@ public class Board {
             return this;
         }
 
-        public Builder setPlayer(final Alliance nextPlayer){
-            this.nextPlayer = nextPlayer;
+        public Builder setPlayer(final Alliance player){
+            this.player = player;
             return this;
         }
 

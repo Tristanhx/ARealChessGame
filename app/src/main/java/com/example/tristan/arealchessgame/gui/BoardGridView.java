@@ -24,7 +24,7 @@ import com.example.tristan.arealchessgame.chess_engine.move.castle.MoveCastle;
 import com.example.tristan.arealchessgame.chess_engine.move.pawn.MoveEnPassant;
 import com.example.tristan.arealchessgame.chess_engine.pieces.King;
 import com.example.tristan.arealchessgame.chess_engine.pieces.Piece;
-import com.example.tristan.arealchessgame.chess_engine.player.AlternateBoard;
+import com.example.tristan.arealchessgame.chess_engine.board.AlternateBoard;
 
 import java.util.Collection;
 import java.util.HashMap;

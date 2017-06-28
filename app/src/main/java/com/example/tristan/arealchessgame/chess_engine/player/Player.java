@@ -3,13 +3,14 @@ package com.example.tristan.arealchessgame.chess_engine.player;
 import android.util.Log;
 
 import com.example.tristan.arealchessgame.chess_engine.Alliance;
+import com.example.tristan.arealchessgame.chess_engine.board.AlternateBoard;
 import com.example.tristan.arealchessgame.chess_engine.board.Board;
 import com.example.tristan.arealchessgame.chess_engine.move.Move;
+import com.example.tristan.arealchessgame.chess_engine.move.MoveWas;
 import com.example.tristan.arealchessgame.chess_engine.pieces.King;
 import com.example.tristan.arealchessgame.chess_engine.pieces.Piece;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
-import com.google.common.primitives.Booleans;
 
 import java.util.ArrayList;
 import java.util.Collection;

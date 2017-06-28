@@ -3,9 +3,7 @@ package com.example.tristan.arealchessgame.chess_engine.player.computer_player;
 import com.example.tristan.arealchessgame.chess_engine.Alliance;
 import com.example.tristan.arealchessgame.chess_engine.board.Board;
 import com.example.tristan.arealchessgame.chess_engine.move.Move;
-import com.example.tristan.arealchessgame.chess_engine.player.AlternateBoard;
-
-import java.util.Observer;
+import com.example.tristan.arealchessgame.chess_engine.board.AlternateBoard;
 
 /**
  * Created by trist on 6/20/2017.

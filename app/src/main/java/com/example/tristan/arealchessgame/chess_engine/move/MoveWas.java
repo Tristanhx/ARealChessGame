@@ -1,4 +1,4 @@
-package com.example.tristan.arealchessgame.chess_engine.player;
+package com.example.tristan.arealchessgame.chess_engine.move;
 
 /**
  * Created by Tristan on 14/06/2017.

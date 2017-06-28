@@ -11,7 +11,7 @@ import com.example.tristan.arealchessgame.chess_engine.Setup;
 import com.example.tristan.arealchessgame.chess_engine.board.Board;
 import com.example.tristan.arealchessgame.chess_engine.move.Move;
 import com.example.tristan.arealchessgame.chess_engine.pieces.Piece;
-import com.example.tristan.arealchessgame.chess_engine.player.AlternateBoard;
+import com.example.tristan.arealchessgame.chess_engine.board.AlternateBoard;
 import com.example.tristan.arealchessgame.chess_engine.player.Player;
 import com.example.tristan.arealchessgame.chess_engine.player.computer_player.MiniMax;
 import com.example.tristan.arealchessgame.chess_engine.player.computer_player.Strategy;
