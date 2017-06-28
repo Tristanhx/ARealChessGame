@@ -36,7 +36,7 @@ import java.util.Map;
 
 public class BoardGridView extends GridView{
 
-    private int columns = Tools.BOARD_DIM, rows = Tools.BOARD_DIM, tileDim;
+    private int columns = Tools.BOARD_DIM, rows = Tools.BOARD_DIM, tileDim, boardDim;
     private Paint darkTilePaint = new Paint();
     private Paint borderPaint = new Paint();
     private Paint highlightPaint = new Paint();
@@ -81,7 +81,21 @@ public class BoardGridView extends GridView{
     public BoardGridView(Context context, AttributeSet attributeSet){
         super(context, attributeSet);
         this.resourceMap = resourceMapMaker();
-        darkTilePaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        setPaints();
+        setBoardDim();
+    }
+
+    private void setBoardDim() {
+        // Set boardDimensions, always square according to shortest side.
+        int boardWidth = getWidth();
+        int boardHeight = getHeight();
+
+        if (boardWidth<=boardHeight){
+            boardDim = boardWidth;
+        }
+        else{
+            boardDim = boardHeight;
+        }
     }
 
     @Override
@@ -102,54 +116,117 @@ public class BoardGridView extends GridView{
 
     @Override
     protected void onDraw(Canvas canvas){
-        // Create a canvas for our board
         canvas.drawColor(ContextCompat.getColor(this.getContext(), R.color.stone));
-        darkTilePaint.setColor(ContextCompat.getColor(this.getContext(), R.color.bark));
-
-        lastMoveBluePaint.setColor(ContextCompat.getColor(this.getContext(), R.color.lastMoveBlue));
-        lastMoveBluePaint.setStyle(Paint.Style.STROKE);
-        lastMoveBluePaint.setStrokeWidth(5);
-        lastMoveRedPaint.setColor(ContextCompat.getColor(this.getContext(), R.color.lastMoveRed));
-        lastMoveRedPaint.setStyle(Paint.Style.STROKE);
-        lastMoveRedPaint.setStrokeWidth(5);
-
-        highlightPaintAttack.setStrokeWidth(5);
-        highlightPaintAttack.setStyle(Paint.Style.STROKE);
-        highlightPaintAttack.setColor(ContextCompat.getColor(this.getContext(), R.color.highLightColorAttack));
-        specialMovePaint.setStrokeWidth(5);
-        specialMovePaint.setStyle(Paint.Style.STROKE);
-        specialMovePaint.setColor(ContextCompat.getColor(this.getContext(), R.color.enPassantColor));
-
-        borderPaint.setStrokeWidth(20);
-        borderPaint.setColor(ContextCompat.getColor(this.getContext(), R.color.darkTileColor3));
-
-        highlightPaint.setColor(ContextCompat.getColor(this.getContext(), R.color.highLightColor));
-        highlightPaint.setStrokeWidth(5);
-        highlightPaint.setStyle(Paint.Style.STROKE);
-
-        scorePaintWhite.setColor(ContextCompat.getColor(this.getContext(), R.color.white));
-        scorePaintWhite.setAlpha(127);
-        scorePaintBlack.setColor(ContextCompat.getColor(this.getContext(), R.color.black));
-        scorePaintBlack.setAlpha(127);
-
-        blackWinsPaint.setColor(ContextCompat.getColor(this.getContext(), R.color.white));
-        blackWinsPaint.setTextSize(100);
-        whiteWinsPaint.setColor(ContextCompat.getColor(this.getContext(), R.color.black));
-        whiteWinsPaint.setTextSize(100);
-
-        // Set boardDimensions, always square according to shortest side.
-        int boardDim;
-        int boardWidth = getWidth();
-        int boardHeight = getHeight();
-
-        if (boardWidth<=boardHeight){
-            boardDim = boardWidth;
-        }
-        else{
-            boardDim = boardHeight;
+        drawBoard(canvas);
+        drawPieces(canvas);
+        highlightLastMoves(canvas);
+        highlightSelection(canvas);
+        highlightPossibleMoves(canvas);
+        drawEndState(canvas);
         }
 
-        // draw rectangles and make black or white depending on a mismatch between col/row modulus.
+    private void drawEndState(Canvas canvas) {
+        if(Board.getInstance().endGame() == Alliance.WHITE){
+            if (Board.getInstance().getCurrentPlayer().isForfeited()) {
+                canvas.drawRect(0, 0, boardDim, boardDim, scorePaintBlack);
+                canvas.drawText("White Forfeited!", 150, 500, blackWinsPaint);
+            }
+            else{
+                canvas.drawRect(0, 0, boardDim, boardDim, scorePaintBlack);
+                canvas.drawText("Checkmate!", 200, 450, blackWinsPaint);
+                canvas.drawText("Black Wins!", 200, 550, blackWinsPaint);
+            }
+        }
+        else if(Board.getInstance().endGame() == Alliance.BLACK){
+            if (Board.getInstance().getCurrentPlayer().isForfeited()) {
+                canvas.drawRect(0, 0, boardDim, boardDim, scorePaintWhite);
+                canvas.drawText("Black Forfeited!", 150, 500, whiteWinsPaint);
+            }
+            else{
+                canvas.drawRect(0, 0, boardDim, boardDim, scorePaintWhite);
+                canvas.drawText("Checkmate!", 200, 450, whiteWinsPaint);
+                canvas.drawText("White Wins!", 200, 550, whiteWinsPaint);
+            }
+        }
+    }
+
+    private void highlightPossibleMoves(Canvas canvas) {
+        if (selectedPiece != null){
+            if(selectedPiece.getAlliance() == Board.getInstance().getCurrentPlayer().getAlliance()) {
+                Collection<Move> legalMoves = selectedPiece.legalMoves(Board.getInstance());
+                Collection<Move> castleMoves = Board.getInstance().getCurrentPlayer().getLegalMoves();
+                for (Move move : legalMoves) {
+                    final AlternateBoard testBoard = Board.getInstance().getCurrentPlayer().makeMove(move);
+                    if (testBoard.getMoveWas().isExecuted()) {
+                        int x = move.getXDestination();
+                        int y = move.getYDestination();
+
+                        if (move instanceof MoveAttack) {
+                            canvas.drawRoundRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, tileDim / 2, tileDim / 2, highlightPaintAttack);
+                        } else if (move instanceof MoveEnPassant) {
+                            canvas.drawRoundRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, tileDim / 2, tileDim / 2, specialMovePaint);
+                        } else {
+                            canvas.drawRoundRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, tileDim / 2, tileDim / 2, highlightPaint);
+                        }
+                    }
+                }
+                for (Move castleMove : castleMoves){
+                    int x = castleMove.getXDestination();
+                    int y = castleMove.getYDestination();
+                    if (castleMove instanceof MoveCastle && selectedPiece instanceof King){
+                        canvas.drawRoundRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, tileDim/2, tileDim/2, specialMovePaint);
+                    }
+                }
+            }
+        }
+    }
+
+    private void highlightSelection(Canvas canvas) {
+        if (selectedPiece != null){
+            int x = startTile.getxCoordinate();
+            int y = startTile.getyCoordinate();
+            if(selectedPiece.getAlliance() == Board.getInstance().getCurrentPlayer().getAlliance()) {
+                canvas.drawRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, highlightPaint);
+            }
+            else{
+                startTile = null;
+                selectedPiece = null;
+            }
+        }
+    }
+
+    private void highlightLastMoves(Canvas canvas) {
+        Move lastMove = Board.getInstance().getLastMove();
+        if (lastMove != null){
+            int xStart = lastMove.getCurrentXPos();
+            int yStart =lastMove.getCurrentYPos();
+            int xDest = lastMove.getXDestination();
+            int yDest = lastMove.getYDestination();
+
+
+            if (!(lastMove instanceof MoveAttack)) {
+                canvas.drawRect(xStart * tileDim, yStart * tileDim, (xStart + 1) * tileDim, (yStart + 1) * tileDim, lastMoveBluePaint);
+                canvas.drawRect(xDest * tileDim, yDest * tileDim, (xDest + 1) * tileDim, (yDest + 1) * tileDim, lastMoveBluePaint);
+            }
+            else{
+                canvas.drawRect(xStart * tileDim, yStart * tileDim, (xStart + 1) * tileDim, (yStart + 1) * tileDim, lastMoveRedPaint);
+                canvas.drawRect(xDest * tileDim, yDest * tileDim, (xDest + 1) * tileDim, (yDest + 1) * tileDim, lastMoveRedPaint);
+            }
+        }
+    }
+
+    private void drawPieces(Canvas canvas) {
+        for (int yRows = 0 ; yRows < columns ; yRows++){
+            for (int xColumns = 0; xColumns < rows; xColumns++){
+                Bitmap pieceIcon = createBitmap(xColumns, yRows);
+                if(pieceIcon != null){
+                    canvas.drawBitmap(pieceIcon, xColumns * tileDim, yRows * tileDim, null);
+                }
+            }
+        }
+    }
+
+    private void drawBoard(Canvas canvas) {
         for (int yRows = 0; yRows < rows; yRows++) {
             for (int xColumns = 0; xColumns < columns; xColumns++) {
                 if (yRows%2 == 1 ^ xColumns%2 == 0){
@@ -182,110 +259,43 @@ public class BoardGridView extends GridView{
         //right
         canvas.drawLine(boardDim, 0, boardDim, boardDim, borderPaint);
 //        canvas.drawLine(boardDim, 0, boardDim, boardDim, seemPaint);
+    }
 
-        // create a bitmap of a piece and place it in the right square.
-        for (int yRows = 0 ; yRows < columns ; yRows++){
-            for (int xColumns = 0; xColumns < rows; xColumns++){
-                Bitmap pieceIcon = createBitmap(xColumns, yRows);
-                if(pieceIcon != null){
-                    canvas.drawBitmap(pieceIcon, xColumns * tileDim, yRows * tileDim, null);
-                }
-            }
-        }
-        //highlight lastMove
-        Move lastMove = Board.getInstance().getLastMove();
-        if (lastMove != null){
-            int xStart = lastMove.getCurrentXPos();
-            int yStart =lastMove.getCurrentYPos();
-            int xDest = lastMove.getXDestination();
-            int yDest = lastMove.getYDestination();
+    private void setPaints() {
+        darkTilePaint.setColor(ContextCompat.getColor(this.getContext(), R.color.bark));
+        darkTilePaint.setStyle(Paint.Style.FILL_AND_STROKE);
 
+        lastMoveBluePaint.setColor(ContextCompat.getColor(this.getContext(), R.color.lastMoveBlue));
+        lastMoveBluePaint.setStyle(Paint.Style.STROKE);
+        lastMoveBluePaint.setStrokeWidth(5);
+        lastMoveRedPaint.setColor(ContextCompat.getColor(this.getContext(), R.color.lastMoveRed));
+        lastMoveRedPaint.setStyle(Paint.Style.STROKE);
+        lastMoveRedPaint.setStrokeWidth(5);
 
-            if (!(lastMove instanceof MoveAttack)) {
-                canvas.drawRect(xStart * tileDim, yStart * tileDim, (xStart + 1) * tileDim, (yStart + 1) * tileDim, lastMoveBluePaint);
-                canvas.drawRect(xDest * tileDim, yDest * tileDim, (xDest + 1) * tileDim, (yDest + 1) * tileDim, lastMoveBluePaint);
-            }
-            else{
-                canvas.drawRect(xStart * tileDim, yStart * tileDim, (xStart + 1) * tileDim, (yStart + 1) * tileDim, lastMoveRedPaint);
-                canvas.drawRect(xDest * tileDim, yDest * tileDim, (xDest + 1) * tileDim, (yDest + 1) * tileDim, lastMoveRedPaint);
-            }
-        }
-        //highlight selection
-        if (selectedPiece != null){
-            int x = startTile.getxCoordinate();
-            int y = startTile.getyCoordinate();
-            if(selectedPiece.getAlliance() == Board.getInstance().getCurrentPlayer().getAlliance()) {
-                canvas.drawRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, highlightPaint);
-            }
-            else{
-                startTile = null;
-                selectedPiece = null;
-            }
-        }
-        //highlight possible moves
-        if (selectedPiece != null){
-            if(selectedPiece.getAlliance() == Board.getInstance().getCurrentPlayer().getAlliance()) {
-                Collection<Move> legalMoves = selectedPiece.legalMoves(Board.getInstance());
-                Collection<Move> castleMoves = Board.getInstance().getCurrentPlayer().getLegalMoves();
-                Collection<Move> enemyMoves = Board.getInstance().getCurrentPlayer().getOpponent().getLegalMoves();
-                for (Move move : legalMoves) {
-                    final AlternateBoard testBoard = Board.getInstance().getCurrentPlayer().makeMove(move);
-                    if (testBoard.getMoveWas().isExecuted()) {
-                        int x = move.getXDestination();
-                        int y = move.getYDestination();
+        highlightPaintAttack.setStrokeWidth(5);
+        highlightPaintAttack.setStyle(Paint.Style.STROKE);
+        highlightPaintAttack.setColor(ContextCompat.getColor(this.getContext(), R.color.highLightColorAttack));
+        specialMovePaint.setStrokeWidth(5);
+        specialMovePaint.setStyle(Paint.Style.STROKE);
+        specialMovePaint.setColor(ContextCompat.getColor(this.getContext(), R.color.enPassantColor));
 
-                        if (move instanceof MoveAttack) {
-                            canvas.drawRoundRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, tileDim / 2, tileDim / 2, highlightPaintAttack);
-                        } else if (move instanceof MoveEnPassant) {
-                            canvas.drawRoundRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, tileDim / 2, tileDim / 2, specialMovePaint);
-                        } else {
-                            canvas.drawRoundRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, tileDim / 2, tileDim / 2, highlightPaint);
-                        }
-                    }
-                }
-                for (Move castleMove : castleMoves){
-                    int x = castleMove.getXDestination();
-                    int y = castleMove.getYDestination();
-                    if (castleMove instanceof MoveCastle && selectedPiece instanceof King){
-                        canvas.drawRoundRect(x * tileDim, y * tileDim, (x + 1) * tileDim, (y + 1) * tileDim, tileDim/2, tileDim/2, specialMovePaint);
-                    }
-                }
+        borderPaint.setStrokeWidth(20);
+        borderPaint.setColor(ContextCompat.getColor(this.getContext(), R.color.darkTileColor3));
 
+        highlightPaint.setColor(ContextCompat.getColor(this.getContext(), R.color.highLightColor));
+        highlightPaint.setStrokeWidth(5);
+        highlightPaint.setStyle(Paint.Style.STROKE);
 
+        scorePaintWhite.setColor(ContextCompat.getColor(this.getContext(), R.color.white));
+        scorePaintWhite.setAlpha(127);
+        scorePaintBlack.setColor(ContextCompat.getColor(this.getContext(), R.color.black));
+        scorePaintBlack.setAlpha(127);
 
-
-//                //debug highlight enemymoves
-//                for (Move move : enemyMoves){
-//                    int x = move.getXDestination();
-//                    int y = move.getYDestination();
-//                    canvas.drawRect(x * tileDim, y * tileDim, (x+1) * tileDim, (y+1) * tileDim, borderPaint);
-//                }
-            }
-        }
-        //endgame
-        if(Board.getInstance().endGame() == Alliance.WHITE){
-            if (Board.getInstance().getCurrentPlayer().isForfeited()) {
-                canvas.drawRect(0, 0, boardDim, boardDim, scorePaintBlack);
-                canvas.drawText("White Forfeited!", 150, 500, blackWinsPaint);
-            }
-            else{
-                canvas.drawRect(0, 0, boardDim, boardDim, scorePaintBlack);
-                canvas.drawText("Checkmate!", 200, 450, blackWinsPaint);
-                canvas.drawText("Black Wins!", 200, 550, blackWinsPaint);
-            }
-        }
-        else if(Board.getInstance().endGame() == Alliance.BLACK){
-            if (Board.getInstance().getCurrentPlayer().isForfeited()) {
-                canvas.drawRect(0, 0, boardDim, boardDim, scorePaintWhite);
-                canvas.drawText("Black Forfeited!", 150, 500, whiteWinsPaint);
-            }
-            else{
-                canvas.drawRect(0, 0, boardDim, boardDim, scorePaintWhite);
-                canvas.drawText("Checkmate!", 200, 450, whiteWinsPaint);
-                canvas.drawText("White Wins!", 200, 550, whiteWinsPaint);
-            }
-            }
-        }
+        blackWinsPaint.setColor(ContextCompat.getColor(this.getContext(), R.color.white));
+        blackWinsPaint.setTextSize(100);
+        whiteWinsPaint.setColor(ContextCompat.getColor(this.getContext(), R.color.black));
+        whiteWinsPaint.setTextSize(100);
+    }
 
     private Bitmap createBitmap(int xCoordinate, int yCoordinate) {
         Piece piece = Board.getInstance().getTile(xCoordinate, yCoordinate).getPiece();

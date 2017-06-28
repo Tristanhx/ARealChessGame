@@ -13,11 +13,11 @@ public class SettingsActivity extends AppCompatActivity {
 
         getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
     }
-//
-//    @Override
-//    public void onBackPressed(){
-//        GameController.instance = null;
-//        Board.instance = null;
-//        finish();
-//    }
+
+    @Override
+    public void onBackPressed(){
+        GameController.instance = null;
+        Board.instance = null;
+        finish();
+    }
 }
