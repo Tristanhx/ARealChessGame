@@ -245,20 +245,14 @@ public class BoardGridView extends GridView{
             canvas.drawLine(0, xColumns* tileDim, boardDim, xColumns* tileDim, darkTilePaint);
         }
 
-        //drawing borders
-//        seemPaint.setStrokeWidth(5);
         //top
         canvas.drawLine(0, 0, boardDim, 0, borderPaint);
-//        canvas.drawLine(-1, 0, boardDim, 0, seemPaint);
         //left
         canvas.drawLine(0, 0, 0, boardDim, borderPaint);
-//        canvas.drawLine(-1, 0, 0, boardDim, seemPaint);
         //bottom
         canvas.drawLine(0, boardDim, boardDim, boardDim, borderPaint);
-//        canvas.drawLine(-1, boardDim, boardDim, boardDim, seemPaint);
         //right
         canvas.drawLine(boardDim, 0, boardDim, boardDim, borderPaint);
-//        canvas.drawLine(boardDim, 0, boardDim, boardDim, seemPaint);
     }
 
     private void setPaints() {
@@ -324,7 +318,7 @@ public class BoardGridView extends GridView{
         setMeasuredDimension(size, size);
     }
 
-    // TouchEvent, because we are obviously going to need that.
+    // TouchEvent, because we are obviously going to need that in a touch-based-chess-game.
     @Override
     public boolean onTouchEvent(MotionEvent event){
         Board oldBoard = Board.getInstance();
@@ -341,17 +335,12 @@ public class BoardGridView extends GridView{
                     try {
                         int xColumn = (int) (event.getX() / tileDim);
                         int yRow = (int) (event.getY() / tileDim);
-                        String message = Integer.toString(xColumn) + ", " + Integer.toString(yRow);
-                        Log.d("aroutbound", message);
-                        Boolean curComp = GameController.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer());
-                        Log.d("typeSet", curComp ? "Current Player is Computer " + curComp : "Current Player is Human " + curComp);
                         if (startTile == null) {
                             startTile = oldBoard.getTile(xColumn, yRow);
                             selectedPiece = startTile.getPiece();
                             if (selectedPiece == null) {
                                 startTile = null;
                             }
-                            Log.d("invalidated", "I am here 1");
                             invalidate();
                         } else {
                             destinationTile = oldBoard.getTile(xColumn, yRow);
@@ -361,29 +350,7 @@ public class BoardGridView extends GridView{
                                 selectedPiece = null;
                                 invalidate();
                             } else {
-                                final Move move = MoveMaker.createMove(oldBoard,
-                                        startTile.getxCoordinate(), startTile.getyCoordinate(),
-                                        destinationTile.getxCoordinate(),
-                                        destinationTile.getyCoordinate());
-                                Log.d("LegalMoves Move", move.toString());
-                                final AlternateBoard newBoard = oldBoard.getCurrentPlayer().makeMove(move);
-                                Log.d("invalidated", "I am here 2");
-                                if (newBoard.getMoveWas().isExecuted()) {
-//                                    int oldMoveCount = oldBoard.getMoveCount();
-                                    Board.instance = newBoard.getBoard();
-//                                    Board.getInstance().setMoveCount(oldMoveCount + 1);
-                                    GameController.getInstance().notFirstMove();
-                                    if (GameController.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer())) {
-                                        GameController.getInstance().moveUpdate(GameController.Type.HUMAN);
-                                    }
-                                    GameController.backGroundView.invalidate();
-                                    invalidate();
-                                    Log.d("invalidated", "I am here 3");
-                                }
-                                startTile = null;
-                                destinationTile = null;
-                                selectedPiece = null;
-                                invalidate();
+                                makeMove(oldBoard);
                             }
                         }
                     } catch (ArrayIndexOutOfBoundsException ar) {
@@ -393,6 +360,27 @@ public class BoardGridView extends GridView{
             }
         }
         return true;
+    }
+
+    private void makeMove(Board oldBoard) {
+        final Move move = MoveMaker.createMove(oldBoard,
+                startTile.getxCoordinate(), startTile.getyCoordinate(),
+                destinationTile.getxCoordinate(),
+                destinationTile.getyCoordinate());
+        final AlternateBoard newBoard = oldBoard.getCurrentPlayer().makeMove(move);
+        if (newBoard.getMoveWas().isExecuted()) {
+            Board.instance = newBoard.getBoard();
+            GameController.getInstance().notFirstMove();
+            if (GameController.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer())) {
+                GameController.getInstance().moveUpdate(GameController.Type.HUMAN);
+            }
+            GameController.backGroundView.invalidate();
+            invalidate();
+        }
+        startTile = null;
+        destinationTile = null;
+        selectedPiece = null;
+        invalidate();
     }
 
 }
