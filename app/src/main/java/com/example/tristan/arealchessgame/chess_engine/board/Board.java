@@ -192,7 +192,6 @@ public class Board {
         }
 
         builder.setPlayer(Alliance.WHITE);
-//        Board.getInstance().setMoveCount(0);
         return builder.build();
     }
 

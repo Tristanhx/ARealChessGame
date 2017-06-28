@@ -1,8 +1,9 @@
-package com.example.tristan.arealchessgame;
+package com.example.tristan.arealchessgame.gui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.tristan.arealchessgame.GameController;
 import com.example.tristan.arealchessgame.chess_engine.board.Board;
 
 public class SettingsActivity extends AppCompatActivity {

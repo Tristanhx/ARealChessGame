@@ -27,7 +27,11 @@ public abstract class MoveCastle extends Move {
         final Board.Builder builder = new Board.Builder();
 
         // Set Current Player pieces on new Board
-        placeOwnPieces(builder);
+        for (final Piece piece : this.board.getCurrentPlayer().getPlayerPieces()){
+            if (!this.piece.equals(piece) && !this.rook.equals(piece)){
+                builder.setPiece(piece);
+            }
+        }
 
         // Set Enemy Player pieces on new Board
         placeEnemyPieces(builder);

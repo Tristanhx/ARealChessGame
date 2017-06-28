@@ -81,22 +81,7 @@ public class BoardGridView extends GridView{
         super(context, attributeSet);
         this.resourceMap = resourceMapMaker();
         setPaints();
-        setBoardDim();
     }
-
-    private void setBoardDim() {
-        // Set boardDimensions, always square according to shortest side.
-        int boardWidth = getWidth();
-        int boardHeight = getHeight();
-
-        if (boardWidth<=boardHeight){
-            boardDim = boardWidth;
-        }
-        else{
-            boardDim = boardHeight;
-        }
-    }
-
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh){
         super.onSizeChanged(w, h, oldw, oldh);
@@ -115,6 +100,17 @@ public class BoardGridView extends GridView{
 
     @Override
     protected void onDraw(Canvas canvas){
+        // Set boardDimensions, always square according to shortest side.
+        int boardWidth = getWidth();
+        int boardHeight = getHeight();
+
+        if (boardWidth<=boardHeight){
+            boardDim = boardWidth;
+        }
+        else{
+            boardDim = boardHeight;
+        }
+
         canvas.drawColor(ContextCompat.getColor(this.getContext(), R.color.stone));
         drawBoard(canvas);
         drawPieces(canvas);

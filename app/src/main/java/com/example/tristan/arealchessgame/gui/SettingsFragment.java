@@ -1,10 +1,12 @@
-package com.example.tristan.arealchessgame;
+package com.example.tristan.arealchessgame.gui;
 
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+
+import com.example.tristan.arealchessgame.R;
 
 /**
  * Created by Tristan on 21/06/2017.

@@ -1,4 +1,4 @@
-package com.example.tristan.arealchessgame;
+package com.example.tristan.arealchessgame.gui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.tristan.arealchessgame.R;
+import com.example.tristan.arealchessgame.ScoreObject;
+import com.example.tristan.arealchessgame.StaticApplicationContext;
 
 public class MainActivity extends AppCompatActivity {
 

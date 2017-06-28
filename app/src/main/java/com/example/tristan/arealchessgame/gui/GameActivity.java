@@ -1,4 +1,4 @@
-package com.example.tristan.arealchessgame;
+package com.example.tristan.arealchessgame.gui;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,6 +10,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.example.tristan.arealchessgame.GameController;
+import com.example.tristan.arealchessgame.R;
+import com.example.tristan.arealchessgame.ScoreObject;
 import com.example.tristan.arealchessgame.chess_engine.board.Board;
 import com.example.tristan.arealchessgame.gui.BackGroundView;
 import com.example.tristan.arealchessgame.gui.BoardGridView;

@@ -1,10 +1,12 @@
-package com.example.tristan.arealchessgame;
+package com.example.tristan.arealchessgame.gui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tristan.arealchessgame.R;
+import com.example.tristan.arealchessgame.ScoreObject;
 import com.example.tristan.arealchessgame.chess_engine.board.Board;
 
 

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/stone_dark"
-    tools:context="com.example.tristan.arealchessgame.GameActivity">
+    tools:context="com.example.tristan.arealchessgame.gui.GameActivity">
 
 
     <com.example.tristan.arealchessgame.gui.BackGroundView
