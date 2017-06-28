@@ -22,6 +22,29 @@ public abstract class Move {
         this.yDestination = yDestination;
     }
 
+    public void placeOwnPieces(Board.Builder builder){
+        for (final Piece piece : this.board.getCurrentPlayer().getPlayerPieces()){
+            if (!this.piece.equals(piece)){
+                builder.setPiece(piece);
+            }
+
+        }
+    }
+
+    public void placeEnemyPieces(Board.Builder builder){
+        for (final Piece piece : this.board.getCurrentPlayer().getOpponent().getPlayerPieces()){
+            builder.setPiece(piece);
+        }
+    }
+
+    public void placeAttackedEnemyPieces(Board.Builder builder, Piece attackedPiece){
+        for (final Piece piece : this.board.getCurrentPlayer().getOpponent().getPlayerPieces()){
+            if(piece != attackedPiece) {
+                builder.setPiece(piece);
+            }
+        }
+    }
+
     @Override
     public boolean equals(final Object other){
         if (this == other){

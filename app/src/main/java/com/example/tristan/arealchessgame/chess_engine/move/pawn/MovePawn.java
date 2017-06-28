@@ -30,12 +30,11 @@ public class MovePawn extends Move {
         final Board.Builder builder = new Board.Builder();
 
         // Set Current Player pieces on new Board
-        for (final Piece piece : this.board.getCurrentPlayer().getPlayerPieces()){
-            if (!this.piece.equals(piece)){
-                builder.setPiece(piece);
-            }
+        placeOwnPieces(builder);
 
-        }
+        // Set Enemy Player pieces on new Board
+        placeEnemyPieces(builder);
+
         // Move Piece
         if ((getYDestination() == 0 && piece.getAlliance().isWhite())||
                 (getYDestination() == 7 && piece.getAlliance().isBlack())){
@@ -43,11 +42,6 @@ public class MovePawn extends Move {
         }
         else {
             builder.setPiece(this.piece.movePiece(this));
-        }
-
-        // Set Enemy Player pieces on new Board
-        for (final Piece piece : this.board.getCurrentPlayer().getOpponent().getPlayerPieces()){
-            builder.setPiece(piece);
         }
 
         builder.setPlayer(this.board.getCurrentPlayer().getOpponent().getAlliance());

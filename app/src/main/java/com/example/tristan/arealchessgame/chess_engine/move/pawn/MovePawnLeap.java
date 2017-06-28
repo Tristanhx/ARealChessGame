@@ -31,23 +31,17 @@ public class MovePawnLeap extends Move {
         final Board.Builder builder = new Board.Builder();
 
         // Set Current Player pieces on new Board
-        for (final Piece piece : this.board.getCurrentPlayer().getPlayerPieces()){
-            if (!this.piece.equals(piece)){
-                builder.setPiece(piece);
-            }
+        placeOwnPieces(builder);
 
-        }
+        // Set Enemy Player pieces on new Board
+        placeEnemyPieces(builder);
+
         // Move Piece
         final Pawn pawn = (Pawn) this.piece.movePiece(this);
         builder.setPiece(pawn);
         //set this piece as the piece that can me taken en passant next move
         builder.setEnPassantPiece(pawn);
         Log.d("en passant", "This " + pawn.getAlliance().toString() + " pawn has been set as en passant");
-
-        // Set Enemy Player pieces on new Board
-        for (final Piece piece : this.board.getCurrentPlayer().getOpponent().getPlayerPieces()){
-            builder.setPiece(piece);
-        }
 
         builder.setPlayer(this.board.getCurrentPlayer().getOpponent().getAlliance());
         builder.setLastMove(this);

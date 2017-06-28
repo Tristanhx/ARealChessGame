@@ -39,18 +39,9 @@ public class MoveAttack extends Move {
         final Board.Builder builder = new Board.Builder();
 
         // Set Current Player pieces on new Board
-        for (final Piece piece : this.board.getCurrentPlayer().getPlayerPieces()){
-            if (!this.piece.equals(piece)){
-                builder.setPiece(piece);
-            }
-
-        }
+        placeOwnPieces(builder);
         // Set Enemy Player pieces on new Board
-        for (final Piece piece : this.board.getCurrentPlayer().getOpponent().getPlayerPieces()){
-            if(piece != attackedPiece) {
-                builder.setPiece(piece);
-            }
-        }
+        placeAttackedEnemyPieces(builder, attackedPiece);
         // Move Piece
         builder.setPiece(this.piece.movePiece(this));
 

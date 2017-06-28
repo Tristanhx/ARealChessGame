@@ -28,19 +28,13 @@ public class MoveNormal extends Move {
         final Board.Builder builder = new Board.Builder();
 
         // Set Current Player pieces on new Board
-        for (final Piece piece : this.board.getCurrentPlayer().getPlayerPieces()){
-            if (!this.piece.equals(piece)){
-                builder.setPiece(piece);
-            }
-
-        }
-        // Move Piece
-        builder.setPiece(this.piece.movePiece(this));
+        placeOwnPieces(builder);
 
         // Set Enemy Player pieces on new Board
-        for (final Piece piece : this.board.getCurrentPlayer().getOpponent().getPlayerPieces()){
-            builder.setPiece(piece);
-        }
+        placeEnemyPieces(builder);
+
+        // Move Piece
+        builder.setPiece(this.piece.movePiece(this));
 
         builder.setPlayer(this.board.getCurrentPlayer().getOpponent().getAlliance());
         builder.setLastMove(this);
