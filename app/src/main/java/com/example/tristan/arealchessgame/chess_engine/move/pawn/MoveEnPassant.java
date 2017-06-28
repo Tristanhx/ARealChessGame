@@ -25,7 +25,6 @@ public class MoveEnPassant extends MovePawnAttack {
         builder.setPiece(this.piece.movePiece(this));
 
         builder.setPlayer(this.board.getCurrentPlayer().getOpponent().getAlliance());
-//        builder.setChosenMove(this);
         return builder.build();
     }
 }

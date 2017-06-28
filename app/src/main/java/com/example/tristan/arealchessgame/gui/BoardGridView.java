@@ -48,7 +48,6 @@ public class BoardGridView extends GridView{
     private Paint lastMoveRedPaint = new Paint();
     private Paint blackWinsPaint = new Paint();
     private Paint whiteWinsPaint = new Paint();
-//    private Paint seemPaint = new Paint();
     final Map<String, Integer> resourceMap;
 
     private Tile startTile;

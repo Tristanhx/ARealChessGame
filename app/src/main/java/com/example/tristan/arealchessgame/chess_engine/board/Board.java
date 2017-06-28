@@ -44,20 +44,6 @@ public class Board {
 
     private final Move lastMove;
 
-    private int moveCount = 0;
-
-//    public void setMoveCount(int moveCount){
-//        this.moveCount = moveCount;
-//        GameController.counterView.setText(String.valueOf(moveCount));
-//    }
-//    public int getMoveCount(){
-//        return this.moveCount;
-//    }
-
-//    public void getContext(Context context){
-//        gameContext = context;
-//    }
-
     public static synchronized Board getInstance(){
         if (instance == null){
             instance = createDefaultBoard();
@@ -80,7 +66,6 @@ public class Board {
         this.currentPlayer = builder.nextPlayer.chooseNextPlayer(this.whitePlayer, this.blackPlayer);
         this.enPassantPawn = builder.enPassantPiece;
         lastMove = builder.lastMove;
-//        endGame();
     }
 
     public Alliance endGame(){

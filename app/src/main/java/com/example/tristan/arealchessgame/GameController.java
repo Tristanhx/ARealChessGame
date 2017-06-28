@@ -106,7 +106,7 @@ public class GameController extends Observable implements SharedPreferences.OnSh
         public void update(final Observable o, final Object arg) {
             if (GameController.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer())
                     && !Board.getInstance().getCurrentPlayer().checkMate() &&
-                    !Board.getInstance().getCurrentPlayer().staleMate()/* && Board.getInstance().getMoveCount() >=0*/){
+                    !Board.getInstance().getCurrentPlayer().staleMate()){
                 final Thinker thinker = new Thinker();
                 thinker.execute();
             }

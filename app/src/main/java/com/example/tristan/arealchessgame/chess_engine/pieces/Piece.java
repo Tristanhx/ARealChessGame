@@ -18,7 +18,6 @@ import java.util.List;
  */
 
 public abstract class Piece {
-    //    protected final int xCor, yCor;
     protected final int xPosition;
     protected final int yPosition;
     protected final int position;
