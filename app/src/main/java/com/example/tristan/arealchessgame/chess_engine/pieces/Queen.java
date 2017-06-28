@@ -19,7 +19,7 @@ import java.util.List;
 
 public class Queen extends Piece {
 
-    private static final int[][][] POSSIBLE_MOVES =
+    private final int[][][] POSSIBLE_MOVES =
             /* Up */
             {{{0, -1}, {0, -2}, {0, -3}, {0, -4}, {0, -5}, {0, -6}, {0, -7}},
                     /* Down */

@@ -35,6 +35,34 @@ public abstract class Piece {
         this.isFirstMove = isFirstMove;
     }
 
+    public List<Move> kingKnightMoves(final Board board, final int[][] POSSIBLE_MOVES){
+        final List<Move> legalMoves = new ArrayList<>();
+        int xCoorDest, yCoorDest;
+
+        for (final int[] currentPM : POSSIBLE_MOVES){
+            xCoorDest = this.xPosition + currentPM[0];
+            yCoorDest = this.yPosition + currentPM[1];
+
+            if (Tools.isValid(xCoorDest, yCoorDest)){
+                final Tile destinationTile = board.getTile(xCoorDest, yCoorDest);
+
+                if(!destinationTile.tileIsOccupied()){
+                    legalMoves.add(new MoveNormal(board, this, xCoorDest, yCoorDest));
+                }
+                else{
+                    final Piece pieceAtDest = destinationTile.getPiece();
+                    final Alliance destPieceAlliance =  pieceAtDest.getAlliance();
+
+                    // if the piece at destination tile has a different alliance it is enemy piece, attack!
+                    if (this.alliance != destPieceAlliance){
+                        legalMoves.add(new MoveAttack(board, this, pieceAtDest, xCoorDest, yCoorDest));
+                    }
+                }
+            }
+        }
+        return legalMoves;
+    }
+
     public List<Move> bishopRookQueenMoves(final Board board, final int[][][] POSSIBLE_MOVES){
         final List<Move> legalMoves = new ArrayList<>();
         int xCoorDest, yCoorDest;

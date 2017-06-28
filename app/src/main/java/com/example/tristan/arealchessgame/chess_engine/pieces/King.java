@@ -19,7 +19,7 @@ import java.util.List;
 
 public class King extends Piece {
 
-    private static final int[][] POSSIBLE_MOVES =
+    private final int[][] POSSIBLE_MOVES =
             {{-1, -1}, {1, -1}, {-1, 1}, {1, 1}, {0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
     public King(int xPosition, int yPosition, Alliance alliance, final boolean isFirstMove) {
@@ -33,35 +33,7 @@ public class King extends Piece {
 
     @Override
     public Collection<Move> legalMoves(Board board) {
-        final List<Move> legalMoves = new ArrayList<>();
-        int xCoorDest, yCoorDest;
-
-        for (final int[] currentPM : POSSIBLE_MOVES){
-            xCoorDest = this.xPosition + currentPM[0];
-            yCoorDest = this.yPosition + currentPM[1];
-
-            if (Tools.isValid(xCoorDest, yCoorDest)){
-                final Tile destinationTile = board.getTile(xCoorDest, yCoorDest);
-
-                if(!destinationTile.tileIsOccupied()){
-                    legalMoves.add(new MoveNormal(board, this, xCoorDest, yCoorDest));
-                }
-                else{
-                    final Piece pieceAtDest = destinationTile.getPiece();
-                    final Alliance destPieceAlliance =  pieceAtDest.getAlliance();
-
-                    // if the piece at destination tile has a different alliance it is enemy piece, attack!
-                    if (this.alliance != destPieceAlliance){
-                        legalMoves.add(new MoveAttack(board, this, pieceAtDest, xCoorDest, yCoorDest));
-                    }
-                    else{
-
-                    }
-                }
-            }
-        }
-
-        return legalMoves;
+        return kingKnightMoves(board, POSSIBLE_MOVES);
     }
 
     @Override
