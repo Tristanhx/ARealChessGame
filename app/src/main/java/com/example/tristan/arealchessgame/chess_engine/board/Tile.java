@@ -54,13 +54,6 @@ public abstract class Tile {
         this.yCoordinate = yCoordinate;
     }
 
-    // This returns whether or not a tile is occupied
-    // It is easier to ask a tile if it is occupied that to ask every piece where it is
-    public abstract boolean tileIsOccupied();
-
-    // Returns an occupying piece
-    public abstract Piece getPiece();
-
     public int getxCoordinate(){
         return xCoordinate;
     }
@@ -68,4 +61,11 @@ public abstract class Tile {
     public int getyCoordinate(){
         return yCoordinate;
     }
+
+    // This returns whether or not a tile is occupied
+    // It is easier to ask a tile if it is occupied that to ask every piece where it is
+    public abstract boolean tileIsOccupied();
+
+    // Returns an occupying piece
+    public abstract Piece getPiece();
 }

@@ -1,6 +1,8 @@
 # README for ChessGame
 ## Tristan Hoobroeckx
 
+Copyright &copy; 2017 Tristan Hoobroeckx
+
 ### Summary:
 I aim to make a very minimalistic chess-app. It will have a chess-engine and a Graphical User Interface (GUI). Due to time-limits and foreseeable difficulties, I will optionally add the Castling and en passant moves, and an AI to play against.
 

@@ -53,11 +53,6 @@ public class MoveAttack extends Move {
     }
 
     @Override
-    public boolean isAttackMove() {
-        return true;
-    }
-
-    @Override
     public Piece getAttackedPiece() {
         return attackedPiece;
     }

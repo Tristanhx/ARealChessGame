@@ -69,6 +69,51 @@ public class Board {
         lastMove = builder.lastMove;
     }
 
+    public static Board createDefaultBoard(){
+        final Builder builder = new Builder();
+        // Black
+        builder.setPiece(new Rook(0, 0, Alliance.BLACK, true));
+        builder.setPiece(new Knight(1, 0, Alliance.BLACK, true));
+        builder.setPiece(new Bishop(2, 0, Alliance.BLACK, true));
+        builder.setPiece(new Queen(3, 0, Alliance.BLACK, true));
+        builder.setPiece(new King(4, 0, Alliance.BLACK, true));
+        builder.setPiece(new Bishop(5, 0, Alliance.BLACK, true));
+        builder.setPiece(new Knight(6, 0, Alliance.BLACK, true));
+        builder.setPiece(new Rook(7, 0, Alliance.BLACK, true));
+
+        // White
+        builder.setPiece(new Rook(0, 7, Alliance.WHITE, true));
+        builder.setPiece(new Knight(1, 7, Alliance.WHITE, true));
+        builder.setPiece(new Bishop(2, 7, Alliance.WHITE, true));
+        builder.setPiece(new Queen(3, 7, Alliance.WHITE, true));
+        builder.setPiece(new King(4, 7, Alliance.WHITE, true));
+        builder.setPiece(new Bishop(5, 7, Alliance.WHITE, true));
+        builder.setPiece(new Knight(6, 7, Alliance.WHITE, true));
+        builder.setPiece(new Rook(7, 7, Alliance.WHITE, true));
+
+        // Pawns for Black and White
+        for(int i = 0 ; i < Tools.BOARD_DIM ; i++){
+            builder.setPiece(new Pawn(i, 1, Alliance.BLACK, true));
+            builder.setPiece(new Pawn(i, 6, Alliance.WHITE, true));
+        }
+
+        builder.setPlayer(Alliance.WHITE);
+        return builder.build();
+    }
+
+    private List<Tile> createNewBoard(final Builder builder) {
+        final List<Tile> tileList = new ArrayList<>();
+        for(int yRow = 0 ; yRow < Tools.BOARD_DIM ; yRow++){
+            for (int xColumn = 0 ; xColumn < Tools.BOARD_DIM ; xColumn++){
+
+                Tile tmp = Tile.createTile(xColumn, yRow, builder.boardLayout.get(Tools.convertPosition
+                        (xColumn, yRow)));
+                tileList.add(tmp);
+            }
+        }
+        return tileList;
+    }
+
     public Alliance endGame(){
         if (whitePlayer.checkMate() || whitePlayer.isForfeited()) {
             if (addPoint) {
@@ -144,51 +189,6 @@ public class Board {
         return stringBuilder.toString();
     }
 
-    private List<Tile> createNewBoard(final Builder builder) {
-        final List<Tile> tileList = new ArrayList<>();
-        for(int yRow = 0 ; yRow < Tools.BOARD_DIM ; yRow++){
-            for (int xColumn = 0 ; xColumn < Tools.BOARD_DIM ; xColumn++){
-
-                Tile tmp = Tile.createTile(xColumn, yRow, builder.boardLayout.get(Tools.convertPosition
-                (xColumn, yRow)));
-                tileList.add(tmp);
-            }
-        }
-        return tileList;
-    }
-
-    public static Board createDefaultBoard(){
-        final Builder builder = new Builder();
-        // Black
-        builder.setPiece(new Rook(0, 0, Alliance.BLACK, true));
-        builder.setPiece(new Knight(1, 0, Alliance.BLACK, true));
-        builder.setPiece(new Bishop(2, 0, Alliance.BLACK, true));
-        builder.setPiece(new Queen(3, 0, Alliance.BLACK, true));
-        builder.setPiece(new King(4, 0, Alliance.BLACK, true));
-        builder.setPiece(new Bishop(5, 0, Alliance.BLACK, true));
-        builder.setPiece(new Knight(6, 0, Alliance.BLACK, true));
-        builder.setPiece(new Rook(7, 0, Alliance.BLACK, true));
-
-        // White
-        builder.setPiece(new Rook(0, 7, Alliance.WHITE, true));
-        builder.setPiece(new Knight(1, 7, Alliance.WHITE, true));
-        builder.setPiece(new Bishop(2, 7, Alliance.WHITE, true));
-        builder.setPiece(new Queen(3, 7, Alliance.WHITE, true));
-        builder.setPiece(new King(4, 7, Alliance.WHITE, true));
-        builder.setPiece(new Bishop(5, 7, Alliance.WHITE, true));
-        builder.setPiece(new Knight(6, 7, Alliance.WHITE, true));
-        builder.setPiece(new Rook(7, 7, Alliance.WHITE, true));
-
-        // Pawns for Black and White
-        for(int i = 0 ; i < Tools.BOARD_DIM ; i++){
-            builder.setPiece(new Pawn(i, 1, Alliance.BLACK, true));
-            builder.setPiece(new Pawn(i, 6, Alliance.WHITE, true));
-        }
-
-        builder.setPlayer(Alliance.WHITE);
-        return builder.build();
-    }
-
     public Collection<Piece> getBlackPieces() {
         return this.blackPieces;
     }
@@ -227,16 +227,16 @@ public class Board {
             return this;
         }
 
-        public Board build(){
-            return new Board(this);
-        }
-
         public void setEnPassantPiece(Pawn enPassantPiece) {
             this.enPassantPiece = enPassantPiece;
         }
 
         public void setLastMove(Move lastMove) {
             this.lastMove = lastMove;
+        }
+
+        public Board build(){
+            return new Board(this);
         }
     }
 

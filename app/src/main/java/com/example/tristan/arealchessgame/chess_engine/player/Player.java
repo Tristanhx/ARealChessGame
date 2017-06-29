@@ -61,6 +61,18 @@ public abstract class Player {
         throw new RuntimeException("You have no King! Not a Valid Board!");
     }
 
+    public Collection<Move> getLegalMoves(){
+        return this.legalMoves;
+    }
+
+    private boolean isLegalMove(final Move move){
+        return this.legalMoves.contains(move);
+    }
+
+    public King getKing() {
+        return this.playerKing;
+    }
+
     public boolean checkInCheck(){
         Log.d("check", playerKing.getAlliance().toString() + " check " + isInCheck);
         return isInCheck;
@@ -85,27 +97,6 @@ public abstract class Player {
         return false;
     }
 
-
-
-    protected abstract Collection<Move> castlingMoves(Collection<Move> legalMoves,
-                                                      Collection<Move> enemyMoves);
-
-
-
-    public abstract Collection<Piece> getPlayerPieces();
-
-    public Collection<Move> getLegalMoves(){
-        return this.legalMoves;
-    }
-
-    public abstract Alliance getAlliance();
-
-    public abstract Player getOpponent();
-
-    private boolean isLegalMove(final Move move){
-        return this.legalMoves.contains(move);
-    }
-
     public AlternateBoard makeMove(final Move move){
         if (!isLegalMove(move)){
             Log.d("LegalMoves", "ILLEGAL");
@@ -127,10 +118,14 @@ public abstract class Player {
         }
     }
 
+    protected abstract Collection<Move> castlingMoves(Collection<Move> legalMoves,
+                                                      Collection<Move> enemyMoves);
 
-    public King getKing() {
-        return this.playerKing;
-    }
+    public abstract Collection<Piece> getPlayerPieces();
+
+    public abstract Alliance getAlliance();
+
+    public abstract Player getOpponent();
 
     public abstract void setForfeited();
 }

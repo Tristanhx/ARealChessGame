@@ -95,12 +95,9 @@ public abstract class Piece {
         return legalMoves;
     }
 
-    public abstract Collection<Move> legalMoves(final Board board);
-
     public boolean isFirstMove(){
         return isFirstMove;
     }
-
 
     public Alliance getAlliance() {
         return this.alliance;
@@ -117,10 +114,6 @@ public abstract class Piece {
     public PieceType getPieceType() {
         return pieceType;
     }
-
-
-
-    public abstract Piece movePiece(Move move);
 
     @Override
     public boolean equals(final Object other){
@@ -143,5 +136,9 @@ public abstract class Piece {
         result = 31 * result + yPosition;
         return result;
     }
+
+    public abstract Collection<Move> legalMoves(final Board board);
+
+    public abstract Piece movePiece(Move move);
 }
 

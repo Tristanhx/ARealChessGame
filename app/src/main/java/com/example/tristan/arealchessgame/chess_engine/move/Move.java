@@ -67,10 +67,6 @@ public abstract class Move {
         return result;
     }
 
-    public boolean isAttackMove(){
-        return false;
-    }
-
     public Piece getAttackedPiece(){
         return null;
     }
