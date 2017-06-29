@@ -104,3 +104,12 @@ Today I tried to fix a few bugs and other things that were bothering me. I conne
 
 I noticed that if you use the back-button and go back in the game the View won't invalidate. The buttons become unresponsive too. I've overridden the onBackPressed() method of GameActivity and SettingsActivity to set the instances of the GameController and the Board to null, and finish() the Activitity if at least one of the players is a computer. This seemed to solve the problem, but a visit to the settings menu and changing one of the checkboxes is necessary to get the View invalidating again. The monitorlog kept posting that a move was made so I must conclude that the game is continuing even though the view isn't refreshing. 
 I also took the time to draw a text above and under the board to indicate who's turn is it. This wasn't refreshing either so it might be the whole layout that stops working or something. 
+
+# day 21 Tuesday
+I found out that the references to the BoardGridView and BackGroundView weren't updated when the activity restarted, code in the wrong place. Also some minor bugfixes.
+
+# day 22 Wednesday
+More bugfixing, also started to clean up the code, re-factoring and such. Did something about the appearance of the app, making it nicer and cleaner in my opinion.
+
+# day 23 Thursday
+Final day. I fixed en passant by initialising enPassantMove before the moves were made and not after. Fixed the ScoreActivity too. Began writing the REPORT.md
