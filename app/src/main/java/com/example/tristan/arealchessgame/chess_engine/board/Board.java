@@ -41,6 +41,8 @@ public class Board {
     private final Player currentPlayer;
     private final Pawn enPassantPawn;
 
+    private Boolean addPoint = true;
+
     private final Move lastMove;
 
     public static synchronized Board getInstance(){
@@ -56,6 +58,7 @@ public class Board {
         //get all pieces of an alliance
         this.whitePieces = trackPieces(this.mBoard, Alliance.WHITE);
         this.blackPieces = trackPieces(this.mBoard, Alliance.BLACK);
+        this.enPassantPawn = builder.enPassantPiece;
         //get the moves of those pieces
         this.whiteMoves = trackMoves(this.whitePieces);
         this.blackMoves = trackMoves(this.blackPieces);
@@ -63,17 +66,22 @@ public class Board {
         this.whitePlayer = new PlayerWhite(this, whiteMoves, blackMoves);
         this.blackPlayer = new PlayerBlack(this, whiteMoves, blackMoves);
         this.currentPlayer = builder.player.chooseNextPlayer(this.whitePlayer, this.blackPlayer);
-        this.enPassantPawn = builder.enPassantPiece;
         lastMove = builder.lastMove;
     }
 
     public Alliance endGame(){
         if (whitePlayer.checkMate() || whitePlayer.isForfeited()) {
-            ScoreObject.getInstance().setBlackPlayerScore(1);
+            if (addPoint) {
+                ScoreObject.getInstance().addBlackPlayerScore(1);
+                addPoint = false;
+            }
             return Alliance.WHITE;
         }
         else if(blackPlayer.checkMate() || blackPlayer.isForfeited()){
-            ScoreObject.getInstance().setWhitePlayerScore(1);
+            if (addPoint) {
+                ScoreObject.getInstance().addWhitePlayerScore(1);
+                addPoint = false;
+            }
             return Alliance.BLACK;
         }
         return Alliance.NONE;

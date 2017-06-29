@@ -23,8 +23,8 @@ public class ScoreActivity extends AppCompatActivity {
         whiteScore = (TextView) findViewById(R.id.whitescore);
         blackScore = (TextView) findViewById(R.id.blackscore);
 
-        whiteScore.setText(ScoreObject.getInstance().getWhitePlayerScore());
-        blackScore.setText(ScoreObject.getInstance().getBlackPlayerScore());
+        whiteScore.setText(String.valueOf(ScoreObject.getInstance().getWhitePlayerScore()));
+        blackScore.setText(String.valueOf(ScoreObject.getInstance().getBlackPlayerScore()));
 
     }
 }

@@ -57,18 +57,12 @@ public class GameActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy(){
+    public void onBackPressed(){
         gameController.setAllowed(false);
-        SharedPreferences sharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
+        SharedPreferences.Editor editor = this.getSharedPreferences(getString(R.string.score_key), Context.MODE_PRIVATE).edit();
         editor.putInt(getString(R.string.white_score), scoreObject.getWhitePlayerScore());
         editor.putInt(getString(R.string.black_score), scoreObject.getBlackPlayerScore());
-        editor.apply();
-        super.onDestroy();
-    }
-
-    @Override
-    public void onBackPressed(){
+        editor.commit();
         if (GameController.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer())
                 && GameController.getInstance().getSetup().isComputer(Board.getInstance().getCurrentPlayer().getOpponent())){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);

@@ -15,7 +15,7 @@ import com.example.tristan.arealchessgame.StaticApplicationContext;
 public class MainActivity extends AppCompatActivity {
 
     ScoreObject scoreObject;
-    SharedPreferences sharedPreferences;
+    SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,13 +24,10 @@ public class MainActivity extends AppCompatActivity {
 
         StaticApplicationContext.context = this.getApplicationContext();
 
-        sharedPreferences = this.getSharedPreferences(getString(R.string.score_key), Context.MODE_PRIVATE);
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        sharedPref = this.getSharedPreferences(getString(R.string.score_key), Context.MODE_PRIVATE);
         int whiteScore = sharedPref.getInt(getString(R.string.white_score), 0);
         int blackScore = sharedPref.getInt(getString(R.string.black_score), 0);
         scoreObject = ScoreObject.getInstance(whiteScore, blackScore);
-
-        sharedPreferences = this.getSharedPreferences(getString(R.string.score_key), Context.MODE_PRIVATE);
 
         Button testButton = (Button) findViewById(R.id.play_button);
         Button scoreButton = (Button) findViewById(R.id.score_button);

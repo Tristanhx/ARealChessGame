@@ -28,12 +28,12 @@ public class ScoreObject {
         this.blackPlayerScore = blackPlayerScore;
     }
 
-    public void setBlackPlayerScore(int blackPlayerPoint) {
+    public void addBlackPlayerScore(int blackPlayerPoint) {
         this.blackPlayerScore += blackPlayerPoint;
     }
 
-    public void setWhitePlayerScore(int whitePlayerPoint) {
-        this.whitePlayerScore = whitePlayerPoint;
+    public void addWhitePlayerScore(int whitePlayerPoint) {
+        this.whitePlayerScore += whitePlayerPoint;
     }
 
     public int getBlackPlayerScore() {
